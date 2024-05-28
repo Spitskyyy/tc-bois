@@ -200,6 +200,9 @@ a:focus {
   padding-right: 25px;
   padding-left: 25px;
 }
+
+
+
 /*-----------Texte-Top-------------*/
 .navbar-brand {
   color: #f3f3f3;
@@ -207,11 +210,14 @@ a:focus {
   font-size: 24px;
   position: relative;
 }
-
 .navbar-brand span  {
-  color: #da7426;
+  color: 
+  #000000;
 }
 /*-----------Texte-Top-------------*/
+
+
+
 .navbar-brand:hover {
   color: inherit;
 }
@@ -244,7 +250,7 @@ a:focus {
 }
 
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link {
-  color: #da7426;
+  color: #6B8E23;
 }
 
 .custom_nav-container .nav_search-btn {
@@ -256,7 +262,7 @@ a:focus {
 }
 
 .custom_nav-container .nav_search-btn:hover {
-  color: #da7426;
+  color: #6B8E23;
 }
 
 .custom_nav-container .navbar-toggler {
@@ -383,7 +389,7 @@ a:focus {
 }
 
 .slider_section .detail-box {
-  color: #da7426;
+  color: #6B8E23;
 }
 
 .slider_section .detail-box h1 {
@@ -392,6 +398,13 @@ a:focus {
   color: #ffffff;
   font-size: 3rem;
 }
+
+.slider_section .detail-box h5 {
+  font-weight: 600;
+  margin-bottom: 0;
+  color: #ffffff;
+}
+
 
 .slider_section .detail-box p {
   color: #6d6d6d;
@@ -432,17 +445,17 @@ a:focus {
 .slider_section .detail-box .btn-box .btn2 {
   display: inline-block;
   padding: 10px 15px;
-  background-color: #da7426;
+  background-color: #6B8E23;
   color: #ffffff;
   border-radius: 0;
   -webkit-transition: all .3s;
   transition: all .3s;
-  border: 1px solid #da7426;
+  border: 1px solid #6B8E23;
 }
 
 .slider_section .detail-box .btn-box .btn2:hover {
   background-color: transparent;
-  color: #da7426;
+  color: #6B8E23;
 }
 
 .slider_section .img-box img {
@@ -481,7 +494,7 @@ a:focus {
 }
 
 .slider_section .carousel_btn-box a:hover {
-  background-color: #da7426;
+  background-color: #6B8E23;
   color: #ffffff;
 }
 
@@ -518,18 +531,18 @@ a:focus {
 .about_section .detail-box a {
   display: inline-block;
   padding: 10px 35px;
-  background-color: #da7426;
+  background-color: #6B8E23;
   color: #ffffff;
   border-radius: 0px;
   -webkit-transition: all .3s;
   transition: all .3s;
-  border: 1px solid #da7426;
+  border: 1px solid #6B8E23;
   margin-top: 15px;
 }
 
 .about_section .detail-box a:hover {
   background-color: transparent;
-  color: #da7426;
+  color: #6B8E23;
 }
 
 .portfolio_section {
@@ -616,12 +629,12 @@ a:focus {
 
 .portfolio_section .box .img-box .btn_overlay a {
   padding: 10px 45px;
-  border: 1px solid #da7426;
-  color: #da7426;
+  border: 1px solid #6B8E23;
+  color: #6B8E23;
 }
 
 .portfolio_section .box .img-box .btn_overlay a:hover {
-  background-color: #da7426;
+  background-color: #6B8E23;
   color: #ffffff;
 }
 
@@ -737,7 +750,7 @@ a:focus {
 }
 
 .service_section .box:hover {
-  background-color: #da7426;
+  background-color: #6B8E23;
   color: #ffffff;
 }
 
@@ -759,17 +772,17 @@ a:focus {
 .service_section .btn-box a {
   display: inline-block;
   padding: 10px 45px;
-  background-color: #da7426;
+  background-color: #6B8E23;
   color: #ffffff;
   border-radius: 0;
   -webkit-transition: all .3s;
   transition: all .3s;
-  border: 1px solid #da7426;
+  border: 1px solid #6B8E23;
 }
 
 .service_section .btn-box a:hover {
   background-color: transparent;
-  color: #da7426;
+  color: #6B8E23;
 }
 
 .contact_section {
@@ -835,17 +848,17 @@ a:focus {
   text-transform: uppercase;
   display: inline-block;
   padding: 12px 55px;
-  background-color: #da7426;
+  background-color: #6B8E23;
   color: #ffffff;
   border-radius: 0px;
   -webkit-transition: all .3s;
   transition: all .3s;
-  border: 1px solid #da7426;
+  border: 1px solid #6B8E23;
 }
 
 .contact_section .form_container .btn_box button:hover {
   background-color: transparent;
-  color: #da7426;
+  color: #6B8E23;
 }
 
 .contact_section .map_container {
@@ -914,7 +927,7 @@ a:focus {
   width: 145px;
   min-width: 145px;
   position: relative;
-  border: 10px solid #da7426;
+  border: 10px solid #6B8E23;
 }
 
 .client_section .box .img-box img {
@@ -949,7 +962,7 @@ a:focus {
 }
 
 .client_section .carousel-indicators li {
-  background-color: #da7426;
+  background-color: #6B8E23;
   width: 20px;
   height: 20px;
   border: none;
@@ -1013,7 +1026,7 @@ a:focus {
   color: #ffffff;
   width: 30px;
   height: 30px;
-  background-color: #da7426;
+  background-color: #6B8E23;
   border-radius: 100%;
   margin-right: 5px;
 }
@@ -1075,7 +1088,7 @@ a:focus {
   width: 45px;
   height: 45px;
   line-height: 45px;
-  border: 1px solid #da7426;
+  border: 1px solid #6B8E23;
   text-align: center;
   border-radius: 5px;
   font-size: 18px;
@@ -1100,7 +1113,7 @@ a:focus {
 .info_form form button {
   width: 45px;
   height: 45px;
-  background-color: #da7426;
+  background-color: #6B8E23;
   color: #ffffff;
   border: none;
   outline: none;
