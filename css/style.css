@@ -395,9 +395,16 @@ a:focus {
 .slider_section .detail-box h1 {
   font-weight: 600;
   margin-bottom: 0;
-  color: #ffffff;
+  color: #6B8E23;
   font-size: 3rem;
 }
+
+.slider_section .detail-box h2 {
+  font-weight: 600;
+  margin-bottom: 0;
+  color: #ffffff;
+}
+
 
 .slider_section .detail-box h5 {
   font-weight: 600;
@@ -485,7 +492,7 @@ a:focus {
   background-color: #ffffff;
   opacity: 1;
   border-radius: 100%;
-  color: #003471;
+  color: #6B8E23;
   font-size: 14px;
   -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25);
           box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25);
@@ -546,7 +553,7 @@ a:focus {
 }
 
 .portfolio_section {
-  background-color: #003471;
+  background-color: #6B8E23;
   color: #ffffff;
   padding-top: 45px;
 }
@@ -680,7 +687,7 @@ a:focus {
 }
 
 .portfolio_section .portfolio_carousel .owl-nav button:hover {
-  background-color: #003471;
+  background-color: #6B8E23;
   color: #ffffff;
 }
 
@@ -800,7 +807,7 @@ a:focus {
 }
 
 .contact_section .form_container {
-  background-color: #003471;
+  background-color: #6B8E23;
   padding: 45px;
 }
 
@@ -973,7 +980,7 @@ a:focus {
 }
 
 .client_section .carousel-indicators li.active {
-  background-color: #003471;
+  background-color: #6B8E23;
 }
 
 /* info section */
@@ -1137,5 +1144,10 @@ a:focus {
 
 .footer_section p a {
   color: inherit;
+}
+
+a 
+{
+color: #000000;
 }
 /*# sourceMappingURL=style.css.map */
