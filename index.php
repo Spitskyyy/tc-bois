@@ -116,7 +116,7 @@ else
                 </a>
                 </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="test.php">
                       <i class="fa fa-user" aria-hidden="true"></i>
                       <span> Connexion </span>
                     </a>
