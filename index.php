@@ -1,3 +1,29 @@
+<?php
+session_start();
+
+use Dotenv\Dotenv;
+
+require 'vendor/autoload.php';
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// Variable d'environnement
+$servername = $_ENV['BD_HOST'];
+$username = $_ENV['BD_USER'];
+$password = $_ENV['BD_PASS'];
+$dbname = $_ENV['BD_NAME'];
+
+
+$connection = mysqli_connect($servername, $username, $password, $dbname);
+
+if (mysqli_connect_error()) 
+{
+  echo 'Connexion echouer'. mysqli_connect_error();
+}
+else
+'Connexion reussie';
+?>
 <!DOCTYPE html>
 <html>
   <head>
