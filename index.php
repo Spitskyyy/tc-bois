@@ -91,15 +91,14 @@ else
                 data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent"
                 aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
+                aria-label="Toggle navigation">
                 <span class=""> </span>
               </button>
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                   <li class="nav-item active">
-                    <a class="nav-link" href="index.html"
+                    <a class="nav-link" href="index.php"
                       >Acceuil<span class="sr-only"></span
                     ></a>
                   </li>
@@ -112,10 +111,10 @@ else
                   <!-- <li class="nav-item">
                   <a class="nav-link" href="portfolio.html">Portfolio</a>
                 </li>-->
-                  <!-- <li class="nav-item">
+                  <li class="nav-item">
                   <a class="nav-link" href="pages/contact.html">Contactez-nous
                 </a>
-                </li>-->
+                </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#">
                       <i class="fa fa-user" aria-hidden="true"></i>
