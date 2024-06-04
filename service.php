@@ -8,6 +8,7 @@ require 'vendor/autoload.php';
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
+
 // Variable d'environnement
 $servername = $_ENV['BD_HOST'];
 $username = $_ENV['BD_USER'];
@@ -141,7 +142,7 @@ else
         </div>
         <div class="row">
           <div class="col-sm-6 col-md-4">
-            <a href="bois_de_terrasse.html">
+            <a href="pages/bois_de_terrasse.html">
               <div class="box">
                 <div class="img-box">
                   <img src="/images/s1.png" alt="Bois de terrasse" />
@@ -155,7 +156,7 @@ else
           </div>
 
           <div class="col-sm-6 col-md-4">
-            <a href="bardage.html">
+            <a href="pages/bardage.html">
               <div class="box">
                 <div class="img-box">
                   <img src="/images/s2.png" alt="Bois de terrasse" />
@@ -169,7 +170,7 @@ else
           </div>
 
           <div class="col-sm-6 col-md-4">
-            <a href="cloture.html">
+            <a href="pages/cloture.html">
               <div class="box">
                 <div class="img-box">
                   <img src="/images/s3.png" alt="Bois de terrasse" />
@@ -183,7 +184,7 @@ else
           </div>
 
           <div class="col-sm-6 col-md-4">
-            <a href="bois_de_charpente.html">
+            <a href="pages/bois_de_charpente.html">
               <div class="box">
                 <div class="img-box">
                   <img src="/images/s4.png" alt="Bois de terrasse" />

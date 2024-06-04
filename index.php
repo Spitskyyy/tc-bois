@@ -103,7 +103,7 @@ else
                     ></a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="pages/service.html">Services</a>
+                    <a class="nav-link" href="service.php">Services</a>
                   </li>
                   <!-- <li class="nav-item">
                   <a class="nav-link" href="about.html">About</a>
