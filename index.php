@@ -17,12 +17,63 @@ $dbname = $_ENV['BD_NAME'];
 
 $connection = mysqli_connect($servername, $username, $password, $dbname);
 
+
 if (mysqli_connect_error()) 
 {
   echo 'Connexion echouer'. mysqli_connect_error();
 }
 else
 'Connexion reussie';
+
+$email = $_SESSION['email'];
+
+// Requête SQL pour obtenir les infos sur l'utilisateur
+$query = "SELECT prenom_user FROM tbl_user WHERE mail_user='$email'";
+$result = mysqli_query($connection, $query);
+
+// Vérifier si la requête a abouti
+if (!$result) {
+    die("Erreur dans la requête : " . mysqli_error($connection));
+}
+
+// Stockage des données
+$row = mysqli_fetch_assoc($result);
+if ($row) {
+    $user_firstname = $row['prenom_user'];
+} else {
+    $user_firstname = "Aucun prénom trouvé.";
+}
+
+
+
+// Requête SQL pour obtenir les infos sur le rôle
+$query = "SELECT tbl_role.name_r FROM tbl_role 
+JOIN tbl_user_role ON tbl_user_role.id_role = tbl_role.id_r
+JOIN tbl_user ON tbl_user_role.id_user = tbl_user.id_user
+WHERE tbl_user.mail_user = '$email';";
+
+$result = mysqli_query($connection, $query);
+
+// Vérifier si la requête a abouti
+if (!$result) {
+    die("Erreur dans la requête : " . mysqli_error($connection));
+}
+
+// Afficher les données
+$row = mysqli_fetch_assoc($result);
+if ($row) {
+    $user_role = $row['name_r'];
+} else {
+    $user_role = "Aucun rôle.";
+}
+
+
+// Libérer la mémoire des résultats
+mysqli_free_result($result);
+
+// Fermer la connexion à la base de données
+mysqli_close($connection);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -115,12 +166,17 @@ else
                   <a class="nav-link" href="pages/contact.html">Contactez-nous
                 </a>
                 </li>
+<?php 
+ if ($user_role == 'PRO') {?>
                   <li class="nav-item">
                     <a class="nav-link" href="connexion.php">
                       <i class="fa fa-user" aria-hidden="true"></i>
                       <span> Connexion </span>
                     </a>
                   </li>
+                  <?php
+                }
+                  ?>
                 </ul>
               </div>
             </nav>
