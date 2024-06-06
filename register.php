@@ -12,6 +12,14 @@ $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
 
+
+
+//Compter le nb d'utilisateurs
+
+
+
+
+
 // Connexion à la base de données
 try {
     $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -70,8 +78,8 @@ try {
         <div>
             <div>
 
-                <div >
-                    <div >
+                <div>
+                    <div>
                         <!-- Nested Row within Card Body -->
                         <div class="row">
                             <div>
@@ -92,22 +100,23 @@ try {
                                             <input type="email" name="email" placeholder="Email">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text"name="phone" placeholder="Numéro de Téléphone">
+                                            <input type="text" name="phone" placeholder="Numéro de Téléphone">
                                         </div>
                                         <div>
                                             <div>
-                                                <input type="password"name="password" placeholder="Mot de Passe">
+                                                <input type="password" name="password" placeholder="Mot de Passe">
                                             </div>
                                             <div>
-                                                <input type="password"name="RepeatPassword" placeholder="Confirmation MDP">
+                                                <input type="password" name="RepeatPassword"
+                                                    placeholder="Confirmation MDP">
                                             </div>
                                         </div>
 
-                                        <?php if (!empty($errorMessage)) {?>
+                                        <?php if (!empty($errorMessage)) { ?>
                                             <div class="alert alert-danger" role="alert">
                                                 <?php echo $errorMessage; ?>
                                             </div>
-                                        <?php }?>
+                                        <?php } ?>
 
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Valider le compte

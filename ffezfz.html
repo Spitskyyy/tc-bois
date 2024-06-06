@@ -1,50 +1,3 @@
-<?php
-// Connexion à la base de données MySQL
-session_start();
-
-require 'vendor/autoload.php';
-
-// Charger les variables d'environnement à partir du fichier .env
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-// Récupérer les variables d'environnement
-$servername = $_ENV['BD_HOST'];
-$username = $_ENV['BD_USER'];
-$password = $_ENV['BD_PASS'];
-$dbname = $_ENV['BD_NAME'];
-
-// Connexion à la base de données
-try {
-    $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    $message = "";
-
-    if (isset($_POST['email']) && isset($_POST['password'])) {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-
-        // Vérifier si le compte existe
-        $stmt = $dbh->prepare("SELECT * FROM tbl_user WHERE mail_user = :email AND password_user = PASSWORD(CONCAT('*-6', :password))");
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
-            $_SESSION['email'] = $email;
-            $message = "Connexion réussie.";
-            header('location: /index.php');
-            exit();
-        } else {
-            $message = "Nom d'utilisateur ou mot de passe incorrect.";
-        }
-    }
-} catch (PDOException $e) {
-    $message = "Erreur : " . $e->getMessage();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -119,16 +72,6 @@ try {
             width: 100px;
             margin-bottom: 20px;
         }
-        .alert {
-            padding: 15px;
-            background-color: #f44336;
-            color: white;
-            margin-bottom: 20px;
-            border-radius: 4px;
-        }
-        .success {
-            background-color: #4CAF50;
-        }
     </style>
 </head>
 <body>
@@ -136,13 +79,8 @@ try {
         <img src="logo.png" alt="Logo" class="logo">
         <h2>Connexion</h2>
         <p>Bienvenue! Veuillez vous connecter à votre compte.</p>
-        <?php if (!empty($message)): ?>
-            <div class="alert <?php echo ($message == "Connexion réussie.") ? 'success' : ''; ?>">
-                <?php echo $message; ?>
-            </div>
-        <?php endif; ?>
-        <form method="POST" action="connexion.php">
-            <input type="text" name="email" placeholder="Nom d'utilisateur" required>
+        <form action="/connexion" method="post">
+            <input type="text" name="username" placeholder="Nom d'utilisateur" required>
             <input type="password" name="password" placeholder="Mot de passe" required>
             <input type="submit" value="Se connecter">
         </form>

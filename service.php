@@ -156,7 +156,7 @@ else
           </div>
 
           <div class="col-sm-6 col-md-4">
-            <a href="pages/bardage.html">
+            <a href="bardage.php">
               <div class="box">
                 <div class="img-box">
                   <img src="/images/s2.png" alt="Bois de terrasse" />
