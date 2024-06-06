@@ -1,31 +1,33 @@
 <?php
 session_start();
 
-use Dotenv\Dotenv;
-
 require 'vendor/autoload.php';
 
-$dotenv = Dotenv::createImmutable(__DIR__);
+// Charger les variables d'environnement à partir du fichier .env
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-// Variable d'environnement
+// Récupérer les variables d'environnement
 $servername = $_ENV['BD_HOST'];
 $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
 
+// // Vérifier si une session est déjà active avant de la démar²rer
+// if (session_status() !== PHP_SESSION_ACTIVE) {
+//     session_start();
+// }
 
+// Récupération de l'email depuis la session
+$email = $_SESSION['email'];
+
+// Connexion à la base de données
 $connection = mysqli_connect($servername, $username, $password, $dbname);
 
-
-if (mysqli_connect_error()) 
-{
-  echo 'Connexion echouer'. mysqli_connect_error();
+// Vérifier la connexion
+if (!$connection) {
+    die("La connexion a échoué : " . mysqli_connect_error());
 }
-else
-'Connexion reussie';
-
-$email = $_SESSION['email'];
 
 // Requête SQL pour obtenir les infos sur l'utilisateur
 $query = "SELECT prenom_user FROM tbl_user WHERE mail_user='$email'";
@@ -48,10 +50,9 @@ if ($row) {
 
 // Requête SQL pour obtenir les infos sur le rôle
 $query = "SELECT tbl_role.name_r FROM tbl_role 
-JOIN tbl_user_role ON tbl_user_role.id_role = tbl_role.id_r
-JOIN tbl_user ON tbl_user_role.id_user = tbl_user.id_user
-WHERE tbl_user.mail_user = '$email';";
-
+          JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
+          JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
+          WHERE tbl_user.mail_user = '$email'";
 $result = mysqli_query($connection, $query);
 
 // Vérifier si la requête a abouti
@@ -59,7 +60,7 @@ if (!$result) {
     die("Erreur dans la requête : " . mysqli_error($connection));
 }
 
-// Afficher les données
+// Stockage des données
 $row = mysqli_fetch_assoc($result);
 if ($row) {
     $user_role = $row['name_r'];
