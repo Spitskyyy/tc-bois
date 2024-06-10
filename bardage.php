@@ -204,174 +204,56 @@ WHERE tbl_user.mail_user = '$email';";
   }
 
   ?>
-
-
-
   <!DOCTYPE html>
-  <html lang="fr">
-
+  <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un produit</title>
   </head>
-
   <body>
-    <form action="upload.php" method="post" enctype="multipart/form-data">
-      <label for="description">Description du produit :</label>
-      <textarea name="description" id="description" required></textarea><br><br>
-
-      <label for="image">Choisir une image :</label>
-      <input type="file" name="image" id="image" accept="image/*" required><br><br>
-
-      <input type="submit" name="submit" value="Ajouter le produit">
-    </form>
-
-    <h2>Produits ajoutés</h2>
-    <?php
-    // Afficher les produits ajoutés
-    $sql = "SELECT * FROM tbl_product ORDER BY id_product DESC";
-    $result = $connection->query($sql);
-
-    if ($result->num_rows > 0) {
-      while ($row = $result->fetch_assoc()) {
-        echo "<div>";
-        echo "<h3>Produit ID: " . $row['id_product'] . "</h3>";
-        echo "<p>Description: " . $row['description_product'] . "</p>";
-        echo "<img src='" . $row['image_path_product'] . "' alt='Image du produit' style='max-width: 200px;'>";
-        echo "</div><br>";
-      }
-    } else {
-      echo "Aucun produit trouvé.";
-    }
-
-    $connection->close();
-    ?>
-  </body>
-
-  </html>
-
-
-
-
-  <!-- service section -->
-
+    
   <section class="service_section layout_padding">
     <div class="container">
       <div class="heading_container heading_center">
         <h2>Nos <span>Bardage</span></h2>
       </div>
       <div class="row">
+        <div class="product-grid">
+            <?php
+            // Connexion à la base de données
+            $conn = new mysqli($servername, $username, $password, $dbname);
 
-        <div class="col-sm-6 col-md-4">
-          <a href="bardage.html">
-            <div class="box">
-              <div class="img-box">
-                <img src="/images/s2.png" alt="Bois de terrasse" />
-              </div>
-              <div class="detail-box">
-                <h5>Bardage</h5>
-                <p>Bardage</p>
-              </div>
-            </div>
-          </a>
-        </div>
+            // Afficher les produits ajoutés
+            $sql = "SELECT tbl_product.*, tbl_dimension.width_dimension, tbl_dimension.width_dimension_1, tbl_dimension.thickness_dimension 
+                FROM tbl_product
+                JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product
+                JOIN tbl_dimension ON tbl_product_type_of_product.id_dimension_dimension = tbl_dimension.id_dimension
+                ORDER BY tbl_product.id_product DESC";
+            $result = $conn->query($sql);
 
-        <div class="btn-box">
-          <a href=""> En savoir plus </a>
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<div class='product-card'>";
+                    echo "<h3>Produit ID: " . $row['id_product'] . "</h3>";
+                    echo "<p>Description: " . $row['description_product'] . "</p>";
+                    echo "<p>Hauteur: " . $row['width_dimension'] . " cm</p>";
+                    echo "<p>Largeur: " . $row['width_dimension_1'] . " cm</p>";
+                    echo "<p>Épaisseur: " . $row['thickness_dimension'] . " cm</p>";
+                    echo "<p>Quantité: " . $row['quantity_product'] . "</p>";
+                    echo "<img src='" . $row['image_path_product'] . "' alt='Image du produit'>";
+                    echo "</div>";
+                }
+            } else {
+                echo "<p>Aucun produit trouvé.</p>";
+            }
+
+            $conn->close();
+            ?>
         </div>
       </div>
   </section>
 
-  <?php
 
-  // Connexion à la base de données
-  $conn = new mysqli($servername, $username, $password, $dbname);
-
-  // Vérifier la connexion
-  if ($conn->connect_error) {
-    die("Échec de la connexion : " . $conn->connect_error);
-  }
-
-  if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-      if ($row['name_r'] == 'PRO') {
-        $has_permission = true;
-        break;
-      }
-    }
-  }
-
-  if (!$has_permission) {
-    echo "Vous n'avez pas la permission d'ajouter un produit.";
-    exit();
-  }
-
-  if (isset($_POST['submit'])) {
-    // Récupérer la description du produit
-    $description = $conn->real_escape_string($_POST['description']);
-
-    // Gestion de l'upload de l'image
-    $target_dir = "uploads/";
-    if (!file_exists($target_dir)) {
-      mkdir($target_dir, 0777, true);
-    }
-    $target_file = $target_dir . basename($_FILES["image"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-    // Vérifier si le fichier est une image réelle
-    $check = getimagesize($_FILES["image"]["tmp_name"]);
-    if ($check !== false) {
-      $uploadOk = 1;
-    } else {
-      echo "Le fichier n'est pas une image.";
-      $uploadOk = 0;
-    }
-
-    // Vérifier la taille du fichier (ex. max 5MB)
-    if ($_FILES["image"]["size"] > 5000000) {
-      echo "Désolé, votre fichier est trop volumineux.";
-      $uploadOk = 0;
-    }
-
-    // Autoriser certains formats de fichiers
-    if (
-      $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-      && $imageFileType != "gif"
-    ) {
-      echo "Désolé, seuls les fichiers JPG, JPEG, PNG & GIF sont autorisés.";
-      $uploadOk = 0;
-    }
-
-    // Vérifier si $uploadOk est à 0 à cause d'une erreur
-    if ($uploadOk == 0) {
-      echo "Désolé, votre fichier n'a pas été téléchargé.";
-      // Si tout est ok, essayer de télécharger le fichier
-    } else {
-      if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-        echo "Le fichier " . htmlspecialchars(basename($_FILES["image"]["name"])) . " a été téléchargé.";
-
-        // Insérer les informations dans la base de données
-        $image_path = $conn->real_escape_string($target_file);
-        $sql = "INSERT INTO tbl_product (description_product, image_path_product) VALUES ('$description', '$image_path')";
-
-        if ($conn->query($sql) === TRUE) {
-          // Rediriger vers la page d'accueil avec l'ID du produit nouvellement ajouté
-          $last_id = $conn->insert_id;
-          header("Location: index.php?id=$last_id");
-          exit();
-        } else {
-          echo "Erreur : " . $sql . "<br>" . $conn->error;
-        }
-      } else {
-        echo "Désolé, une erreur est survenue lors du téléchargement de votre fichier.";
-      }
-    }
-  }
-
-  $conn->close();
-  ?>
 
   <!-- end service section -->
 
@@ -573,5 +455,93 @@ WHERE tbl_user.mail_user = '$email';";
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
   <!-- End Google Map -->
 </body>
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+.product-form {
+    background: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.product-form input, .product-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.product-form input[type="submit"] {
+    background: #5cb85c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.product-form input[type="submit"]:hover {
+    background: #4cae4c;
+}
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.product-card {
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    flex: 1 1 calc(33.333% - 40px);
+    box-sizing: border-box;
+}
+
+.product-card img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.product-card h3 {
+    margin: 0 0 10px;
+    color: #333;
+}
+
+.product-card p {
+    margin: 0 0 10px;
+    color: #666;
+}
+
+</style>
+
 
 </html>

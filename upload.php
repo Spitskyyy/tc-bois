@@ -12,38 +12,27 @@ $servername = $_ENV['BD_HOST'];
 $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
-
-// // Vérifier si une session est déjà active avant de la démar²rer
-// if (session_status() !== PHP_SESSION_ACTIVE) {
-//     session_start();
-// }
-
-// Récupération de l'email depuis la session
-$email = $_SESSION['email'];
-
-// Connexion à la base de données
+// connection à la base de données
 $connection = new mysqli($servername, $username, $password, $dbname);
 
-// Vérifier la connexion
 if ($connection->connect_error) {
-    die("Échec de la connexion : " . $connection->connect_error);
+    die("Échec de la connection : " . $connection->connect_error);
 }
 
 // Vérifier si l'utilisateur a la permission d'ajouter un produit
 $email = $_SESSION['email'];
 
 $query = "SELECT tbl_role.name_r FROM tbl_role 
-JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
-JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
-WHERE tbl_user.mail_user = '$email';";
+          JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
+          JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
+          WHERE tbl_user.mail_user = ?";
 
-$result = mysqli_query($connection, $query);
-if (!$result) {
-    die('Erreur : ' . mysqli_error($conn));
-}
+$stmt = $connection->prepare($query);
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $has_permission = false;
-
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         if ($row['name_r'] == 'PRO') {
@@ -58,12 +47,15 @@ if (!$has_permission) {
     exit();
 }
 
+// Ajouter un produit
 if (isset($_POST['submit'])) {
-    // Récupérer la description du produit
     $description = $connection->real_escape_string($_POST['description']);
-
-    // Gestion de l'upload de l'image
+    $height = $connection->real_escape_string($_POST['height']);
+    $width = $connection->real_escape_string($_POST['width']);
+    $depth = $connection->real_escape_string($_POST['depth']);
+    $quantity = $connection->real_escape_string($_POST['quantity']);
     $target_dir = "uploads/";
+    
     if (!file_exists($target_dir)) {
         mkdir($target_dir, 0777, true);
     }
@@ -71,7 +63,6 @@ if (isset($_POST['submit'])) {
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-    // Vérifier si le fichier est une image réelle
     $check = getimagesize($_FILES["image"]["tmp_name"]);
     if ($check !== false) {
         $uploadOk = 1;
@@ -80,38 +71,43 @@ if (isset($_POST['submit'])) {
         $uploadOk = 0;
     }
 
-    // Vérifier la taille du fichier (ex. max 5MB)
     if ($_FILES["image"]["size"] > 5000000) {
         echo "Désolé, votre fichier est trop volumineux.";
         $uploadOk = 0;
     }
 
-    // Autoriser certains formats de fichiers
-    if (
-        $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-        && $imageFileType != "gif"
-    ) {
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
         echo "Désolé, seuls les fichiers JPG, JPEG, PNG & GIF sont autorisés.";
         $uploadOk = 0;
     }
 
-    // Vérifier si $uploadOk est à 0 à cause d'une erreur
     if ($uploadOk == 0) {
         echo "Désolé, votre fichier n'a pas été téléchargé.";
-        // Si tout est ok, essayer de télécharger le fichier
     } else {
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
             echo "Le fichier " . htmlspecialchars(basename($_FILES["image"]["name"])) . " a été téléchargé.";
-
-            // Insérer les informations dans la base de données
+            
             $image_path = $connection->real_escape_string($target_file);
-            $sql = "INSERT INTO tbl_product (description_product, image_path_product) VALUES ('$description', '$image_path')";
+            $sql = "INSERT INTO tbl_product (quantity_product, description_product, image_path_product) 
+                    VALUES ('$quantity', '$description', '$image_path')";
 
             if ($connection->query($sql) === TRUE) {
-                // Rediriger vers la page d'accueil avec l'ID du produit nouvellement ajouté
-                $last_id = $connection->insert_id;
-                header("Location: bardage.php?id=$last_id");
-                exit();
+                $last_product_id = $connection->insert_id;
+                $sql_dimension = "INSERT INTO tbl_dimension (width_dimension, width_dimension_1, thickness_dimension) 
+                                  VALUES ('$height', '$width', '$depth')";
+                if ($connection->query($sql_dimension) === TRUE) {
+                    $last_dimension_id = $connection->insert_id;
+                    $sql_product_dimension = "INSERT INTO tbl_product_type_of_product (id_dimension_dimension, id_product_product)
+                                              VALUES ('$last_dimension_id', '$last_product_id')";
+                    if ($connection->query($sql_product_dimension) === TRUE) {
+                        header("Location: bardage.php");
+                        exit();
+                    } else {
+                        echo "Erreur : " . $sql_product_dimension . "<br>" . $connection->error;
+                    }
+                } else {
+                    echo "Erreur : " . $sql_dimension . "<br>" . $connection->error;
+                }
             } else {
                 echo "Erreur : " . $sql . "<br>" . $connection->error;
             }
