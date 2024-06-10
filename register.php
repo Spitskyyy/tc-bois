@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require 'vendor/autoload.php';
 
@@ -12,9 +13,44 @@ $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
 
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Échec de la connexion : " . $conn->connect_error);
+}
+
+// Vérifier le rôle de l'utilisateur
+$email = $_SESSION['email'];
+
+$query = "SELECT tbl_role.name_r FROM tbl_role 
+          JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
+          JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
+          WHERE tbl_user.mail_user = ?";
+
+$stmt = $conn->prepare($query);
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$has_permission = false;
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        if ($row['name_r'] == 'PRO') {
+            $has_permission = true;
+            break;
+        }
+    }
+}
+
+if (!$has_permission) {
+    echo "Vous n'avez pas la permission d'ajouter un produit.";
+    exit();
+}
 
 
-//Compter le nb d'utilisateurs
+
+//TODO Compter le nb d'utilisateurs
 
 
 

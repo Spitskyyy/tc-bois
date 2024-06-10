@@ -164,8 +164,6 @@ if ($row) {
 
   <!--Produit start-->
 
-
-
   <?php
 
   // Récupération de l'email depuis la session
@@ -207,6 +205,8 @@ WHERE tbl_user.mail_user = '$email';";
 
   ?>
 
+
+
   <!DOCTYPE html>
   <html lang="fr">
 
@@ -238,7 +238,7 @@ WHERE tbl_user.mail_user = '$email';";
         echo "<div>";
         echo "<h3>Produit ID: " . $row['id_product'] . "</h3>";
         echo "<p>Description: " . $row['description_product'] . "</p>";
-        echo "<img src='" . $row['image_path'] . "' alt='Image du produit' style='max-width: 200px;'>";
+        echo "<img src='" . $row['image_path_product'] . "' alt='Image du produit' style='max-width: 200px;'>";
         echo "</div><br>";
       }
     } else {
@@ -354,7 +354,7 @@ WHERE tbl_user.mail_user = '$email';";
 
         // Insérer les informations dans la base de données
         $image_path = $conn->real_escape_string($target_file);
-        $sql = "INSERT INTO tbl_product (description_product, image_path) VALUES ('$description', '$image_path')";
+        $sql = "INSERT INTO tbl_product (description_product, image_path_product) VALUES ('$description', '$image_path')";
 
         if ($conn->query($sql) === TRUE) {
           // Rediriger vers la page d'accueil avec l'ID du produit nouvellement ajouté

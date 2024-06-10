@@ -105,12 +105,12 @@ if (isset($_POST['submit'])) {
 
             // Insérer les informations dans la base de données
             $image_path = $connection->real_escape_string($target_file);
-            $sql = "INSERT INTO tbl_product (description_product, image_path) VALUES ('$description', '$image_path')";
+            $sql = "INSERT INTO tbl_product (description_product, image_path_product) VALUES ('$description', '$image_path')";
 
             if ($connection->query($sql) === TRUE) {
                 // Rediriger vers la page d'accueil avec l'ID du produit nouvellement ajouté
                 $last_id = $connection->insert_id;
-                header("Location: test.php?id=$last_id");
+                header("Location: bardage.php?id=$last_id");
                 exit();
             } else {
                 echo "Erreur : " . $sql . "<br>" . $connection->error;
