@@ -311,7 +311,7 @@ mysqli_close($connection);
       </div>
       <div class="row">
         <div class="col-sm-6 col-md-4">
-          <a href="pages/bois_de_terrasse.html">
+          <a href="bois_de_terrasse.php">
             <div class="box">
               <div class="img-box">
                 <img src="images/s1.png" alt="Bois de terrasse" />
@@ -339,7 +339,7 @@ mysqli_close($connection);
         </div>
 
         <div class="col-sm-6 col-md-4">
-          <a href="pages/Cloture.html">
+          <a href="cloture.php">
             <div class="box">
               <div class="img-box">
                 <img src="images/s3.png" alt="Bois de terrasse" />
@@ -353,7 +353,7 @@ mysqli_close($connection);
         </div>
 
         <div class="col-sm-6 col-md-4">
-          <a href="pages/Bois_de_charpente.html">
+          <a href="bois_de_charpente.php">
             <div class="box">
               <div class="img-box">
                 <img src="images/s4.png" alt="Bois de terrasse" />
@@ -559,7 +559,7 @@ mysqli_close($connection);
     <div class="info_container layout_padding2">
       <div class="container">
         <div class="info_logo">
-          <a class="navbar-brand" href="index.html"> Tro<span>Weld</span> </a>
+          <a class="navbar-brand" href="index.html"> Tc<span>Bois</span> </a>
         </div>
         <div class="info_main">
           <div class="row">
@@ -568,16 +568,10 @@ mysqli_close($connection);
                 <h5>Lien utile</h5>
                 <ul>
                   <li class="active">
-                    <a class="" href="index.html">Home <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="">
-                    <a class="" href="about.html">About </a>
+                    <a class="" href="/index.html">Acceuil <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="">
                     <a class="" href="service.html">Services </a>
-                  </li>
-                  <li class="">
-                    <a class="" href="portfolio.html"> Portfolio </a>
                   </li>
                   <li class="">
                     <a class="" href="contact.html"> Contact </a>
@@ -585,6 +579,7 @@ mysqli_close($connection);
                 </ul>
               </div>
             </div>
+            <!--
             <div class="col-md-3">
               <h5>Welding</h5>
               <p>
@@ -592,12 +587,14 @@ mysqli_close($connection);
                 adipiscinaliquaLoreadipiscing
               </p>
             </div>
+            -->
             <div class="col-md-3 mx-auto">
               <h5>social media</h5>
               <div class="social_box">
                 <a href="#">
                   <i class="fa fa-facebook" aria-hidden="true"></i>
                 </a>
+                <!--
                 <a href="#">
                   <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -609,13 +606,7 @@ mysqli_close($connection);
                 </a>
               </div>
             </div>
-            <div class="col-md-3">
-              <h5>Our welding center</h5>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur
-                adipiscinaliquaLoreadipiscing
-              </p>
-            </div>
+            -->
           </div>
         </div>
         <div class="info_bottom">
@@ -623,11 +614,16 @@ mysqli_close($connection);
             <div class="col-lg-9">
               <div class="info_contact">
                 <div class="row">
-                  <div class="col-md-3"></div>
+                  <div class="col-md-3">
+                    <a href="#" class="link-box">
+                      <i class="fa fa-map-marker" aria-hidden="true"></i>
+                      <span> 12 la gare 35540 Plerguer </span>
+                    </a>
+                  </div>
                   <div class="col-md-5">
                     <a href="#" class="link-box">
                       <i class="fa fa-phone" aria-hidden="true"></i>
-                      <span> 06 42 04 35 77 </span>
+                      <span> 06 47 04 35 77</span>
                     </a>
                   </div>
                   <div class="col-md-4">
@@ -639,6 +635,18 @@ mysqli_close($connection);
                 </div>
               </div>
             </div>
+
+            <div class="col-md-3">
+              <div class="info_form">
+                <form action="">
+                  <input type="email" placeholder="Enter Your Email" />
+                  <button>
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

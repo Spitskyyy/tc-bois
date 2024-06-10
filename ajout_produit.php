@@ -13,7 +13,7 @@ $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
 
-// // Vérifier si une session est déjà active avant de la démar²rer
+// Vérifier si une session est déjà active avant de la démarrer
 // if (session_status() !== PHP_SESSION_ACTIVE) {
 //     session_start();
 // }
@@ -29,111 +29,11 @@ if (!$connection) {
     die("La connexion a échoué : " . mysqli_connect_error());
 }
 
-// Requête SQL pour obtenir les infos sur l'utilisateur
-$query = "SELECT prenom_user FROM tbl_user WHERE mail_user='$email'";
-$result = mysqli_query($connection, $query);
-
-// Vérifier si la requête a abouti
-if (!$result) {
-    die("Erreur dans la requête : " . mysqli_error($connection));
-}
-
-// Stockage des données
-$row = mysqli_fetch_assoc($result);
-if ($row) {
-    $user_firstname = $row['prenom_user'];
-} else {
-    $user_firstname = "Aucun prénom trouvé.";
-}
-
-
+// Requête SQL pour obtenir le rôle de l'utilisateur
 $query = "SELECT tbl_role.name_r FROM tbl_role 
           JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
           JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
           WHERE tbl_user.mail_user = ?";
-
-$stmt = $connection->prepare($query);
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
-
-// Vérifier si la requête a abouti
-if (!$result) {
-    die("Erreur dans la requête : " . mysqli_error($connection));
-}
-
-// Stockage des données
-$row = mysqli_fetch_assoc($result);
-if ($row) {
-    $user_role = $row['name_r'];
-} else {
-    $user_role = "Aucun rôle.";
-}
-
-
-?>
-
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un produit</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-    <div class="container">
-        <h1>Ajouter un produit</h1>
-        <form action="upload.php" method="post" enctype="multipart/form-data" class="product-form">
-            <label for="description">Description du produit :</label>
-            <textarea name="description" id="description" required></textarea><br><br>
-
-            <label for="height">Hauteur (cm) :</label>
-            <input type="number" step="0.01" name="height" id="height" required><br><br>
-
-            <label for="width">Largeur (cm) :</label>
-            <input type="number" step="0.01" name="width" id="width" required><br><br>
-
-            <label for="depth">Épaisseur (cm) :</label>
-            <input type="number" step="0.01" name="depth" id="depth" required><br><br>
-
-            <label for="quantity">Quantité :</label>
-            <input type="number" name="quantity" id="quantity" required><br><br>
-
-            <label for="image">Choisir une image :</label>
-            <input type="file" name="image" id="image" accept="image/*" required><br><br>
-
-            <input type="submit" name="submit" value="Ajouter le produit">
-        </form>
-
-
-    </div>
-</body>
-<?php
-
-
-// Connexion à la base de données
-$connection = new mysqli($servername, $username, $password, $dbname);
-
-if ($connection->connect_error) {
-    die("Échec de la connexion : " . $connection->connect_error);
-}
-
-// Vérifier si l'utilisateur a la permission d'ajouter un produit
-$email = $_SESSION['email'];
-
-$query = "SELECT tbl_role.name_r FROM tbl_role 
-          JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
-          JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
-          WHERE tbl_user.mail_user = ?";
-
 $stmt = $connection->prepare($query);
 $stmt->bind_param("s", $email);
 $stmt->execute();
@@ -151,7 +51,7 @@ if ($result->num_rows > 0) {
 }
 
 if (!$has_permission) {
-    echo "Vous n'avez pas la permission d'ajouter un produit.";
+    header("Location: index.php");
     exit();
 }
 
@@ -236,92 +136,170 @@ if (isset($_POST['submit'])) {
 
 $connection->close();
 ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un produit</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Bardage</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- nice select -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+    integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+  <!-- font awesome style -->
+  <link href="/css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="/css/responsive.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div>
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="header_top"></div>
+      <div class="header_bottom">
+        <div class="container-fluid">
+          <nav class="navbar navbar-expand-lg custom_nav-container">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/index.php">Acceuil<span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="service.html">Services</a>
+                </li>
+                <!-- <li class="nav-item">
+                  <a class="nav-link" href="about.html">About</a>
+                </li>-->
+                <!-- <li class="nav-item">
+                  <a class="nav-link" href="portfolio.html">Portfolio</a>
+                </li>-->
+                <!-- <li class="nav-item">
+                  <a class="nav-link" href="contact.html">Contactez-nous
+                </a>
+                </li>-->
+                <li class="nav-item">
+                  <a class="nav-link" href="#">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <span> Connexion </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+
+
+
+<body>
+    <div class="container">
+        <h1>Ajouter un produit</h1>
+        <form action="upload.php" method="post" enctype="multipart/form-data" class="product-form">
+            <label for="description">Description du produit :</label>
+            <textarea name="description" id="description" required></textarea><br><br>
+
+            <label for="height">Hauteur (cm) :</label>
+            <input type="number" step="0.01" name="height" id="height" required><br><br>
+
+            <label for="width">Largeur (cm) :</label>
+            <input type="number" step="0.01" name="width" id="width" required><br><br>
+
+            <label for="depth">Épaisseur (cm) :</label>
+            <input type="number" step="0.01" name="depth" id="depth" required><br><br>
+
+            <label for="quantity">Quantité :</label>
+            <input type="number" name="quantity" id="quantity" required><br><br>
+
+            <label for="image">Choisir une image :</label>
+            <input type="file" name="image" id="image" accept="image/*" required><br><br>
+
+            <input type="submit" name="submit" value="Ajouter le produit">
+        </form>
+    </div>
+</body>
+</html>
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
 
-    .container {
-        width: 80%;
-        margin: auto;
-        overflow: hidden;
-    }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
 
-    h1,
-    h2 {
-        color: #333;
-    }
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
 
-    .product-form {
-        background: #fff;
-        padding: 20px;
-        margin-top: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+h1, h2 {
+    color: #333;
+}
 
-    .product-form label {
-        display: block;
-        margin: 10px 0 5px;
-    }
+.product-form {
+    background: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-    .product-form input,
-    .product-form textarea {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
+.product-form label {
+    display: block;
+    margin: 10px 0 5px;
+}
 
-    .product-form input[type="submit"] {
-        background: #5cb85c;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-        border-radius: 5px;
-    }
+.product-form input,
+.product-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-    .product-form input[type="submit"]:hover {
-        background: #4cae4c;
-    }
+.product-form input[type="submit"] {
+    background: #5cb85c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
 
-    .product-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        margin-top: 20px;
-    }
+.product-form input[type="submit"]:hover {
+    background: #4cae4c;
+}
 
-    .product-card {
-        background: #fff;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-        flex: 1 1 calc(33.333% - 40px);
-        box-sizing: border-box;
-    }
-
-    .product-card img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin-bottom: 10px;
-    }
-
-    .product-card h3 {
-        margin: 0 0 10px;
-        color: #333;
-    }
-
-    .product-card p {
-        margin: 0 0 10px;
-        color: #666;
-    }
+    
 </style>
-
-</html>
