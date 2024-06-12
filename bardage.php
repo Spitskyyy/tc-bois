@@ -188,19 +188,13 @@ WHERE tbl_user.mail_user = '$email';";
   }
 
   $has_permission = false;
-
   if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-      if ($row['name_r'] == 'PRO') {
-        $has_permission = true;
-        break;
+      while ($row = $result->fetch_assoc()) {
+          if ($row['name_r'] == 'PRO') {
+              $has_permission = true;
+              break;
+          }
       }
-    }
-  }
-
-  if (!$has_permission) {
-    echo "Vous n'avez pas la permission d'ajouter un produit.";
-    exit();
   }
 
   ?>
@@ -231,9 +225,9 @@ WHERE tbl_user.mail_user = '$email';";
             $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Afficher les produits ajoutés
-// Afficher les produits ajoutés
-$sql = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension,  tbl_dimension.thickness_dimension 
-        FROM tbl_product JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product
+$sql = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension 
+        FROM tbl_product 
+        JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product
         JOIN tbl_dimension ON tbl_product_type_of_product.id_dimension_dimension = tbl_dimension.id_dimension
         ORDER BY tbl_product.id_product DESC";
 
@@ -244,18 +238,23 @@ if ($result->num_rows > 0) {
     echo "<div class='product-grid'>";
     while ($row = $result->fetch_assoc()) {
         echo "<div class='product-card'>";
-        echo "<img src='" . htmlspecialchars($row['image_path_product']) . "' alt='Product Image'>";
-        echo "<h3>" . htmlspecialchars($row['description_product']) . "</h3>";
-        echo "<p>Hauteur: " . htmlspecialchars($row['length_dimension']) . " cm</p>";
-        echo "<p>Largeur: " . htmlspecialchars($row['width_dimension']) . " cm</p>";
-        echo "<p>Épaisseur: " . htmlspecialchars($row['thickness_dimension']) . " cm</p>";
-        echo "<p>Quantité: " . htmlspecialchars($row['quantity_product']) . "</p>";
+        echo "<img src='" . htmlspecialchars($row['image_path_product'] ?? '') . "' alt='Product Image'>";
+        echo "<h3>" . htmlspecialchars($row['name_product'] ?? 'Nom non disponible') . "</h3>";
+        echo "<p>Description: " . htmlspecialchars($row['description_product'] ?? 'Description non disponible') . "</p>";
+        echo "<p>Essence: " . htmlspecialchars($row['essence_product'] ?? 'Essence non disponible') . "</p>";
+        echo "<p>Hauteur: " . htmlspecialchars($row['length_dimension'] ?? '0') . " cm</p>";
+        echo "<p>Largeur: " . htmlspecialchars($row['width_dimension'] ?? '0') . " cm</p>";
+        echo "<p>Épaisseur: " . htmlspecialchars($row['thickness_dimension'] ?? '0') . " cm</p>";
+        echo "<p>Quantité: " . htmlspecialchars($row['quantity_product'] ?? '0') . "</p>";
         echo "</div>";
     }
     echo "</div>";
 } else {
     echo "Aucun produit trouvé.";
 }
+
+
+
 
             $conn->close();
             ?>

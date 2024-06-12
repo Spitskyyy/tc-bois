@@ -12,11 +12,12 @@ $servername = $_ENV['BD_HOST'];
 $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
-// connection à la base de données
+
+// Connexion à la base de données
 $connection = new mysqli($servername, $username, $password, $dbname);
 
 if ($connection->connect_error) {
-    die("Échec de la connection : " . $connection->connect_error);
+    die("Échec de la connexion : " . $connection->connect_error);
 }
 
 // Vérifier si l'utilisateur a la permission d'ajouter un produit
@@ -49,8 +50,10 @@ if (!$has_permission) {
 
 // Ajouter un produit
 if (isset($_POST['submit'])) {
+    $name = $connection->real_escape_string($_POST['name']);
+    $essence = $connection->real_escape_string($_POST['essence']);
     $description = $connection->real_escape_string($_POST['description']);
-    $length = $connection->real_escape_string($_POST['length']);
+    $length = $connection->real_escape_string($_POST['height']); // Correction du nom du champ
     $width = $connection->real_escape_string($_POST['width']);
     $depth = $connection->real_escape_string($_POST['depth']);
     $quantity = $connection->real_escape_string($_POST['quantity']);
@@ -88,8 +91,8 @@ if (isset($_POST['submit'])) {
             echo "Le fichier " . htmlspecialchars(basename($_FILES["image"]["name"])) . " a été téléchargé.";
             
             $image_path = $connection->real_escape_string($target_file);
-            $sql = "INSERT INTO tbl_product (quantity_product, description_product, image_path_product) 
-                    VALUES ('$quantity', '$description', '$image_path')";
+            $sql = "INSERT INTO tbl_product (name_product, essence_product, quantity_product, description_product, image_path_product) 
+                    VALUES ('$name', '$essence', '$quantity', '$description', '$image_path')";
 
             if ($connection->query($sql) === TRUE) {
                 $last_product_id = $connection->insert_id;
