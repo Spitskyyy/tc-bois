@@ -182,7 +182,9 @@ mysqli_close($connection);
                   Vente bois de terrasse, <br />
                   Bardage, <br />
                   Clôture, <br />
-                  Bois de charpente.<br />
+                  Bois de charpente,<br />
+                  OSB,<br>
+                  Derivé.<br>
                 </h5>
                 <div class="btn-box">
                   <a href="" class="btn1"> En savoir plus </a>
@@ -607,50 +609,50 @@ mysqli_close($connection);
               </div>
             </div>
             -->
-          </div>
-        </div>
-        <div class="info_bottom">
-          <div class="row">
-            <div class="col-lg-9">
-              <div class="info_contact">
-                <div class="row">
-                  <div class="col-md-3">
-                    <a href="#" class="link-box">
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span> 12 la gare 35540 Plerguer </span>
-                    </a>
-                  </div>
-                  <div class="col-md-5">
-                    <a href="#" class="link-box">
-                      <i class="fa fa-phone" aria-hidden="true"></i>
-                      <span> 06 47 04 35 77</span>
-                    </a>
-                  </div>
-                  <div class="col-md-4">
-                    <a href="#" class="link-box">
-                      <i class="fa fa-envelope" aria-hidden="true"></i>
-                      <span> thierryagenais@free.fr </span>
-                    </a>
+              </div>
+            </div>
+            <div class="info_bottom">
+              <div class="row">
+                <div class="col-lg-9">
+                  <div class="info_contact">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <a href="#" class="link-box">
+                          <i class="fa fa-map-marker" aria-hidden="true"></i>
+                          <span> 12 la gare 35540 Plerguer </span>
+                        </a>
+                      </div>
+                      <div class="col-md-5">
+                        <a href="#" class="link-box">
+                          <i class="fa fa-phone" aria-hidden="true"></i>
+                          <span> 06 47 04 35 77</span>
+                        </a>
+                      </div>
+                      <div class="col-md-4">
+                        <a href="#" class="link-box">
+                          <i class="fa fa-envelope" aria-hidden="true"></i>
+                          <span> thierryagenais@free.fr </span>
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
+
+                <div class="col-md-3">
+                  <div class="info_form">
+                    <form action="">
+                      <input type="email" placeholder="Enter Your Email" />
+                      <button>
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+
               </div>
             </div>
-
-            <div class="col-md-3">
-              <div class="info_form">
-                <form action="">
-                  <input type="email" placeholder="Enter Your Email" />
-                  <button>
-                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                  </button>
-                </form>
-              </div>
-            </div>
-
           </div>
         </div>
-      </div>
-    </div>
   </section>
 
   <!-- end info section -->

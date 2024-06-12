@@ -50,7 +50,7 @@ if (!$has_permission) {
 // Ajouter un produit
 if (isset($_POST['submit'])) {
     $description = $connection->real_escape_string($_POST['description']);
-    $height = $connection->real_escape_string($_POST['height']);
+    $length = $connection->real_escape_string($_POST['length']);
     $width = $connection->real_escape_string($_POST['width']);
     $depth = $connection->real_escape_string($_POST['depth']);
     $quantity = $connection->real_escape_string($_POST['quantity']);
@@ -93,8 +93,8 @@ if (isset($_POST['submit'])) {
 
             if ($connection->query($sql) === TRUE) {
                 $last_product_id = $connection->insert_id;
-                $sql_dimension = "INSERT INTO tbl_dimension (width_dimension, width_dimension_1, thickness_dimension) 
-                                  VALUES ('$height', '$width', '$depth')";
+                $sql_dimension = "INSERT INTO tbl_dimension (length_dimension, width_dimension, thickness_dimension) 
+                                  VALUES ('$length', '$width', '$depth')";
                 if ($connection->query($sql_dimension) === TRUE) {
                     $last_dimension_id = $connection->insert_id;
                     $sql_product_dimension = "INSERT INTO tbl_product_type_of_product (id_dimension_dimension, id_product_product)

@@ -32,6 +32,7 @@ $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
+/*
 $has_permission = false;
 
 if ($result->num_rows > 0) {
@@ -47,7 +48,7 @@ if (!$has_permission) {
     echo "Vous n'avez pas la permission d'ajouter un produit.";
     exit();
 }
-
+*/
 
 
 //TODO Compter le nb d'utilisateurs

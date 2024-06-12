@@ -206,60 +206,68 @@ WHERE tbl_user.mail_user = '$email';";
   ?>
   <!DOCTYPE html>
   <html lang="en">
+
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
+
   <body>
-    
-  <section class="service_section layout_padding">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>Nos <span>Bardage</span></h2>
-      </div>
-      <div class="row">
+
+    <section class="service_section layout_padding">
+      <div class="container">
+        <div class="heading_container heading_center">
+          <h2>Nos <span>Bardage</span></h2>
+        </div>
+        <div class="row">
+          <div class="product-grid">
+          <?php if ($has_permission): ?>
         <div class="product-grid">
-          <a href="ajout_produit.php">Ajouter des produits</a>
-          <hr>
+            <a href="ajout_produit.php">Ajouter des produits</a>
+        </div>
+    <?php endif; ?>
             <?php
             // Connexion à la base de données
             $conn = new mysqli($servername, $username, $password, $dbname);
 
-            // Afficher les produits ajoutés
-            $sql = "SELECT tbl_product.*, tbl_dimension.width_dimension, tbl_dimension.width_dimension_1, tbl_dimension.thickness_dimension 
-                FROM tbl_product
-                JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product
-                JOIN tbl_dimension ON tbl_product_type_of_product.id_dimension_dimension = tbl_dimension.id_dimension
-                ORDER BY tbl_product.id_product DESC";
-            $result = $conn->query($sql);
+// Afficher les produits ajoutés
+// Afficher les produits ajoutés
+$sql = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension,  tbl_dimension.thickness_dimension 
+        FROM tbl_product JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product
+        JOIN tbl_dimension ON tbl_product_type_of_product.id_dimension_dimension = tbl_dimension.id_dimension
+        ORDER BY tbl_product.id_product DESC";
 
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "<div class='product-card'>";
-                    echo "<h3>Produit ID: " . $row['id_product'] . "</h3>";
-                    echo "<p>Description: " . $row['description_product'] . "</p>";
-                    echo "<p>Hauteur: " . $row['width_dimension'] . " cm</p>";
-                    echo "<p>Largeur: " . $row['width_dimension_1'] . " cm</p>";
-                    echo "<p>Épaisseur: " . $row['thickness_dimension'] . " cm</p>";
-                    echo "<p>Quantité: " . $row['quantity_product'] . "</p>";
-                    echo "<img src='" . $row['image_path_product'] . "' alt='Image du produit'>";
-                    echo "</div>";
-                }
-            } else {
-                echo "<p>Aucun produit trouvé.</p>";
-            }
+$result = $conn->query($sql);
+
+// Display the results
+if ($result->num_rows > 0) {
+    echo "<div class='product-grid'>";
+    while ($row = $result->fetch_assoc()) {
+        echo "<div class='product-card'>";
+        echo "<img src='" . htmlspecialchars($row['image_path_product']) . "' alt='Product Image'>";
+        echo "<h3>" . htmlspecialchars($row['description_product']) . "</h3>";
+        echo "<p>Hauteur: " . htmlspecialchars($row['length_dimension']) . " cm</p>";
+        echo "<p>Largeur: " . htmlspecialchars($row['width_dimension']) . " cm</p>";
+        echo "<p>Épaisseur: " . htmlspecialchars($row['thickness_dimension']) . " cm</p>";
+        echo "<p>Quantité: " . htmlspecialchars($row['quantity_product']) . "</p>";
+        echo "</div>";
+    }
+    echo "</div>";
+} else {
+    echo "Aucun produit trouvé.";
+}
 
             $conn->close();
             ?>
+          </div>
         </div>
-      </div>
-  </section>
+    </section>
 
 
 
-  <!-- end service section -->
+    <!-- end service section -->
 
-  <!-- contact section 
+    <!-- contact section 
   <section class="contact_section">
     <div class="container">
       <div class="heading_container heading_center">
@@ -315,33 +323,33 @@ WHERE tbl_user.mail_user = '$email';";
   </section>
 end contact section -->
 
-  <!-- info section -->
+    <!-- info section -->
 
-  <section class="info_section">
-    <div class="info_container layout_padding2">
-      <div class="container">
-        <div class="info_logo">
-          <a class="navbar-brand" href="index.html"> Tro<span>Weld</span> </a>
-        </div>
-        <div class="info_main">
-          <div class="row">
-            <div class="col-md-3 col-lg-2">
-              <div class="info_link-box">
-                <h5>Lien utile</h5>
-                <ul>
-                  <li class="active">
-                    <a class="" href="/index.html">Acceuil <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="">
-                    <a class="" href="service.html">Services </a>
-                  </li>
-                  <li class="">
-                    <a class="" href="contact.html"> Contact </a>
-                  </li>
-                </ul>
+    <section class="info_section">
+      <div class="info_container layout_padding2">
+        <div class="container">
+          <div class="info_logo">
+            <a class="navbar-brand" href="index.html"> Tro<span>Weld</span> </a>
+          </div>
+          <div class="info_main">
+            <div class="row">
+              <div class="col-md-3 col-lg-2">
+                <div class="info_link-box">
+                  <h5>Lien utile</h5>
+                  <ul>
+                    <li class="active">
+                      <a class="" href="/index.html">Acceuil <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="">
+                      <a class="" href="service.html">Services </a>
+                    </li>
+                    <li class="">
+                      <a class="" href="contact.html"> Contact </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
-            <!--
+              <!--
             <div class="col-md-3">
               <h5>Welding</h5>
               <p>
@@ -350,13 +358,13 @@ end contact section -->
               </p>
             </div>
             -->
-            <div class="col-md-3 mx-auto">
-              <h5>social media</h5>
-              <div class="social_box">
-                <a href="#">
-                  <i class="fa fa-facebook" aria-hidden="true"></i>
-                </a>
-                <!--
+              <div class="col-md-3 mx-auto">
+                <h5>social media</h5>
+                <div class="social_box">
+                  <a href="#">
+                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                  </a>
+                  <!--
                 <a href="#">
                   <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
@@ -369,172 +377,172 @@ end contact section -->
               </div>
             </div>
             -->
-          </div>
-        </div>
-        <div class="info_bottom">
-          <div class="row">
-            <div class="col-lg-9">
-              <div class="info_contact">
+                </div>
+              </div>
+              <div class="info_bottom">
                 <div class="row">
+                  <div class="col-lg-9">
+                    <div class="info_contact">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <a href="#" class="link-box">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span> 12 la gare 35540 Plerguer </span>
+                          </a>
+                        </div>
+                        <div class="col-md-5">
+                          <a href="#" class="link-box">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <span> 06 47 04 35 77</span>
+                          </a>
+                        </div>
+                        <div class="col-md-4">
+                          <a href="#" class="link-box">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span> thierryagenais@free.fr </span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-md-3">
-                    <a href="#" class="link-box">
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span> 12 la gare 35540 Plerguer </span>
-                    </a>
-                  </div>
-                  <div class="col-md-5">
-                    <a href="#" class="link-box">
-                      <i class="fa fa-phone" aria-hidden="true"></i>
-                      <span> 06 47 04 35 77</span>
-                    </a>
-                  </div>
-                  <div class="col-md-4">
-                    <a href="#" class="link-box">
-                      <i class="fa fa-envelope" aria-hidden="true"></i>
-                      <span> thierryagenais@free.fr </span>
-                    </a>
+                    <div class="info_form">
+                      <form action="">
+                        <input type="email" placeholder="Enter Your Email" />
+                        <button>
+                          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
-              <div class="info_form">
-                <form action="">
-                  <input type="email" placeholder="Enter Your Email" />
-                  <button>
-                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                  </button>
-                </form>
-              </div>
-            </div>
           </div>
-        </div>
+    </section>
+
+    <!-- end info section -->
+
+    <!-- footer section -->
+    <footer class="footer_section">
+      <div class="container">
+        <p>
+          &copy; <span id="displayYear"></span> All Rights Reserved By
+          <a href="https://html.design/">Free Html Templates</a>
+        </p>
       </div>
-    </div>
-  </section>
+    </footer>
+    <!-- footer section -->
 
-  <!-- end info section -->
+    <!-- jQery -->
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <!-- popper js -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+    <!-- bootstrap js -->
+    <script src="/js/bootstrap.js"></script>
+    <!-- owl slider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!--  OwlCarousel 2 - Filter -->
+    <script src="https://huynhhuynh.github.io/owlcarousel2-filter/dist/owlcarousel2-filter.min.js"></script>
+    <!-- nice select -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+      integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+    <!-- custom js -->
+    <script src="/js/custom.js"></script>
+    <!-- Google Map -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
+    <!-- End Google Map -->
+  </body>
 
-  <!-- footer section -->
-  <footer class="footer_section">
-    <div class="container">
-      <p>
-        &copy; <span id="displayYear"></span> All Rights Reserved By
-        <a href="https://html.design/">Free Html Templates</a>
-      </p>
-    </div>
-  </footer>
-  <!-- footer section -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
 
-  <!-- jQery -->
-  <script src="/js/jquery-3.4.1.min.js"></script>
-  <!-- popper js -->
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <!-- bootstrap js -->
-  <script src="/js/bootstrap.js"></script>
-  <!-- owl slider -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-  <!--  OwlCarousel 2 - Filter -->
-  <script src="https://huynhhuynh.github.io/owlcarousel2-filter/dist/owlcarousel2-filter.min.js"></script>
-  <!-- nice select -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
-    integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
-  <!-- custom js -->
-  <script src="/js/custom.js"></script>
-  <!-- Google Map -->
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
-  <!-- End Google Map -->
-</body>
+    .container {
+      width: 80%;
+      margin: auto;
+      overflow: hidden;
+    }
 
-<style>
+    h1,
+    h2 {
+      color: #333;
+    }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
+    .product-form {
+      background: #fff;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-.container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-}
+    .product-form label {
+      display: block;
+      margin: 10px 0 5px;
+    }
 
-h1, h2 {
-    color: #333;
-}
+    .product-form input,
+    .product-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
 
-.product-form {
-    background: #fff;
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+    .product-form input[type="submit"] {
+      background: #5cb85c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
 
-.product-form label {
-    display: block;
-    margin: 10px 0 5px;
-}
+    .product-form input[type="submit"]:hover {
+      background: #4cae4c;
+    }
 
-.product-form input, .product-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 20px;
+    }
 
-.product-form input[type="submit"] {
-    background: #5cb85c;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-}
+    .product-card {
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      flex: 1 1 calc(33.333% - 40px);
+      box-sizing: border-box;
+    }
 
-.product-form input[type="submit"]:hover {
-    background: #4cae4c;
-}
+    .product-card img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 10px;
+    }
 
-.product-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 20px;
-}
+    .product-card h3 {
+      margin: 0 0 10px;
+      color: #333;
+    }
 
-.product-card {
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    flex: 1 1 calc(33.333% - 40px);
-    box-sizing: border-box;
-}
-
-.product-card img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.product-card h3 {
-    margin: 0 0 10px;
-    color: #333;
-}
-
-.product-card p {
-    margin: 0 0 10px;
-    color: #666;
-}
-
-</style>
+    .product-card p {
+      margin: 0 0 10px;
+      color: #666;
+    }
+  </style>
 
 
-</html>
+  </html>

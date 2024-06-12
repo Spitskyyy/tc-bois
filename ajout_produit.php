@@ -60,7 +60,7 @@ $stmt->close();
 if (isset($_POST['submit'])) {
     // Récupérer les données du formulaire
     $description = $connection->real_escape_string($_POST['description']);
-    $height = $connection->real_escape_string($_POST['height']);
+    $length = $connection->real_escape_string($_POST['length']);
     $width = $connection->real_escape_string($_POST['width']);
     $depth = $connection->real_escape_string($_POST['depth']);
     $quantity = $connection->real_escape_string($_POST['quantity']);
@@ -110,7 +110,7 @@ if (isset($_POST['submit'])) {
                 $last_id = $connection->insert_id;
 
                 // Insérer les dimensions
-                $sql_dimension = "INSERT INTO tbl_dimension (width_dimension, width_dimension_1, thickness_dimension) VALUES ('$height', '$width', '$depth')";
+                $sql_dimension = "INSERT INTO tbl_dimension (width_dimension, width_dimension_1, thickness_dimension) VALUES ('$length', '$width', '$depth')";
                 if ($connection->query($sql_dimension) === TRUE) {
                     $last_dimension_id = $connection->insert_id;
 
@@ -138,6 +138,7 @@ $connection->close();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -146,160 +147,160 @@ $connection->close();
 </head>
 
 <head>
-  <!-- Basic -->
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-  <title>Bardage</title>
+    <title>Bardage</title>
 
-  <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
 
-  <!-- fonts style -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-  <!--owl slider stylesheet -->
-  <link rel="stylesheet" type="text/css"
-    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-  <!-- nice select -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
-    integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
-  <!-- font awesome style -->
-  <link href="/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- fonts style -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <!--owl slider stylesheet -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <!-- nice select -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+        integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+    <!-- font awesome style -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" />
 
-  <!-- Custom styles for this template -->
-  <link href="/css/style.css" rel="stylesheet" />
-  <!-- responsive style -->
-  <link href="/css/responsive.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="/css/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="/css/responsive.css" rel="stylesheet" />
 </head>
 
 <body>
-  <div>
-    <!-- header section strats -->
-    <header class="header_section">
-      <div class="header_top"></div>
-      <div class="header_bottom">
-        <div class="container-fluid">
-          <nav class="navbar navbar-expand-lg custom_nav-container">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav">
-                <li class="nav-item active">
-                  <a class="nav-link" href="/index.php">Acceuil<span class="sr-only"></span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="service.html">Services</a>
-                </li>
-                <!-- <li class="nav-item">
+    <div>
+        <!-- header section strats -->
+        <header class="header_section">
+            <div class="header_top"></div>
+            <div class="header_bottom">
+                <div class="container-fluid">
+                    <nav class="navbar navbar-expand-lg custom_nav-container">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="/index.php">Acceuil<span class="sr-only"></span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="service.html">Services</a>
+                                </li>
+                                <!-- <li class="nav-item">
                   <a class="nav-link" href="about.html">About</a>
                 </li>-->
-                <!-- <li class="nav-item">
+                                <!-- <li class="nav-item">
                   <a class="nav-link" href="portfolio.html">Portfolio</a>
                 </li>-->
-                <!-- <li class="nav-item">
+                                <!-- <li class="nav-item">
                   <a class="nav-link" href="contact.html">Contactez-nous
                 </a>
                 </li>-->
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    <span> Connexion </span>
-                  </a>
-                </li>
-              </ul>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        <span> Connexion </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
             </div>
-          </nav>
-        </div>
-      </div>
-    </header>
+        </header>
 
 
 
 
-<body>
-    <div class="container">
-        <h1>Ajouter un produit</h1>
-        <form action="upload.php" method="post" enctype="multipart/form-data" class="product-form">
-            <label for="description">Description du produit :</label>
-            <textarea name="description" id="description" required></textarea><br><br>
+        <body>
+            <div class="container">
+                <h1>Ajouter un produit</h1>
+                <form action="upload.php" method="post" enctype="multipart/form-data" class="product-form">
+                    <label for="description">Description du produit :</label>
+                    <textarea name="description" id="description" required></textarea><br><br>
 
-            <label for="height">Hauteur (cm) :</label>
-            <input type="number" step="0.01" name="height" id="height" required><br><br>
+                    <label for="length">Longueur (m) :</label>
+                    <input type="number" step="0.01" name="length" id="length" required><br><br>
 
-            <label for="width">Largeur (cm) :</label>
-            <input type="number" step="0.01" name="width" id="width" required><br><br>
+                    <label for="width">Largeur (cm) :</label>
+                    <input type="number" step="0.01" name="width" id="width" required><br><br>
 
-            <label for="depth">Épaisseur (cm) :</label>
-            <input type="number" step="0.01" name="depth" id="depth" required><br><br>
+                    <label for="depth">Épaisseur (cm) :</label>
+                    <input type="number" step="0.01" name="depth" id="depth" required><br><br>
 
-            <label for="quantity">Quantité :</label>
-            <input type="number" name="quantity" id="quantity" required><br><br>
+                    <label for="quantity">Quantité :</label>
+                    <input type="number" name="quantity" id="quantity" required><br><br>
 
-            <label for="image">Choisir une image :</label>
-            <input type="file" name="image" id="image" accept="image/*" required><br><br>
+                    <label for="image">Choisir une image :</label>
+                    <input type="file" name="image" id="image" accept="image/*" required><br><br>
 
-            <input type="submit" name="submit" value="Ajouter le produit">
-        </form>
-    </div>
-</body>
+                    <input type="submit" name="submit" value="Ajouter le produit">
+                </form>
+            </div>
+        </body>
+
 </html>
 
 <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
+    .container {
+        width: 80%;
+        margin: auto;
+        overflow: hidden;
+    }
 
-.container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-}
+    h1,
+    h2 {
+        color: #333;
+    }
 
-h1, h2 {
-    color: #333;
-}
+    .product-form {
+        background: #fff;
+        padding: 20px;
+        margin-top: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-.product-form {
-    background: #fff;
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+    .product-form label {
+        display: block;
+        margin: 10px 0 5px;
+    }
 
-.product-form label {
-    display: block;
-    margin: 10px 0 5px;
-}
+    .product-form input,
+    .product-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
 
-.product-form input,
-.product-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+    .product-form input[type="submit"] {
+        background: #5cb85c;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
 
-.product-form input[type="submit"] {
-    background: #5cb85c;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.product-form input[type="submit"]:hover {
-    background: #4cae4c;
-}
-
-    
+    .product-form input[type="submit"]:hover {
+        background: #4cae4c;
+    }
 </style>

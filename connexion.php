@@ -47,6 +47,7 @@ try {
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,6 +62,7 @@ try {
             height: 100vh;
             margin: 0;
         }
+
         .login-container {
             background-color: #ffffff;
             padding: 40px;
@@ -70,17 +72,20 @@ try {
             max-width: 100%;
             text-align: center;
         }
+
         .login-container h2 {
             margin-bottom: 20px;
             color: #343a40;
             font-size: 28px;
             font-weight: bold;
         }
+
         .login-container p {
             color: #6c757d;
             margin-bottom: 30px;
             font-size: 16px;
         }
+
         .login-container input[type="text"],
         .login-container input[type="password"] {
             width: 100%;
@@ -91,6 +96,7 @@ try {
             font-size: 16px;
             box-sizing: border-box;
         }
+
         .login-container input[type="submit"] {
             width: 100%;
             padding: 12px 15px;
@@ -102,9 +108,11 @@ try {
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+
         .login-container input[type="submit"]:hover {
             background-color: #556B2F;
         }
+
         .login-container a {
             display: block;
             margin-top: 20px;
@@ -112,13 +120,16 @@ try {
             text-decoration: none;
             font-size: 14px;
         }
+
         .login-container a:hover {
             text-decoration: underline;
         }
+
         .login-container .logo {
             width: 100px;
             margin-bottom: 20px;
         }
+
         .alert {
             padding: 15px;
             background-color: #f44336;
@@ -126,11 +137,13 @@ try {
             margin-bottom: 20px;
             border-radius: 4px;
         }
+
         .success {
             background-color: #4CAF50;
         }
     </style>
 </head>
+
 <body>
     <div class="login-container">
         <img src="logo.png" alt="Logo" class="logo">
@@ -149,4 +162,5 @@ try {
         <a href="#">Mot de passe oublié ?</a>
     </div>
 </body>
+
 </html>
