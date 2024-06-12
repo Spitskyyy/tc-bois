@@ -189,12 +189,12 @@ WHERE tbl_user.mail_user = '$email';";
 
   $has_permission = false;
   if ($result->num_rows > 0) {
-      while ($row = $result->fetch_assoc()) {
-          if ($row['name_r'] == 'PRO') {
-              $has_permission = true;
-              break;
-          }
+    while ($row = $result->fetch_assoc()) {
+      if ($row['name_r'] == 'PRO') {
+        $has_permission = true;
+        break;
       }
+    }
   }
 
   ?>
@@ -215,46 +215,43 @@ WHERE tbl_user.mail_user = '$email';";
         </div>
         <div class="row">
           <div class="product-grid">
-          <?php if ($has_permission): ?>
-        <div class="product-grid">
-            <a href="ajout_produit.php">Ajouter des produits</a>
-        </div>
-    <?php endif; ?>
+            <?php if ($has_permission): ?>
+              <div class="product-grid">
+                <a href="ajout_produit.php" class="add-product-button">Ajouter des produits</a>
+              </div>
+            <?php endif; ?>
             <?php
             // Connexion à la base de données
             $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Afficher les produits ajoutés
-$sql = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension 
+            // Afficher les produits ajoutés
+            $sql = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension 
         FROM tbl_product 
         JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product
         JOIN tbl_dimension ON tbl_product_type_of_product.id_dimension_dimension = tbl_dimension.id_dimension
         ORDER BY tbl_product.id_product DESC";
 
-$result = $conn->query($sql);
+            $result = $conn->query($sql);
 
-// Display the results
-if ($result->num_rows > 0) {
-    echo "<div class='product-grid'>";
-    while ($row = $result->fetch_assoc()) {
-        echo "<div class='product-card'>";
-        echo "<img src='" . htmlspecialchars($row['image_path_product'] ?? '') . "' alt='Product Image'>";
-        echo "<h3>" . htmlspecialchars($row['name_product'] ?? 'Nom non disponible') . "</h3>";
-        echo "<p>Description: " . htmlspecialchars($row['description_product'] ?? 'Description non disponible') . "</p>";
-        echo "<p>Essence: " . htmlspecialchars($row['essence_product'] ?? 'Essence non disponible') . "</p>";
-        echo "<p>Hauteur: " . htmlspecialchars($row['length_dimension'] ?? '0') . " cm</p>";
-        echo "<p>Largeur: " . htmlspecialchars($row['width_dimension'] ?? '0') . " cm</p>";
-        echo "<p>Épaisseur: " . htmlspecialchars($row['thickness_dimension'] ?? '0') . " cm</p>";
-        echo "<p>Quantité: " . htmlspecialchars($row['quantity_product'] ?? '0') . "</p>";
-        echo "</div>";
-    }
-    echo "</div>";
-} else {
-    echo "Aucun produit trouvé.";
-}
-
-
-
+            // Display the results
+            if ($result->num_rows > 0) {
+              echo "<div class='product-grid'>";
+              while ($row = $result->fetch_assoc()) {
+                echo "<div class='product-card'>";
+                echo "<img src='" . htmlspecialchars($row['image_path_product'] ?? '') . "' alt='Product Image'>";
+                echo "<h3>" . htmlspecialchars($row['name_product'] ?? 'Nom non disponible') . "</h3>";
+                echo "<p>Description: " . htmlspecialchars($row['description_product'] ?? 'Description non disponible') . "</p>";
+                echo "<p>Essence: " . htmlspecialchars($row['essence_product'] ?? 'Essence non disponible') . "</p>";
+                echo "<p>Hauteur: " . htmlspecialchars($row['length_dimension'] ?? '0') . " cm</p>";
+                echo "<p>Largeur: " . htmlspecialchars($row['width_dimension'] ?? '0') . " cm</p>";
+                echo "<p>Épaisseur: " . htmlspecialchars($row['thickness_dimension'] ?? '0') . " cm</p>";
+                echo "<p>Quantité: " . htmlspecialchars($row['quantity_product'] ?? '0') . "</p>";
+                echo "</div>";
+              }
+              echo "</div>";
+            } else {
+              echo "Aucun produit trouvé.";
+            }
 
             $conn->close();
             ?>
@@ -540,6 +537,53 @@ end contact section -->
     .product-card p {
       margin: 0 0 10px;
       color: #666;
+    }
+
+
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .product-card {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin: 10px;
+      width: calc(33.333% - 20px);
+      box-sizing: border-box;
+    }
+
+    .error-message {
+      color: red;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .add-product-button {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #6B8E23;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .add-product-button:hover {
+      background-color: #6B8E23;
+    }
+
+    .container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .container h1 {
+      margin-bottom: 20px;
     }
   </style>
 

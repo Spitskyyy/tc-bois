@@ -194,7 +194,7 @@ $connection->close();
                                     <a class="nav-link" href="/index.php">Acceuil<span class="sr-only"></span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="service.html">Services</a>
+                                    <a class="nav-link" href="service.php">Services</a>
                                 </li>
                                 <!-- <li class="nav-item">
                   <a class="nav-link" href="about.html">About</a>
@@ -221,16 +221,13 @@ $connection->close();
 
         <body>
     <div class="container">
-        <h1>Ajouter un produit</h1>
+        <h1 align="center">Ajouter un produit</h1>
         <form action="upload.php" method="post" enctype="multipart/form-data" class="product-form">
             <label for="name">Nom du produit :</label>
             <input type="text" name="name" id="name" required><br><br>
 
             <label for="essence">Essence du produit :</label>
             <input type="text" name="essence" id="essence" required><br><br>
-
-            <label for="description">Description du produit :</label>
-            <textarea name="description" id="description" required></textarea><br><br>
 
             <label for="height">Longueur (m) :</label>
             <input type="number" step="0.01" name="height" id="height" required><br><br>
@@ -243,6 +240,9 @@ $connection->close();
 
             <label for="quantity">Quantité :</label>
             <input type="number" name="quantity" id="quantity" required><br><br>
+
+            <label for="description">Description du produit :</label>
+            <textarea name="description" id="description" required></textarea><br><br>
 
             <label for="image">Choisir une image :</label>
             <input type="file" name="image" id="image" accept="image/*" required><br><br>
