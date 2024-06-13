@@ -625,13 +625,13 @@ mysqli_close($connection);
                       <div class="col-md-5">
                         <a href="#" class="link-box">
                           <i class="fa fa-phone" aria-hidden="true"></i>
-                          <span> 06 47 04 35 77</span>
+                          <span> 06 42 07 35 77</span>
                         </a>
                       </div>
                       <div class="col-md-4">
                         <a href="#" class="link-box">
                           <i class="fa fa-envelope" aria-hidden="true"></i>
-                          <span> thierryagenais@free.fr </span>
+                          <span> agenaist@gmail.com </span>
                         </a>
                       </div>
                     </div>
