@@ -240,12 +240,12 @@ WHERE tbl_user.mail_user = '$email';";
                 echo "<div class='product-card'>";
                 echo "<img src='" . htmlspecialchars($row['image_path_product'] ?? '') . "' alt='Product Image'>";
                 echo "<h3>" . htmlspecialchars($row['name_product'] ?? 'Nom non disponible') . "</h3>";
-                echo "<p>Description: " . htmlspecialchars($row['description_product'] ?? 'Description non disponible') . "</p>";
                 echo "<p>Essence: " . htmlspecialchars($row['essence_product'] ?? 'Essence non disponible') . "</p>";
-                echo "<p>Hauteur: " . htmlspecialchars($row['length_dimension'] ?? '0') . " cm</p>";
+                echo "<p>Longueur: " . htmlspecialchars($row['length_dimension'] ?? '0') . " cm</p>";
                 echo "<p>Largeur: " . htmlspecialchars($row['width_dimension'] ?? '0') . " cm</p>";
                 echo "<p>Épaisseur: " . htmlspecialchars($row['thickness_dimension'] ?? '0') . " cm</p>";
                 echo "<p>Quantité: " . htmlspecialchars($row['quantity_product'] ?? '0') . "</p>";
+                echo "<p>Description: " . htmlspecialchars($row['description_product'] ?? 'Description non disponible') . "</p>";
                 echo "</div>";
               }
               echo "</div>";
