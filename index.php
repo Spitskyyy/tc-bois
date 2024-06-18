@@ -76,8 +76,7 @@ if ($row) {
 // Libérer la mémoire des résultats
 mysqli_free_result($result);
 
-// Fermer la connexion à la base de données
-mysqli_close($connection);
+
 
 ?>
 <!DOCTYPE html>
@@ -245,61 +244,39 @@ mysqli_close($connection);
     <div class="container">
       <div class="heading_container heading_center">
         <h2>Nos travaux réaliser</h2>
+        <a href="ajout_activite.php">Ajouter des activités</a>
       </div>
       <div class="carousel-wrap">
         <div class="filter_box">
-          <nav class="owl-filter-bar">
-            <a href="#" class="item active" data-owl-filter="*">All</a>
-            <a href="#" class="item" data-owl-filter=".decorative">DECORATIVE</a>
-            <a href="#" class="item" data-owl-filter=".facade">FACADES </a>
-            <a href="#" class="item" data-owl-filter=".perforated">PERFORATED</a>
-            <a href="#" class="item" data-owl-filter=".railing">RAILINGS </a>
-          </nav>
         </div>
       </div>
     </div>
-    <div class="owl-carousel portfolio_carousel">
-      <div class="item decorative">
-        <div class="box">
-          <div class="img-box">
-            <img src="images/p1.jpg" alt="" />
-            <div class="btn_overlay">
-              <a href="" class=""> Voir plus </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="item facade">
-        <div class="box">
-          <div class="img-box">
-            <img src="images/p2.jpg" alt="" />
-            <div class="btn_overlay">
-              <a href="" class=""> Voir plus </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="item perforated decorative">
-        <div class="box">
-          <div class="img-box">
-            <img src="images/p3.jpg" alt="" />
-            <div class="btn_overlay">
-              <a href="" class=""> Voir plus </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="item railing">
-        <div class="box">
-          <div class="img-box">
-            <img src="images/p1.jpg" alt="" />
-            <div class="btn_overlay">
-              <a href="" class=""> Voir plus </a>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="product-grid">
+      <?php
+      $sql = "SELECT * FROM tbl_activity ORDER BY id_activity DESC";
+      $result = $connection->query($sql);
+
+      if ($result->num_rows > 0) {
+        echo "<div class='product-grid'>";
+        while ($row = $result->fetch_assoc()) {
+          echo "<div class='product-card'>";
+          echo "<a href='detail_activite.php?id=" . $row['id_activity'] . "'>";
+          echo "<img src='" . htmlspecialchars($row['image_path_product']) . "' alt='Activity Image'>";
+          echo "<h3>" . htmlspecialchars($row['name_activity']) . "</h3>";
+          echo "</a>";
+          echo "</div>";
+        }
+        echo "</div>";
+      } else {
+        echo "Aucune activité trouvée.";
+      }
+      ?>
     </div>
+    </div>
+    </div>
+    <br>
+    <br>
+    <br>
   </section>
 
   <!-- end portfolio section -->
@@ -690,5 +667,78 @@ mysqli_close($connection);
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
   <!-- End Google Map -->
 </body>
+
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+
+  .service_section {
+    padding: 60px 0;
+  }
+
+  .heading_center {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .heading_center h2 {
+    color: #333;
+  }
+
+  .product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .product-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .product-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+
+  .product-card h3 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .product-card p {
+    color: #666;
+    line-height: 1.6;
+  }
+
+  .add-product {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .add-product a {
+    text-decoration: none;
+    color: white;
+    background-color: #28a745;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+
+  .add-product a:hover {
+    background-color: #218838;
+  }
+</style>
 
 </html>
