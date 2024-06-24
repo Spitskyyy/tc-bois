@@ -13,14 +13,6 @@ $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
 
-// Vérifier si une session est déjà active avant de la démarrer
-// if (session_status() !== PHP_SESSION_ACTIVE) {
-//     session_start();
-// }
-
-// Récupération de l'email depuis la session
-$email = $_SESSION['email'];
-
 // Connexion à la base de données
 $connection = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -29,7 +21,8 @@ if (!$connection) {
     die("La connexion a échoué : " . mysqli_connect_error());
 }
 
-// Requête SQL pour obtenir le rôle de l'utilisateur
+// Vérifier si l'utilisateur a la permission d'ajouter des produits
+$email = $_SESSION['email'];
 $query = "SELECT tbl_role.name_r FROM tbl_role 
           JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
           JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
@@ -59,11 +52,14 @@ $stmt->close();
 
 if (isset($_POST['submit'])) {
     // Récupérer les données du formulaire
+    $name = $connection->real_escape_string($_POST['name']);
+    $essence = $connection->real_escape_string($_POST['essence']);
     $description = $connection->real_escape_string($_POST['description']);
-    $length = $connection->real_escape_string($_POST['length']);
+    $height = $connection->real_escape_string($_POST['height']);
     $width = $connection->real_escape_string($_POST['width']);
     $depth = $connection->real_escape_string($_POST['depth']);
     $quantity = $connection->real_escape_string($_POST['quantity']);
+    $product_type = $connection->real_escape_string($_POST['product_type']);
 
     // Gestion de l'upload de l'image
     $target_dir = "uploads/";
@@ -104,20 +100,41 @@ if (isset($_POST['submit'])) {
 
             // Insérer les informations dans la base de données
             $image_path = $connection->real_escape_string($target_file);
-            $sql = "INSERT INTO tbl_product (description_product, image_path_product, quantity_product) VALUES ('$description', '$image_path', '$quantity')";
+            $sql = "INSERT INTO tbl_product (name_product, essence_product, description_product, image_path_product, quantity_product) 
+                    VALUES ('$name', '$essence', '$description', '$image_path', '$quantity')";
 
             if ($connection->query($sql) === TRUE) {
                 $last_id = $connection->insert_id;
 
                 // Insérer les dimensions
-                $sql_dimension = "INSERT INTO tbl_dimension (width_dimension, width_dimension_1, thickness_dimension) VALUES ('$height', '$width', '$depth')";
+                $sql_dimension = "INSERT INTO tbl_dimension (length_dimension, width_dimension, thickness_dimension) 
+                                  VALUES ('$height', '$width', '$depth')";
                 if ($connection->query($sql_dimension) === TRUE) {
                     $last_dimension_id = $connection->insert_id;
 
-                    // Associer le produit à la dimension
-                    $sql_product_dimension = "INSERT INTO tbl_product_dimension (id_product_product, id_dimension_dimension) VALUES ('$last_id', '$last_dimension_id')";
-                    if ($connection->query($sql_product_dimension) === TRUE) {
-                        header("Location: bardage.php?id=$last_id");
+                    // Associer le produit à la dimension et au type
+                    $sql_product_type = "INSERT INTO tbl_product_type_of_product (id_product_product, id_type_of_product_type_of_product) 
+                                         VALUES ('$last_id', '$product_type')";
+                    $sql_product_dimension = "INSERT INTO tbl_product_dimension (id_product, id_dimension) 
+                                              VALUES ('$last_id', '$last_dimension_id')";
+                    if ($connection->query($sql_product_dimension) === TRUE && $connection->query($sql_product_type) === TRUE) {
+                        // Rediriger vers la page appropriée en fonction du type de produit
+                        $redirect_page = '';
+                        switch ($product_type) {
+                            case '1':
+                                $redirect_page = 'bardage.php';
+                                break;
+                            case '2':
+                                $redirect_page = 'bois_de_charpente.php';
+                                break;
+                            case '3':
+                                $redirect_page = 'bois_de_terrasse.php';
+                                break;
+                            case '4':
+                                $redirect_page = 'cloture.php';
+                                break;
+                        }
+                        header("Location: $redirect_page?id=$last_id");
                         exit();
                     } else {
                         echo "Erreur : " . $sql_product_dimension . "<br>" . $connection->error;
@@ -146,88 +163,23 @@ $connection->close();
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<head>
-    <!-- Basic -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Mobile Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <!-- Site Metas -->
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-
-    <title>Bardage</title>
-
-    <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
-
-    <!-- fonts style -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-    <!--owl slider stylesheet -->
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-    <!-- nice select -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
-        integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
-    <!-- font awesome style -->
-    <link href="/css/font-awesome.min.css" rel="stylesheet" />
-
-    <!-- Custom styles for this template -->
-    <link href="/css/style.css" rel="stylesheet" />
-    <!-- responsive style -->
-    <link href="/css/responsive.css" rel="stylesheet" />
-</head>
-
 <body>
-    <div>
-        <!-- header section strats -->
-        <header class="header_section">
-            <div class="header_top"></div>
-            <div class="header_bottom">
-                <div class="container-fluid">
-                    <nav class="navbar navbar-expand-lg custom_nav-container">
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="/index.php">Acceuil<span class="sr-only"></span></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="service.php">Services</a>
-                                </li>
-                                <!-- <li class="nav-item">
-                  <a class="nav-link" href="about.html">About</a>
-                </li>-->
-                                <!-- <li class="nav-item">
-                  <a class="nav-link" href="portfolio.html">Portfolio</a>
-                </li>-->
-                                <!-- <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contactez-nous
-                </a>
-                </li>-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <i class="fa fa-user" aria-hidden="true"></i>
-                                        <span> Connexion </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </header>
-
-        <body>
     <div class="container">
         <h1 align="center">Ajouter un produit</h1>
-        <form action="upload.php" method="post" enctype="multipart/form-data" class="product-form">
+        <form action="ajout_produit.php" method="post" enctype="multipart/form-data" class="product-form">
             <label for="name">Nom du produit :</label>
             <input type="text" name="name" id="name" required><br><br>
 
             <label for="essence">Essence du produit :</label>
             <input type="text" name="essence" id="essence" required><br><br>
+
+            <label for="product_type">Type de produit :</label>
+            <select name="product_type" id="product_type" required>
+                <option value="1">Bardage</option>
+                <option value="2">Bois de charpente</option>
+                <option value="3">Bois de terrasse</option>
+                <option value="4">Clôture</option>
+            </select><br><br>
 
             <label for="height">Longueur (m) :</label>
             <input type="number" step="0.01" name="height" id="height" required><br><br>
@@ -251,10 +203,9 @@ $connection->close();
         </form>
     </div>
 </body>
-
-
-
 </html>
+
+
 
 <style>
     body {
@@ -270,8 +221,7 @@ $connection->close();
         overflow: hidden;
     }
 
-    h1,
-    h2 {
+    h1, h2 {
         color: #333;
     }
 
@@ -288,7 +238,8 @@ $connection->close();
     }
 
     .product-form input,
-    .product-form textarea {
+    .product-form textarea,
+    .product-form select {
         width: 100%;
         padding: 10px;
         margin-bottom: 10px;
