@@ -61,6 +61,19 @@ if (isset($_POST['submit'])) {
     $quantity = $connection->real_escape_string($_POST['quantity']);
     $product_type = $connection->real_escape_string($_POST['product_type']);
 
+    // Vérifier que le type de produit existe dans la base de données
+    $check_product_type = "SELECT id_type_of_product FROM tbl_type_of_product WHERE id_type_of_product = ?";
+    $stmt_check = $connection->prepare($check_product_type);
+    $stmt_check->bind_param("i", $product_type);
+    $stmt_check->execute();
+    $result_check = $stmt_check->get_result();
+
+    if ($result_check->num_rows === 0) {
+        echo "Type de produit invalide.";
+        exit();
+    }
+    $stmt_check->close();
+
     // Gestion de l'upload de l'image
     $target_dir = "uploads/";
     if (!file_exists($target_dir)) {
@@ -115,7 +128,7 @@ if (isset($_POST['submit'])) {
                     // Associer le produit à la dimension et au type
                     $sql_product_type = "INSERT INTO tbl_product_type_of_product (id_product_product, id_type_of_product_type_of_product) 
                                          VALUES ('$last_id', '$product_type')";
-                    $sql_product_dimension = "INSERT INTO tbl_product_dimension (id_product, id_dimension) 
+                    $sql_product_dimension = "INSERT INTO tbl_product_dimension (id_product_product, id_dimension_dimension) 
                                               VALUES ('$last_id', '$last_dimension_id')";
                     if ($connection->query($sql_product_dimension) === TRUE && $connection->query($sql_product_type) === TRUE) {
                         // Rediriger vers la page appropriée en fonction du type de produit
@@ -133,11 +146,15 @@ if (isset($_POST['submit'])) {
                             case '4':
                                 $redirect_page = 'cloture.php';
                                 break;
+                            default:
+                                echo "Type de produit invalide.";
+                                exit();
                         }
                         header("Location: $redirect_page?id=$last_id");
                         exit();
                     } else {
                         echo "Erreur : " . $sql_product_dimension . "<br>" . $connection->error;
+                        echo "Erreur : " . $sql_product_type . "<br>" . $connection->error;
                     }
                 } else {
                     echo "Erreur : " . $sql_dimension . "<br>" . $connection->error;
@@ -193,18 +210,18 @@ $connection->close();
             <label for="quantity">Quantité :</label>
             <input type="number" name="quantity" id="quantity" required><br><br>
 
-            <label for="description">Description du produit :</label>
+            <label for="description">Description :</label>
             <textarea name="description" id="description" required></textarea><br><br>
 
-            <label for="image">Choisir une image :</label>
-            <input type="file" name="image" id="image" accept="image/*" required><br><br>
+            <label for="image">Image :</label>
+            <input type="file" name="image" id="image" required><br><br>
 
             <input type="submit" name="submit" value="Ajouter le produit">
         </form>
     </div>
 </body>
-</html>
 
+</html>
 
 
 <style>

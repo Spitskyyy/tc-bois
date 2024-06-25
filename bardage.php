@@ -226,11 +226,12 @@ WHERE tbl_user.mail_user = '$email';";
 
             // Afficher les produits ajoutés
             $sql = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension 
-        FROM tbl_product 
-        JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product
-        JOIN tbl_dimension ON tbl_product_type_of_product.id_dimension_dimension = tbl_dimension.id_dimension
-        ORDER BY tbl_product.id_product DESC";
-
+            FROM tbl_product 
+            JOIN tbl_product_dimension ON tbl_product.id_product = tbl_product_dimension.id_product_product
+            JOIN tbl_dimension ON tbl_product_dimension.id_dimension_dimension = tbl_dimension.id_dimension
+            JOIN tbl_product_type ON tbl_product.id_product = tbl_product_type.id_product_product
+            ORDER BY tbl_product.id_product DESC";
+    
             $result = $conn->query($sql);
 
             // Display the results
