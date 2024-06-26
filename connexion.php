@@ -52,7 +52,28 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page de Connexion</title>
-    <style>
+    
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Connexion</h2>
+        <p>Bienvenue! Veuillez vous connecter à votre compte.</p>
+        <?php if (!empty($message)): ?>
+            <div class="alert <?php echo ($message == "Connexion réussie.") ? 'success' : ''; ?>">
+                <?php echo $message; ?>
+            </div>
+        <?php endif;?>
+        <form method="POST" action="connexion.php">
+            <input type="text" name="email" placeholder="Nom d'utilisateur" required>
+            <input type="password" name="password" placeholder="Mot de passe" required>
+            <input type="submit" value="Se connecter">
+        </form>
+        <a href="#">Mot de passe oublié ?</a>
+    </div>
+</body>
+
+<style>
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f8f9fa;
@@ -142,25 +163,4 @@ try {
             background-color: #4CAF50;
         }
     </style>
-</head>
-
-<body>
-    <div class="login-container">
-        <img src="logo.png" alt="Logo" class="logo">
-        <h2>Connexion</h2>
-        <p>Bienvenue! Veuillez vous connecter à votre compte.</p>
-        <?php if (!empty($message)): ?>
-            <div class="alert <?php echo ($message == "Connexion réussie.") ? 'success' : ''; ?>">
-                <?php echo $message; ?>
-            </div>
-        <?php endif;?>
-        <form method="POST" action="connexion.php">
-            <input type="text" name="email" placeholder="Nom d'utilisateur" required>
-            <input type="password" name="password" placeholder="Mot de passe" required>
-            <input type="submit" value="Se connecter">
-        </form>
-        <a href="#">Mot de passe oublié ?</a>
-    </div>
-</body>
-
 </html>
