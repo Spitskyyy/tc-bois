@@ -243,6 +243,10 @@ if ($result->num_rows > 0) {
         echo "<p>Épaisseur: " . htmlspecialchars($row['thickness_dimension'] ?? '0') . " cm</p>";
         echo "<p>Quantité: " . htmlspecialchars($row['quantity_product'] ?? '0') . "</p>";
         echo "<p>Description: " . htmlspecialchars($row['description_product'] ?? 'Description non disponible') . "</p>";
+        ?>
+        <a href="modification.php">Modification</a>
+        <a href="index.php">Suppresion</a>
+        <?php
         echo "</div>";
     }
     echo "</div>";
@@ -255,6 +259,10 @@ $conn->close();
           </div>
         </div>
     </section>
+
+
+
+
 
 
 
