@@ -26,7 +26,7 @@ $connection = mysqli_connect($servername, $username, $password, $dbname);
 
 // Vérifier la connexion
 if (!$connection) {
-  die("La connexion a échoué : " . mysqli_connect_error());
+    die("La connexion a échoué : " . mysqli_connect_error());
 }
 
 // Requête SQL pour obtenir les infos sur l'utilisateur
@@ -35,21 +35,19 @@ $result = mysqli_query($connection, $query);
 
 // Vérifier si la requête a abouti
 if (!$result) {
-  die("Erreur dans la requête : " . mysqli_error($connection));
+    die("Erreur dans la requête : " . mysqli_error($connection));
 }
 
 // Stockage des données
 $row = mysqli_fetch_assoc($result);
 if ($row) {
-  $user_firstname = $row['prenom_user'];
+    $user_firstname = $row['prenom_user'];
 } else {
-  $user_firstname = "Aucun prénom trouvé.";
+    $user_firstname = "Aucun prénom trouvé.";
 }
 
-
-
 // Requête SQL pour obtenir les infos sur le rôle
-$query = "SELECT tbl_role.name_r FROM tbl_role 
+$query = "SELECT tbl_role.name_r FROM tbl_role
           JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
           JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
           WHERE tbl_user.mail_user = '$email'"; // Faire une commande préparer
@@ -57,17 +55,16 @@ $result = mysqli_query($connection, $query);
 
 // Vérifier si la requête a abouti
 if (!$result) {
-  die("Erreur dans la requête : " . mysqli_error($connection));
+    die("Erreur dans la requête : " . mysqli_error($connection));
 }
 
 // Stockage des données
 $row = mysqli_fetch_assoc($result);
 if ($row) {
-  $user_role = $row['name_r'];
+    $user_role = $row['name_r'];
 } else {
-  $user_role = "Aucun rôle.";
+    $user_role = "Aucun rôle.";
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -166,38 +163,38 @@ if ($row) {
 
   <?php
 
-  // Récupération de l'email depuis la session
-  $email = $_SESSION['email'];
-  $connection = new mysqli($servername, $username, $password, $dbname);
+// Récupération de l'email depuis la session
+$email = $_SESSION['email'];
+$connection = new mysqli($servername, $username, $password, $dbname);
 
-  if ($connection->connect_error) {
+if ($connection->connect_error) {
     die("Échec de la connexion : " . $connection->connect_error);
-  }
+}
 
-  // Vérifier le rôle de l'utilisateur
-  $email = $_SESSION['email'];
+// Vérifier le rôle de l'utilisateur
+$email = $_SESSION['email'];
 
-  $query = "SELECT tbl_role.name_r FROM tbl_role 
+$query = "SELECT tbl_role.name_r FROM tbl_role
 JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
 JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
 WHERE tbl_user.mail_user = '$email';";
 
-  $result = mysqli_query($connection, $query);
-  if (!$result) {
+$result = mysqli_query($connection, $query);
+if (!$result) {
     die('Erreur : ' . mysqli_error($connection));
-  }
+}
 
-  $has_permission = false;
-  if ($result->num_rows > 0) {
+$has_permission = false;
+if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-      if ($row['name_r'] == 'PRO') {
-        $has_permission = true;
-        break;
-      }
+        if ($row['name_r'] == 'PRO') {
+            $has_permission = true;
+            break;
+        }
     }
-  }
+}
 
-  ?>
+?>
   <!DOCTYPE html>
   <html lang="en">
 
@@ -219,43 +216,42 @@ WHERE tbl_user.mail_user = '$email';";
               <div class="product-grid">
                 <a href="ajout_produit.php" class="add-product-button">Ajouter des produits</a>
               </div>
-            <?php endif; ?>
+            <?php endif;?>
             <?php
-            // Connexion à la base de données
-            $conn = new mysqli($servername, $username, $password, $dbname);
+// Connexion à la base de données
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-            // Afficher les produits ajoutés
-            $sql = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension 
-            FROM tbl_product 
+// Afficher les produits ajoutés
+$sql = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension
+            FROM tbl_product
             JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product
             JOIN tbl_dimension ON tbl_product_type_of_product.id_dimension_dimension = tbl_dimension.id_dimension
             ORDER BY tbl_product.id_product DESC";
-    
-    
-            $result = $conn->query($sql);
 
-            // Display the results
-            if ($result->num_rows > 0) {
-              echo "<div class='product-grid'>";
-              while ($row = $result->fetch_assoc()) {
-                echo "<div class='product-card'>";
-                echo "<img src='" . htmlspecialchars($row['image_path_product'] ?? '') . "' alt='Product Image'>";
-                echo "<h3>" . htmlspecialchars($row['name_product'] ?? 'Nom non disponible') . "</h3>";
-                echo "<p>Essence: " . htmlspecialchars($row['essence_product'] ?? 'Essence non disponible') . "</p>";
-                echo "<p>Longueur: " . htmlspecialchars($row['length_dimension'] ?? '0') . " cm</p>";
-                echo "<p>Largeur: " . htmlspecialchars($row['width_dimension'] ?? '0') . " cm</p>";
-                echo "<p>Épaisseur: " . htmlspecialchars($row['thickness_dimension'] ?? '0') . " cm</p>";
-                echo "<p>Quantité: " . htmlspecialchars($row['quantity_product'] ?? '0') . "</p>";
-                echo "<p>Description: " . htmlspecialchars($row['description_product'] ?? 'Description non disponible') . "</p>";
-                echo "</div>";
-              }
-              echo "</div>";
-            } else {
-              echo "Aucun produit trouvé.";
-            }
+$result = $conn->query($sql);
 
-            $conn->close();
-            ?>
+// Display the results
+if ($result->num_rows > 0) {
+    echo "<div class='product-grid'>";
+    while ($row = $result->fetch_assoc()) {
+        echo "<div class='product-card'>";
+        echo "<img src='" . htmlspecialchars($row['image_path_product'] ?? '') . "' alt='Product Image'>";
+        echo "<h3>" . htmlspecialchars($row['name_product'] ?? 'Nom non disponible') . "</h3>";
+        echo "<p>Essence: " . htmlspecialchars($row['essence_product'] ?? 'Essence non disponible') . "</p>";
+        echo "<p>Longueur: " . htmlspecialchars($row['length_dimension'] ?? '0') . " cm</p>";
+        echo "<p>Largeur: " . htmlspecialchars($row['width_dimension'] ?? '0') . " cm</p>";
+        echo "<p>Épaisseur: " . htmlspecialchars($row['thickness_dimension'] ?? '0') . " cm</p>";
+        echo "<p>Quantité: " . htmlspecialchars($row['quantity_product'] ?? '0') . "</p>";
+        echo "<p>Description: " . htmlspecialchars($row['description_product'] ?? 'Description non disponible') . "</p>";
+        echo "</div>";
+    }
+    echo "</div>";
+} else {
+    echo "Aucun produit trouvé.";
+}
+
+$conn->close();
+?>
           </div>
         </div>
     </section>
@@ -264,7 +260,7 @@ WHERE tbl_user.mail_user = '$email';";
 
     <!-- end service section -->
 
-    <!-- contact section 
+    <!-- contact section
   <section class="contact_section">
     <div class="container">
       <div class="heading_container heading_center">

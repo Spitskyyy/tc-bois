@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start(); // Démarrer une session
 
 require 'vendor/autoload.php';
 
@@ -46,10 +46,8 @@ if ($row) {
   $user_firstname = "Aucun prénom trouvé.";
 }
 
-
-
 // Requête SQL pour obtenir les infos sur le rôle
-$query = "SELECT tbl_role.name_r FROM tbl_role 
+$query = "SELECT tbl_role.name_r FROM tbl_role
 JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
 JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
 WHERE tbl_user.mail_user = '$email';";
@@ -72,11 +70,8 @@ if ($row) {
   $user_role = "Aucun rôle.";
 }
 
-
 // Libérer la mémoire des résultats
 mysqli_free_result($result);
-
-
 
 ?>
 <!DOCTYPE html>
@@ -150,17 +145,7 @@ mysqli_free_result($result);
                   <a class="nav-link" href="pages/contact.html">Contactez-nous
                   </a>
                 </li>
-                <?php
-                if ($user_role == 'PRO') { ?>
-                  <li class="nav-item">
-                    <a class="nav-link" href="connexion.php">
-                      <i class="fa fa-user" aria-hidden="true"></i>
-                      <span> Connexion </span>
-                    </a>
-                  </li>
-                  <?php
-                }
-                ?>
+
               </ul>
             </div>
           </nav>
@@ -379,60 +364,56 @@ mysqli_free_result($result);
   <!-- end service section -->
 
   <!-- contact section -->
-  <section class="contact_section">
+  <section class="contact-form-section">
     <div class="container">
-      <div class="heading_container heading_center">
-        <h2>Prenons<span> Contact</span></h2>
-      </div>
-      <div class="row">
-        <div class="col-md-6 px-0">
-          <div class="form_container">
-            <form action="">
-              <div class="form-row">
-                <div class="form-group col">
-                  <input type="text" class="form-control" placeholder="Votre nom" />
+        <div class="heading_container heading_center">
+            <h2>Prenons<span> Contact</span></h2>
+        </div>
+        <div class="form-container">
+            <form action="send_email.php" method="post">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <input type="text" name="name" class="form-control" placeholder="Votre nom" required />
+                    </div>
                 </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-lg-6">
-                  <input type="text" class="form-control" placeholder="Numéro de telephone" />
+                <div class="form-row">
+                    <div class="form-group col-lg-6">
+                        <input type="text" name="phone" class="form-control" placeholder="Numéro de telephone" required />
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <select name="service" id="" class="form-control wide" required>
+                            <option value="">Quelle prestation ?</option>
+                            <option value="Service 1">Service 1</option>
+                            <option value="Service 2">Service 2</option>
+                            <option value="Service 3">Service 3</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group col-lg-6">
-                  <select name="" id="" class="form-control wide">
-                    <option value="">Quelle prestation ?</option>
-                    <option value="">Service 1</option>
-                    <option value="">Service 2</option>
-                    <option value="">Service 3</option>
-                  </select>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <input type="email" name="email" class="form-control" placeholder="Email" required />
+                    </div>
                 </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col">
-                  <input type="email" class="form-control" placeholder="Email" />
+                <div class="form-row">
+                    <div class="form-group col">
+                        <input type="text" name="message" class="message-box form-control" placeholder="Message" required />
+                    </div>
                 </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col">
-                  <input type="text" class="message-box form-control" placeholder="Message" />
+                <div class="btn_box">
+                    <button type="submit">Envoyer</button>
                 </div>
-              </div>
-              <div class="btn_box">
-                <button>Envoyer</button>
-              </div>
+                <?php
+                if (isset($_SESSION['mail_status'])) {
+                    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
+                    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
+                }
+                ?>
             </form>
-          </div>
         </div>
-        <div class="col-md-6 px-0">
-          <div class="map_container">
-            <div class="map">
-              <div id="googleMap"></div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </section>
-  <!-- end contact section -->
+</section>
+
+
 
   <!-- client section -->
   <!--<section class="client_section layout_padding">
@@ -555,6 +536,9 @@ mysqli_free_result($result);
                   <li class="">
                     <a class="" href="contact.html"> Contact </a>
                   </li>
+                  <li class="">
+                    <a class="" href="connexion.php">Connexion </a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -570,7 +554,7 @@ mysqli_free_result($result);
             <div class="col-md-3 mx-auto">
               <h5>social media</h5>
               <div class="social_box">
-                <a href="#">
+                <a href="https://www.facebook.com/profile.php?id=100089498872438">
                   <i class="fa fa-facebook" aria-hidden="true"></i>
                 </a>
                 <!--
@@ -662,10 +646,6 @@ mysqli_free_result($result);
     integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
   <!-- custom js -->
   <script src="js/custom.js"></script>
-  <!-- Google Map -->
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
-  <!-- End Google Map -->
 </body>
 
 
@@ -739,6 +719,92 @@ mysqli_free_result($result);
   .add-product a:hover {
     background-color: #218838;
   }
+
+  .contact-form-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: vh; /* Ajustez la hauteur selon vos besoins */
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+.contact-form-section .container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    width: 100%;
+}
+
+.contact-form-section .heading_container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.contact-form-section .heading_container h2 {
+    font-size: 2em;
+    color: #333;
+}
+
+.contact-form-section .heading_container h2 span {
+    color: #4CAF50; /* Couleur verte ou autre couleur que vous préférez */
+}
+
+.contact-form-section .form-container {
+    width: 100%;
+}
+
+.contact-form-section .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.contact-form-section .form-group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.contact-form-section .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contact-form-section .message-box {
+    height: 100px;
+}
+
+.contact-form-section .btn_box {
+    text-align: center;
+}
+
+.contact-form-section .btn_box button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contact-form-section .btn_box button:hover {
+    background-color: #45a049;
+}
+
+.contact-form-section .center-message {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
 </style>
 
 </html>

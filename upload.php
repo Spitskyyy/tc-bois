@@ -23,7 +23,7 @@ if ($connection->connect_error) {
 // Vérifier si l'utilisateur a la permission d'ajouter un produit
 $email = $_SESSION['email'];
 
-$query = "SELECT tbl_role.name_r FROM tbl_role 
+$query = "SELECT tbl_role.name_r FROM tbl_role
           JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
           JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
           WHERE tbl_user.mail_user = ?";
@@ -58,7 +58,7 @@ if (isset($_POST['submit'])) {
     $depth = $connection->real_escape_string($_POST['depth']);
     $quantity = $connection->real_escape_string($_POST['quantity']);
     $target_dir = "uploads/";
-    
+
     if (!file_exists($target_dir)) {
         mkdir($target_dir, 0777, true);
     }
@@ -89,20 +89,20 @@ if (isset($_POST['submit'])) {
     } else {
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
             echo "Le fichier " . htmlspecialchars(basename($_FILES["image"]["name"])) . " a été téléchargé.";
-            
+
             $image_path = $connection->real_escape_string($target_file);
-            $sql = "INSERT INTO tbl_product (name_product, essence_product, quantity_product, description_product, image_path_product) 
+            $sql = "INSERT INTO tbl_product (name_product, essence_product, quantity_product, description_product, image_path_product)
                     VALUES ('$name', '$essence', '$quantity', '$description', '$image_path')";
 
-            if ($connection->query($sql) === TRUE) {
+            if ($connection->query($sql) === true) {
                 $last_product_id = $connection->insert_id;
-                $sql_dimension = "INSERT INTO tbl_dimension (length_dimension, width_dimension, thickness_dimension) 
+                $sql_dimension = "INSERT INTO tbl_dimension (length_dimension, width_dimension, thickness_dimension)
                                   VALUES ('$length', '$width', '$depth')";
-                if ($connection->query($sql_dimension) === TRUE) {
+                if ($connection->query($sql_dimension) === true) {
                     $last_dimension_id = $connection->insert_id;
                     $sql_product_dimension = "INSERT INTO tbl_product_type_of_product (id_dimension_dimension, id_product_product)
                                               VALUES ('$last_dimension_id', '$last_product_id')";
-                    if ($connection->query($sql_product_dimension) === TRUE) {
+                    if ($connection->query($sql_product_dimension) === true) {
                         header("Location: bardage.php");
                         exit();
                     } else {
@@ -121,4 +121,3 @@ if (isset($_POST['submit'])) {
 }
 
 $connection->close();
-?>

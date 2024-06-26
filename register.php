@@ -22,7 +22,7 @@ if ($conn->connect_error) {
 // Vérifier le rôle de l'utilisateur
 $email = $_SESSION['email'];
 
-$query = "SELECT tbl_role.name_r FROM tbl_role 
+$query = "SELECT tbl_role.name_r FROM tbl_role
           JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
           JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
           WHERE tbl_user.mail_user = ?";
@@ -36,26 +36,21 @@ $result = $stmt->get_result();
 $has_permission = false;
 
 if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        if ($row['name_r'] == 'PRO') {
-            $has_permission = true;
-            break;
-        }
-    }
+while ($row = $result->fetch_assoc()) {
+if ($row['name_r'] == 'PRO') {
+$has_permission = true;
+break;
+}
+}
 }
 
 if (!$has_permission) {
-    echo "Vous n'avez pas la permission d'ajouter un produit.";
-    exit();
+echo "Vous n'avez pas la permission d'ajouter un produit.";
+exit();
 }
-*/
-
+ */
 
 //TODO Compter le nb d'utilisateurs
-
-
-
-
 
 // Connexion à la base de données
 try {
@@ -149,11 +144,11 @@ try {
                                             </div>
                                         </div>
 
-                                        <?php if (!empty($errorMessage)) { ?>
+                                        <?php if (!empty($errorMessage)) {?>
                                             <div class="alert alert-danger" role="alert">
                                                 <?php echo $errorMessage; ?>
                                             </div>
-                                        <?php } ?>
+                                        <?php }?>
 
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Valider le compte

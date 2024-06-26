@@ -30,7 +30,7 @@ if (!$connection) {
 }
 
 // Requête SQL pour obtenir le rôle de l'utilisateur
-$query = "SELECT tbl_role.name_r FROM tbl_role 
+$query = "SELECT tbl_role.name_r FROM tbl_role
           JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
           JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
           WHERE tbl_user.mail_user = ?";
@@ -106,17 +106,17 @@ if (isset($_POST['submit'])) {
             $image_path = $connection->real_escape_string($target_file);
             $sql = "INSERT INTO tbl_product (description_product, image_path_product, quantity_product) VALUES ('$description', '$image_path', '$quantity')";
 
-            if ($connection->query($sql) === TRUE) {
+            if ($connection->query($sql) === true) {
                 $last_id = $connection->insert_id;
 
                 // Insérer les dimensions
                 $sql_dimension = "INSERT INTO tbl_dimension (width_dimension, width_dimension_1, thickness_dimension) VALUES ('$height', '$width', '$depth')";
-                if ($connection->query($sql_dimension) === TRUE) {
+                if ($connection->query($sql_dimension) === true) {
                     $last_dimension_id = $connection->insert_id;
 
                     // Associer le produit à la dimension
                     $sql_product_dimension = "INSERT INTO tbl_product_dimension (id_product_product, id_dimension_dimension) VALUES ('$last_id', '$last_dimension_id')";
-                    if ($connection->query($sql_product_dimension) === TRUE) {
+                    if ($connection->query($sql_product_dimension) === true) {
                         header("Location: bardage.php?id=$last_id");
                         exit();
                     } else {

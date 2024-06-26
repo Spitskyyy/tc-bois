@@ -31,6 +31,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 $has_permission = false;
+
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         if ($row['name_r'] == 'PRO') {
@@ -41,7 +42,7 @@ if ($result->num_rows > 0) {
 }
 
 if (!$has_permission) {
-    echo "Vous n'avez pas la permission d'ajouter une activité.";
+    header("Location: index.php");
     exit();
 }
 

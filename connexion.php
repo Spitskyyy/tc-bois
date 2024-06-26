@@ -153,7 +153,7 @@ try {
             <div class="alert <?php echo ($message == "Connexion réussie.") ? 'success' : ''; ?>">
                 <?php echo $message; ?>
             </div>
-        <?php endif; ?>
+        <?php endif;?>
         <form method="POST" action="connexion.php">
             <input type="text" name="email" placeholder="Nom d'utilisateur" required>
             <input type="password" name="password" placeholder="Mot de passe" required>
