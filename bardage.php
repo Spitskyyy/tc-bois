@@ -232,27 +232,29 @@ $result = $conn->query($sql);
 
 // Display the results
 if ($result->num_rows > 0) {
-    echo "<div class='product-grid'>";
-    while ($row = $result->fetch_assoc()) {
-        echo "<div class='product-card'>";
-        echo "<img src='" . htmlspecialchars($row['image_path_product'] ?? '') . "' alt='Product Image'>";
-        echo "<h3>" . htmlspecialchars($row['name_product'] ?? 'Nom non disponible') . "</h3>";
-        echo "<p>Essence: " . htmlspecialchars($row['essence_product'] ?? 'Essence non disponible') . "</p>";
-        echo "<p>Longueur: " . htmlspecialchars($row['length_dimension'] ?? '0') . " cm</p>";
-        echo "<p>Largeur: " . htmlspecialchars($row['width_dimension'] ?? '0') . " cm</p>";
-        echo "<p>Épaisseur: " . htmlspecialchars($row['thickness_dimension'] ?? '0') . " cm</p>";
-        echo "<p>Quantité: " . htmlspecialchars($row['quantity_product'] ?? '0') . "</p>";
-        echo "<p>Description: " . htmlspecialchars($row['description_product'] ?? 'Description non disponible') . "</p>";
-        ?>
-        <a href="modification.php">Modification</a>
-        <a href="index.php">Suppresion</a>
-        <?php
-        echo "</div>";
-    }
-    echo "</div>";
+  echo "<div class='product-grid'>";
+  while ($row = $result->fetch_assoc()) {
+      echo "<div class='product-card'>";
+      echo "<img src='" . htmlspecialchars($row['image_path_product'] ?? '') . "' alt='Product Image'>";
+      echo "<h3>" . htmlspecialchars($row['name_product'] ?? 'Nom non disponible') . "</h3>";
+      echo "<p>ID du produit: " . htmlspecialchars($row['id_product'] ?? 'ID non disponible') . "</p>";
+      echo "<p>Essence: " . htmlspecialchars($row['essence_product'] ?? 'Essence non disponible') . "</p>";
+      echo "<p>Longueur: " . htmlspecialchars($row['length_dimension'] ?? '0') . " cm</p>";
+      echo "<p>Largeur: " . htmlspecialchars($row['width_dimension'] ?? '0') . " cm</p>";
+      echo "<p>Épaisseur: " . htmlspecialchars($row['thickness_dimension'] ?? '0') . " cm</p>";
+      echo "<p>Quantité: " . htmlspecialchars($row['quantity_product'] ?? '0') . "</p>";
+      echo "<p>Description: " . htmlspecialchars($row['description_product'] ?? 'Description non disponible') . "</p>";
+      ?>
+      <a href="modification.php?id_product=<?php echo htmlspecialchars($row['id_product']); ?>">Modification</a>
+      <a href="index.php?id_product=<?php echo htmlspecialchars($row['id_product']); ?>">Suppression</a>
+      <?php
+      echo "</div>";
+  }
+  echo "</div>";
 } else {
-    echo "Aucun produit trouvé.";
+  echo "Aucun produit trouvé.";
 }
+
 
 $conn->close();
 ?>
