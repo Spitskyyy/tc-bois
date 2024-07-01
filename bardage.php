@@ -213,7 +213,7 @@ if ($result->num_rows > 0) {
         <div class="row">
           <div class="product-grid">
             <?php if ($has_permission): ?>
-              <div class="product-grid">
+              <div class="">
                 <a href="ajout_produit.php" class="add-product-button">Ajouter des produits</a>
               </div>
             <?php endif;?>
@@ -221,12 +221,15 @@ if ($result->num_rows > 0) {
 // Connexion à la base de données
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Afficher les produits ajoutés
-$sql = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension
-            FROM tbl_product
-            JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product
-            JOIN tbl_dimension ON tbl_product_type_of_product.id_dimension_dimension = tbl_dimension.id_dimension
-            ORDER BY tbl_product.id_product DESC";
+// Afficher tous les produits 
+$sql = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, 
+			tbl_dimension.thickness_dimension
+FROM tbl_product
+JOIN tbl_product_dimension
+     ON tbl_product_dimension.id_product_product = tbl_product.id_product
+JOIN tbl_dimension 
+     ON tbl_product_dimension.id_dimension_dimension = tbl_dimension.id_dimension 
+ORDER BY tbl_product.id_product DESC";
 
 $result = $conn->query($sql);
 
