@@ -28,8 +28,8 @@ $id_product = $_GET['id_product'];
 // Récupérer les données actuelles du produit
 $query = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension 
           FROM tbl_product 
-          JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product
-          JOIN tbl_dimension ON tbl_product_type_of_product.id_dimension_dimension = tbl_dimension.id_dimension
+          JOIN tbl_product_dimension ON tbl_product.id_product = tbl_product_dimension.id_product_product
+          JOIN tbl_dimension ON tbl_dimension.id_dimension = tbl_product_dimension.id_dimension_dimension
           WHERE tbl_product.id_product = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $id_product);
@@ -60,9 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Mettre à jour les dimensions
     $update_dimension_query = "UPDATE tbl_dimension 
-                               JOIN tbl_product_type_of_product ON tbl_dimension.id_dimension = tbl_product_type_of_product.id_dimension_dimension
+                               JOIN tbl_product_dimension ON tbl_dimension.id_dimension = tbl_product_dimension.id_dimension_dimension
                                SET length_dimension = ?, width_dimension = ?, thickness_dimension = ?
-                               WHERE tbl_product_type_of_product.id_product_product = ?";
+                               WHERE tbl_product_dimension.id_product_product = ?";
     $stmt_dimension = $conn->prepare($update_dimension_query);
     $stmt_dimension->bind_param("dddi", $length_dimension, $width_dimension, $thickness_dimension, $id_product);
 
@@ -77,7 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -117,10 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="submit" value="Mettre à jour">
     </form>
 </body>
-</html>
-
-
-
 
 <style>
     body {
