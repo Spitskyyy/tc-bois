@@ -100,17 +100,21 @@ if (isset($_POST['submit'])) {
                 $sql_dimension = "INSERT INTO tbl_dimension (length_dimension, width_dimension, thickness_dimension)
                                   VALUES ('$length', '$width', '$depth')";
 
-
+                if ($connection->query($sql_product_dimension) === true) {
+                    $sql_product_dimension = "INSERT INTO tbl_product_dimension (id_dimension_dimension, id_product_product)
+                 VALUES (1, '$last_dimension_id')";
+                }
 
                 if ($connection->query($sql_dimension) === true) {
                     $last_dimension_id = $connection->insert_id;
-                    $sql_product_dimension = "INSERT INTO tbl_product_type_of_product (id_type_of_product_type_of_product, id_product_product)
+
+                    $sql_product_type_of_product = "INSERT INTO tbl_product_type_of_product (id_type_of_product_type_of_product, id_product_product)
                                               VALUES (1, '$last_product_id')";
-                    if ($connection->query($sql_product_dimension) === true) {
+                    if ($connection->query($sql_product_type_of_product) === true) {
                         header("Location: bardage.php");
                         exit();
                     } else {
-                        echo "Erreur : " . $sql_product_dimension . "<br>" . $connection->error;
+                        echo "Erreur : " . $sql_product_type_of_product . "<br>" . $connection->error;
                     }
                 } else {
                     echo "Erreur : " . $sql_dimension . "<br>" . $connection->error;
