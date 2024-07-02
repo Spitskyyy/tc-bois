@@ -240,7 +240,6 @@ if ($result->num_rows > 0) {
       echo "<div class='product-card'>";
       echo "<img src='" . htmlspecialchars($row['image_path_product'] ?? '') . "' alt='Product Image'>";
       echo "<h3>" . htmlspecialchars($row['name_product'] ?? 'Nom non disponible') . "</h3>";
-      echo "<p>ID du produit: " . htmlspecialchars($row['id_product'] ?? 'ID non disponible') . "</p>";
       echo "<p>Essence: " . htmlspecialchars($row['essence_product'] ?? 'Essence non disponible') . "</p>";
       echo "<p>Longueur: " . htmlspecialchars($row['length_dimension'] ?? '0') . " cm</p>";
       echo "<p>Largeur: " . htmlspecialchars($row['width_dimension'] ?? '0') . " cm</p>";

@@ -53,10 +53,11 @@ if (isset($_POST['submit'])) {
     $name = $connection->real_escape_string($_POST['name']);
     $essence = $connection->real_escape_string($_POST['essence']);
     $description = $connection->real_escape_string($_POST['description']);
-    $length = $connection->real_escape_string($_POST['height']); // Correction du nom du champ
+    $length = $connection->real_escape_string($_POST['height']);
     $width = $connection->real_escape_string($_POST['width']);
     $depth = $connection->real_escape_string($_POST['depth']);
     $quantity = $connection->real_escape_string($_POST['quantity']);
+    $type_of_product = $connection->real_escape_string($_POST['type_of_product']);
     $target_dir = "uploads/";
 
     if (!file_exists($target_dir)) {
@@ -91,8 +92,7 @@ if (isset($_POST['submit'])) {
             echo "Le fichier " . htmlspecialchars(basename($_FILES["image"]["name"])) . " a été téléchargé.";
 
             $image_path = $connection->real_escape_string($target_file);
-            $sql = "INSERT INTO tbl_product (name_product, essence_product, quantity_product, 
-                    description_product, image_path_product)
+            $sql = "INSERT INTO tbl_product (name_product, essence_product, quantity_product, description_product, image_path_product)
                     VALUES ('$name', '$essence', '$quantity', '$description', '$image_path')";
 
             if ($connection->query($sql) === true) {
@@ -103,19 +103,17 @@ if (isset($_POST['submit'])) {
                 if ($connection->query($sql_dimension) === true) {
                     $last_dimension_id = $connection->insert_id;
 
-                    $sql_product_dimension = "INSERT INTO tbl_product_dimension (id_dimension_dimension, id_product_product)
-                                              VALUES ('$last_dimension_id', '$last_product_id')";
-                    if ($connection->query($sql_product_dimension) === true) {
-                        $sql_product_type_of_product = "INSERT INTO tbl_product_type_of_product (id_type_of_product_type_of_product, id_product_product)
-                                              VALUES (1, '$last_product_id')";
-                        if ($connection->query($sql_product_type_of_product) === true) {
-                            header("Location: bardage.php");
-                            exit();
-                        } else {
-                            echo "Erreur : " . $sql_product_type_of_product . "<br>" . $connection->error;
-                        }
+                    $sql_product_dimension = "INSERT INTO tbl_product_dimension (id_product_product, id_dimension_dimension)
+                                              VALUES ('$last_product_id', '$last_dimension_id')";
+                    $connection->query($sql_product_dimension);
+
+                    $sql_product_type_of_product = "INSERT INTO tbl_product_type_of_product (id_type_of_product_type_of_product, id_product_product)
+                                                    VALUES ((SELECT id_type_of_product FROM tbl_type_of_product WHERE libelle_type_of_product = '$type_of_product'), '$last_product_id')";
+                    if ($connection->query($sql_product_type_of_product) === true) {
+                        header("Location: " . $type_of_product . ".php");
+                        exit();
                     } else {
-                        echo "Erreur : " . $sql_product_dimension . "<br>" . $connection->error;
+                        echo "Erreur : " . $sql_product_type_of_product . "<br>" . $connection->error;
                     }
                 } else {
                     echo "Erreur : " . $sql_dimension . "<br>" . $connection->error;
