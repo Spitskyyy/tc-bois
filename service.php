@@ -134,10 +134,9 @@ if (mysqli_connect_error()) {
         </div>
         <div class="row">
           <div class="col-sm-6 col-md-4">
-            <a href="pages/bois_de_terrasse.html">
+            <a href="terrasse.php">
               <div class="box">
                 <div class="img-box">
-                  <img src="/images/s1.png" alt="Bois de terrasse" />
                 </div>
                 <div class="detail-box">
                   <h5>Bois de terrasse</h5>
@@ -151,7 +150,6 @@ if (mysqli_connect_error()) {
             <a href="bardage.php">
               <div class="box">
                 <div class="img-box">
-                  <img src="/images/s2.png" alt="Bois de terrasse" />
                 </div>
                 <div class="detail-box">
                   <h5>Bardage</h5>
@@ -162,10 +160,9 @@ if (mysqli_connect_error()) {
           </div>
 
           <div class="col-sm-6 col-md-4">
-            <a href="pages/cloture.html">
+            <a href="cloture.php">
               <div class="box">
                 <div class="img-box">
-                  <img src="/images/s3.png" alt="Bois de terrasse" />
                 </div>
                 <div class="detail-box">
                   <h5>Cloture</h5>
@@ -176,10 +173,9 @@ if (mysqli_connect_error()) {
           </div>
 
           <div class="col-sm-6 col-md-4">
-            <a href="pages/bois_de_charpente.html">
+            <a href="charpente.php">
               <div class="box">
                 <div class="img-box">
-                  <img src="/images/s4.png" alt="Bois de terrasse" />
                 </div>
                 <div class="detail-box">
                   <h5>Bois de charpente</h5>
@@ -192,7 +188,6 @@ if (mysqli_connect_error()) {
           <div class="col-sm-6 col-md-4">
             <div class="box">
               <div class="img-box">
-                <img src="/images/s5.png" alt="" />
               </div>
               <div class="detail-box">
                 <h5>Vente Particuliers</h5>
@@ -204,7 +199,6 @@ if (mysqli_connect_error()) {
           <div class="col-sm-6 col-md-4">
             <div class="box">
               <div class="img-box">
-                <img src="/images/s6.png" alt="" />
               </div>
               <div class="detail-box">
                 <h5>Ventes Professionels</h5>

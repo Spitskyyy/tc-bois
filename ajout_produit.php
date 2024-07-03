@@ -220,46 +220,46 @@ $connection->close();
         </header>
 
         <body>
-        <div class="container">
-    <h1 align="center">Ajouter un produit</h1>
-    <form action="upload.php" method="post" enctype="multipart/form-data" class="product-form">
-        <label for="name">Nom du produit :</label>
-        <input type="text" name="name" id="name" required><br><br>
+            <div class="container">
+                <h1 align="center">Ajouter un produit</h1>
+                <form action="upload.php" method="post" enctype="multipart/form-data" class="product-form">
+                    <label for="name">Nom du produit :</label>
+                    <input type="text" name="name" id="name" required><br><br>
 
-        <label for="essence">Essence du produit :</label>
-        <input type="text" name="essence" id="essence" required><br><br>
+                    <label for="essence">Essence du produit :</label>
+                    <input type="text" name="essence" id="essence" required><br><br>
 
-        <label for="type_of_product">Type de produit :</label>
-        <select name="type_of_product" id="type_of_product" required>
-            <option value="bardage">Bardage</option>
-            <option value="bois_de_cloture">Bois de clôture</option>
-            <option value="bois_de_charpente">Bois de charpente</option>
-            <option value="cloture">Clôture</option>
-        </select><br><br>
+                    <label for="type_of_product">Type de produit :</label>
+                    <select name="type_of_product" id="type_of_product" required>
+                        <option value="bardage">Bardage</option>
+                        <option value="terrasse">Bois de terrasse</option>
+                        <option value="charpente">Bois de charpente</option>
+                        <option value="cloture">Clôture</option>
+                    </select><br><br>
 
-        <label for="height">Longueur (m) :</label>
-        <input type="number" step="0.01" name="height" id="height" required><br><br>
+                    <label for="height">Longueur (m) :</label>
+                    <input type="number" step="0.01" name="height" id="height" required><br><br>
 
-        <label for="width">Largeur (cm) :</label>
-        <input type="number" step="0.01" name="width" id="width" required><br><br>
+                    <label for="width">Largeur (cm) :</label>
+                    <input type="number" step="0.01" name="width" id="width" required><br><br>
 
-        <label for="depth">Épaisseur (cm) :</label>
-        <input type="number" step="0.01" name="depth" id="depth" required><br><br>
+                    <label for="depth">Épaisseur (cm) :</label>
+                    <input type="number" step="0.01" name="depth" id="depth" required><br><br>
 
-        <label for="quantity">Quantité :</label>
-        <input type="number" name="quantity" id="quantity" required><br><br>
+                    <label for="quantity">Quantité :</label>
+                    <input type="number" name="quantity" id="quantity" required><br><br>
 
-        <label for="description">Description du produit :</label>
-        <textarea name="description" id="description" required></textarea><br><br>
+                    <label for="description">Description du produit :</label>
+                    <textarea name="description" id="description" required></textarea><br><br>
 
-        <label for="image">Choisir une image :</label>
-        <input type="file" name="image" id="image" accept="image/*" required><br><br>
+                    <label for="image">Choisir une image :</label>
+                    <input type="file" name="image" id="image" accept="image/*" required><br><br>
 
-        <input type="submit" name="submit" value="Ajouter le produit">
-    </form>
-</div>
+                    <input type="submit" name="submit" value="Ajouter le produit">
+                </form>
+            </div>
 
-</body>
+        </body>
 
 
 
