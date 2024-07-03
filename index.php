@@ -142,7 +142,7 @@ mysqli_free_result($result);
                   <a class="nav-link" href="portfolio.html">Portfolio</a>
                 </li>-->
                 <li class="nav-item">
-                  <a class="nav-link" href="pages/contact.html">Contactez-nous
+                  <a class="nav-link" href="contact.php">Contactez-nous
                   </a>
                 </li>
 
@@ -429,13 +429,13 @@ mysqli_free_result($result);
                 <h5>Lien utile</h5>
                 <ul>
                   <li class="active">
-                    <a class="" href="/index.html">Acceuil <span class="sr-only">(current)</span></a>
+                    <a class="" href="/index.php">Acceuil <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="">
-                    <a class="" href="service.html">Services </a>
+                    <a class="" href="service.php">Services </a>
                   </li>
                   <li class="">
-                    <a class="" href="contact.html"> Contact </a>
+                    <a class="" href="contact.php"> Contact </a>
                   </li>
                   <li class="">
                     <a class="" href="connexion.php">Connexion </a>
@@ -453,7 +453,7 @@ mysqli_free_result($result);
             </div>
             -->
             <div class="col-md-3 mx-auto">
-              <h5>social media</h5>
+              <h5>Réseau sociaux</h5>
               <div class="social_box">
                 <a href="https://www.facebook.com/profile.php?id=100089498872438">
                   <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -510,7 +510,7 @@ mysqli_free_result($result);
                     </form>
                   </div>
                 </div>
-
+                <p3>All Rights Reserved ByFree Html Templates</p3>
               </div>
             </div>
           </div>
@@ -518,17 +518,6 @@ mysqli_free_result($result);
   </section>
 
   <!-- end info section -->
-
-  <!-- footer section -->
-  <footer class="footer_section">
-    <div class="container">
-      <p>
-        &copy; <span id="displayYear"></span> All Rights Reserved By
-        <a href="https://html.design/">Free Html Templates</a>
-      </p>
-    </div>
-  </footer>
-  <!-- footer section -->
 
   <!-- jQery -->
   <script src="js/jquery-3.4.1.min.js"></script>
@@ -551,6 +540,9 @@ mysqli_free_result($result);
 
 
 <style>
+  p3 {
+    color: #252525;
+  }
   body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;

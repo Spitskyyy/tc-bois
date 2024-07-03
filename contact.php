@@ -1,223 +1,149 @@
 <?php
 session_start();
 
-use Dotenv\Dotenv;
-
 require 'vendor/autoload.php';
 
-$dotenv = Dotenv::createImmutable(__DIR__);
+// Charger les variables d'environnement à partir du fichier .env
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-// Variable d'environnement
+// Récupérer les variables d'environnement
 $servername = $_ENV['BD_HOST'];
 $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
 
+// // Vérifier si une session est déjà active avant de la démar²rer
+// if (session_status() !== PHP_SESSION_ACTIVE) {
+//     session_start();
+// }
+
+// Récupération de l'email depuis la session
+$email = $_SESSION['email'];
+
+// Connexion à la base de données
 $connection = mysqli_connect($servername, $username, $password, $dbname);
 
-if (mysqli_connect_error()) {
-    echo 'Connexion echouer' . mysqli_connect_error();
+// Vérifier la connexion
+if (!$connection) {
+    die("La connexion a échoué : " . mysqli_connect_error());
+}
+
+// Requête SQL pour obtenir les infos sur l'utilisateur
+$query = "SELECT prenom_user FROM tbl_user WHERE mail_user='$email'";
+$result = mysqli_query($connection, $query);
+
+// Vérifier si la requête a abouti
+if (!$result) {
+    die("Erreur dans la requête : " . mysqli_error($connection));
+}
+
+// Stockage des données
+$row = mysqli_fetch_assoc($result);
+if ($row) {
+    $user_firstname = $row['prenom_user'];
 } else {
-    'Connexion reussie';
+    $user_firstname = "Aucun prénom trouvé.";
+}
+
+// Requête SQL pour obtenir les infos sur le rôle
+$query = "SELECT tbl_role.name_r FROM tbl_role
+          JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
+          JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
+          WHERE tbl_user.mail_user = '$email'"; // Faire une commande préparer
+$result = mysqli_query($connection, $query);
+
+// Vérifier si la requête a abouti
+if (!$result) {
+    die("Erreur dans la requête : " . mysqli_error($connection));
+}
+
+// Stockage des données
+$row = mysqli_fetch_assoc($result);
+if ($row) {
+    $user_role = $row['name_r'];
+} else {
+    $user_role = "Aucun rôle.";
 }
 
 ?>
-
-
 <!DOCTYPE html>
 <html>
-  <head>
-    <!-- Basic -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Mobile Metas -->
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <!-- Site Metas -->
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
 
-    <title>Nos services</title>
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
 
-    <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+  <title>Bardage</title>
 
-    <!-- fonts style -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <!--owl slider stylesheet -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
-    />
-    <!-- nice select -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
-      integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4="
-      crossorigin="anonymous"
-    />
-    <!-- font awesome style -->
-    <link href="/css/font-awesome.min.css" rel="stylesheet" />
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
 
-    <!-- Custom styles for this template -->
-    <link href="/css/style.css" rel="stylesheet" />
-    <!-- responsive style -->
-    <link href="/css/responsive.css" rel="stylesheet" />
-  </head>
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- nice select -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+    integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+  <!-- font awesome style -->
+  <link href="/css/font-awesome.min.css" rel="stylesheet" />
 
-  <body>
-    <div>
-      <!-- header section strats -->
-      <header class="header_section">
-        <div class="header_top"></div>
-        <div class="header_bottom">
-          <div class="container-fluid">
-            <nav class="navbar navbar-expand-lg custom_nav-container">
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav">
-                  <li class="nav-item active">
-                    <a class="nav-link" href="/index.php"
-                      >Acceuil<span class="sr-only"></span
-                    ></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="service.html">Services</a>
-                  </li>
-                  <!-- <li class="nav-item">
+  <!-- Custom styles for this template -->
+  <link href="/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="/css/responsive.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div>
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="header_top"></div>
+      <div class="header_bottom">
+        <div class="container-fluid">
+          <nav class="navbar navbar-expand-lg custom_nav-container">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/index.php">Acceuil<span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="service.php">Services</a>
+                </li>
+                <!-- <li class="nav-item">
                   <a class="nav-link" href="about.html">About</a>
                 </li>-->
-                  <!-- <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a class="nav-link" href="portfolio.html">Portfolio</a>
                 </li>-->
-                  <!-- <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a class="nav-link" href="contact.html">Contactez-nous
                 </a>
                 </li>-->
-                </ul>
-              </div>
-            </nav>
-          </div>
-        </div>
-      </header>
-      <!-- end header section -->
-      <!-- slider section -->
-      <section class="slider_section">
-        <div id="customCarousel1" class="carousel slide" data-ride="carousel">
-          <div>
-            <div>
-              <div class="container">
-                <div class="detail-box">
-                  <h1 align="center">TC-BOIS</h1>
-                </div>
-              </div>
+                <li class="nav-item">
+                </li>
+              </ul>
             </div>
-          </div>
-        </div>
-      </section>
-      <!-- end slider section -->
-    </div>
-
-    <!-- service section -->
-
-    <section class="service_section layout_padding">
-      <div class="container">
-        <div class="heading_container heading_center">
-          <h2>Nos <span>Services</span></h2>
-        </div>
-        <div class="row">
-          <div class="col-sm-6 col-md-4">
-            <a href="terrasse.php">
-              <div class="box">
-                <div class="img-box">
-                </div>
-                <div class="detail-box">
-                  <h5>Bois de terrasse</h5>
-                  <p>Bois de terrasse</p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div class="col-sm-6 col-md-4">
-            <a href="bardage.php">
-              <div class="box">
-                <div class="img-box">
-                </div>
-                <div class="detail-box">
-                  <h5>Bardage</h5>
-                  <p>Bardage</p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div class="col-sm-6 col-md-4">
-            <a href="cloture.php">
-              <div class="box">
-                <div class="img-box">
-                </div>
-                <div class="detail-box">
-                  <h5>Cloture</h5>
-                  <p>Cloture</p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div class="col-sm-6 col-md-4">
-            <a href="charpente.php">
-              <div class="box">
-                <div class="img-box">
-                </div>
-                <div class="detail-box">
-                  <h5>Bois de charpente</h5>
-                  <p>Bois de charpente</p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div class="col-sm-6 col-md-4">
-            <div class="box">
-              <div class="img-box">
-              </div>
-              <div class="detail-box">
-                <h5>Vente Particuliers</h5>
-                <p>Vente Particuliers</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm-6 col-md-4">
-            <div class="box">
-              <div class="img-box">
-              </div>
-              <div class="detail-box">
-                <h5>Ventes Professionels</h5>
-                <p>Ventes Professionels</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="btn-box">
-          <a href=""> En savoir plus </a>
+          </nav>
         </div>
       </div>
-    </section>
+    </header>
+    <!-- end header section -->
 
-    <!-- end service section -->
 
-<!-- contact section -->
-<section class="contact-form-section">
+
+
+ <!-- contact section -->
+ <section class="contact-form-section">
     <div class="container">
         <div class="heading_container heading_center">
             <h2>Prenons<span> Contact</span></h2>
@@ -282,13 +208,13 @@ if (mysqli_connect_error()) {
                 <h5>Lien utile</h5>
                 <ul>
                   <li class="active">
-                    <a class="" href="index.php">Acceuil <span class="sr-only">(current)</span></a>
+                    <a class="" href="/index.php">Acceuil <span class="sr-only"></span></a>
                   </li>
                   <li class="">
                     <a class="" href="service.php">Services </a>
                   </li>
                   <li class="">
-                    <a class="" href="contact.html"> Contact </a>
+                    <a class="" href="contact.php"> Contact </a>
                   </li>
                   <li class="">
                     <a class="" href="connexion.php">Connexion </a>
@@ -369,45 +295,176 @@ if (mysqli_connect_error()) {
           </div>
         </div>
   </section>
-    <!-- end info section -->
 
-    <!-- footer section -->
-    <footer class="footer_section">
-      <div class="container">
-        <p>
-          &copy; <span id="displayYear"></span> All Rights Reserved By
-          <a href="https://html.design/">Free Html Templates</a>
-        </p>
-      </div>
-    </footer>
-    <!-- footer section -->
+  <!-- end info section -->
 
-    <!-- jQery -->
-    <script src="/js/jquery-3.4.1.min.js"></script>
-    <!-- popper js -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"
-    ></script>
-    <!-- bootstrap js -->
-    <script src="/js/bootstrap.js"></script>
-    <!-- owl slider -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <!--  OwlCarousel 2 - Filter -->
-    <script src="https://huynhhuynh.github.io/owlcarousel2-filter/dist/owlcarousel2-filter.min.js"></script>
-    <!-- nice select -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
-      integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo="
-      crossorigin="anonymous"
-    ></script>
-    <!-- custom js -->
-    <script src="/js/custom.js"></script>
-  </body>
+  <!-- footer section -->
+  <footer class="footer_section">
+    <div class="container">
+      <p>
+        &copy; <span id="displayYear"></span> All Rights Reserved By
+        <a href="https://html.design/">Free Html Templates</a>
+      </p>
+    </div>
+  </footer>
+  <!-- footer section -->
 
+  <!-- jQery -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <!-- bootstrap js -->
+  <script src="js/bootstrap.js"></script>
+  <!-- owl slider -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <!--  OwlCarousel 2 - Filter -->
+  <script src="https://huynhhuynh.github.io/owlcarousel2-filter/dist/owlcarousel2-filter.min.js"></script>
+  <!-- nice select -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+    integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+  <!-- custom js -->
+  <script src="js/custom.js"></script>
+</body>
 
-<style>
+  <style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    text-align: center;
+    margin-top: 20px;
+}
+
+h1,
+h2 {
+    color: #333;
+}
+
+.product-form {
+    background: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.product-form input,
+.product-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.product-form input[type="submit"] {
+    background: #5cb85c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.product-form input[type="submit"]:hover {
+    background: #4cae4c;
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.product {
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    flex: 1 1 calc(33.333% - 40px);
+    box-sizing: border-box;
+    text-align: center;
+    max-width: 300px; /* Pour limiter la largeur maximale de chaque produit */
+}
+
+.product img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px; /* Centrer l'image horizontalement */
+}
+
+.product h2 {
+    margin: 0 0 10px;
+    color: #333;
+}
+
+.product p {
+    margin: 0 0 10px;
+    color: #666;
+}
+
+.product-actions {
+    margin-top: 10px;
+}
+
+.action-link {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    color: white;
+    background-color:#6B8E23;
+    border: none;
+    border-radius: 3px;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.action-link:hover {
+    background-color: #ccc;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.add-product-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #6B8E23;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-product-button:hover {
+  background-color: #ccc;
+}
+
 .container h1 {
     margin-bottom: 20px;
 }
@@ -498,5 +555,9 @@ if (mysqli_connect_error()) {
 }
 
 
-</style>
-</html>
+  </style>
+
+
+
+
+  </html>

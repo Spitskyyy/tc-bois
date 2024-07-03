@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="style.css">
 <?php
 session_start();
 
@@ -342,13 +343,13 @@ $connection->close();
                 <h5>Lien utile</h5>
                 <ul>
                   <li class="active">
-                    <a class="" href="/index.html">Acceuil <span class="sr-only"></span></a>
+                    <a class="" href="index.php">Acceuil <span class="sr-only"></span></a>
                   </li>
                   <li class="">
-                    <a class="" href="service.html">Services </a>
+                    <a class="" href="service.php">Services </a>
                   </li>
                   <li class="">
-                    <a class="" href="contact.html"> Contact </a>
+                    <a class="" href="contact.php"> Contact </a>
                   </li>
                   <li class="">
                     <a class="" href="connexion.php">Connexion </a>
@@ -366,7 +367,7 @@ $connection->close();
             </div>
             -->
             <div class="col-md-3 mx-auto">
-              <h5>social media</h5>
+              <h5>Réseau sociaux</h5>
               <div class="social_box">
                 <a href="https://www.facebook.com/profile.php?id=100089498872438">
                   <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -461,237 +462,4 @@ $connection->close();
   <!-- custom js -->
   <script src="js/custom.js"></script>
 </body>
-
-  <style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
-
-.container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-    text-align: center;
-    margin-top: 20px;
-}
-
-h1,
-h2 {
-    color: #333;
-}
-
-.product-form {
-    background: #fff;
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.product-form label {
-    display: block;
-    margin: 10px 0 5px;
-}
-
-.product-form input,
-.product-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.product-form input[type="submit"] {
-    background: #5cb85c;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.product-form input[type="submit"]:hover {
-    background: #4cae4c;
-}
-
-.product-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 20px;
-    justify-content: center;
-}
-
-.product {
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    flex: 1 1 calc(33.333% - 40px);
-    box-sizing: border-box;
-    text-align: center;
-    max-width: 300px; /* Pour limiter la largeur maximale de chaque produit */
-}
-
-.product img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto 10px; /* Centrer l'image horizontalement */
-}
-
-.product h2 {
-    margin: 0 0 10px;
-    color: #333;
-}
-
-.product p {
-    margin: 0 0 10px;
-    color: #666;
-}
-
-.product-actions {
-    margin-top: 10px;
-}
-
-.action-link {
-    display: inline-block;
-    padding: 5px 10px;
-    margin: 5px;
-    color: white;
-    background-color:#6B8E23;
-    border: none;
-    border-radius: 3px;
-    text-decoration: none;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.action-link:hover {
-    background-color: #ccc;
-}
-
-.error-message {
-    color: red;
-    text-align: center;
-    margin-top: 20px;
-}
-
-.add-product-button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #6B8E23;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.add-product-button:hover {
-  background-color: #ccc;
-}
-
-.container h1 {
-    margin-bottom: 20px;
-}
-
-.contact-form-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: vh; /* Ajustez la hauteur selon vos besoins */
-    background-color: #f5f5f5;
-    padding: 20px;
-}
-
-.contact-form-section .container {
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 1000px;
-    width: 100%;
-}
-
-.contact-form-section .heading_container {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.contact-form-section .heading_container h2 {
-    font-size: 2em;
-    color: #333;
-}
-
-.contact-form-section .heading_container h2 span {
-    color: #4CAF50;
-}
-
-.contact-form-section .form-container {
-    width: 100%;
-}
-
-.contact-form-section .form-row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
-}
-
-.contact-form-section .form-group {
-    width: 100%;
-    margin-bottom: 15px;
-}
-
-.contact-form-section .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.contact-form-section .message-box {
-    height: 100px;
-}
-
-.contact-form-section .btn_box {
-    text-align: center;
-}
-
-.contact-form-section .btn_box button {
-    background-color: #4CAF50;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.contact-form-section .btn_box button:hover {
-    background-color: #45a049;
-}
-
-.contact-form-section .center-message {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-
-  </style>
-
-
-
-
   </html>

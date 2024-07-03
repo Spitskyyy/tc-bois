@@ -42,6 +42,7 @@ if ($result->num_rows === 0) {
 
 $product = $result->fetch_assoc();
 
+
 // Mettre à jour les données du produit si le formulaire est soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name_product = $_POST['name_product'];
@@ -67,8 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt_dimension->bind_param("dddi", $length_dimension, $width_dimension, $thickness_dimension, $id_product);
 
     if ($stmt->execute() && $stmt_dimension->execute()) {
-        // Redirection vers la même page avec un paramètre de succès
-        header('location: /bardage.php');
+
+        // Redirection vers l'URL de provenance
+        header('Location: service.php');
         exit();
     } else {
         echo "Erreur lors de la mise à jour du produit : " . $conn->error;
@@ -77,45 +79,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier Produit</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Assurez-vous que le chemin vers votre fichier CSS est correct -->
+    <title>Mise à jour du produit</title>
 </head>
 <body>
-    <h1>Modifier Produit</h1>
-    <?php if (isset($_GET['success'])): ?>
-        <p style="color: green;">Produit mis à jour avec succès.</p>
-    <?php endif; ?>
-    <form method="post" action="modification.php?id_product=<?php echo htmlspecialchars($id_product); ?>">
+    <!-- Formulaire de mise à jour du produit -->
+    <form method="POST">
+        <input type="hidden" name="previous_url" value="<?php echo htmlspecialchars($_SESSION['previous_url']); ?>">
+        <!-- autres champs de formulaire pour les informations du produit -->
         <label for="name_product">Nom du produit:</label>
-        <input type="text" id="name_product" name="name_product" value="<?php echo htmlspecialchars($product['name_product'] ?? ''); ?>" required><br>
+        <input type="text" id="name_product" name="name_product" value="<?php echo htmlspecialchars($product['name_product']); ?>"><br>
 
         <label for="essence_product">Essence du produit:</label>
-        <input type="text" id="essence_product" name="essence_product" value="<?php echo htmlspecialchars($product['essence_product'] ?? ''); ?>" required><br>
+        <input type="text" id="essence_product" name="essence_product" value="<?php echo htmlspecialchars($product['essence_product']); ?>"><br>
 
-        <label for="length_dimension">Longueur (cm):</label>
-        <input type="number" id="length_dimension" name="length_dimension" value="<?php echo htmlspecialchars($product['length_dimension'] ?? ''); ?>" required><br>
+        <label for="length_dimension">Longueur:</label>
+        <input type="text" id="length_dimension" name="length_dimension" value="<?php echo htmlspecialchars($product['length_dimension']); ?>"><br>
 
-        <label for="width_dimension">Largeur (cm):</label>
-        <input type="number" id="width_dimension" name="width_dimension" value="<?php echo htmlspecialchars($product['width_dimension'] ?? ''); ?>" required><br>
+        <label for="width_dimension">Largeur:</label>
+        <input type="text" id="width_dimension" name="width_dimension" value="<?php echo htmlspecialchars($product['width_dimension']); ?>"><br>
 
-        <label for="thickness_dimension">Épaisseur (cm):</label>
-        <input type="number" id="thickness_dimension" name="thickness_dimension" value="<?php echo htmlspecialchars($product['thickness_dimension'] ?? ''); ?>" required><br>
+        <label for="thickness_dimension">Épaisseur:</label>
+        <input type="text" id="thickness_dimension" name="thickness_dimension" value="<?php echo htmlspecialchars($product['thickness_dimension']); ?>"><br>
 
         <label for="quantity_product">Quantité:</label>
-        <input type="number" id="quantity_product" name="quantity_product" value="<?php echo htmlspecialchars($product['quantity_product'] ?? ''); ?>" required><br>
+        <input type="text" id="quantity_product" name="quantity_product" value="<?php echo htmlspecialchars($product['quantity_product']); ?>"><br>
 
         <label for="description_product">Description:</label>
-        <textarea id="description_product" name="description_product" required><?php echo htmlspecialchars($product['description_product'] ?? ''); ?></textarea><br>
+        <textarea id="description_product" name="description_product"><?php echo htmlspecialchars($product['description_product']); ?></textarea><br>
 
         <label for="image_path_product">Chemin de l'image:</label>
-        <input type="text" id="image_path_product" name="image_path_product" value="<?php echo htmlspecialchars($product['image_path_product'] ?? ''); ?>"><br>
+        <input type="text" id="image_path_product" name="image_path_product" value="<?php echo htmlspecialchars($product['image_path_product']); ?>"><br>
 
         <input type="submit" value="Mettre à jour">
     </form>
 </body>
+</html>
+
+
 
 <style>
     body {
