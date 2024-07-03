@@ -126,10 +126,10 @@ if ($row) {
                 <!-- <li class="nav-item">
                   <a class="nav-link" href="portfolio.html">Portfolio</a>
                 </li>-->
-                <!-- <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contactez-nous
-                </a>
-                </li>-->
+                <li class="nav-item">
+                  <a class="nav-link" href="contact.php">Contactez-nous
+                  </a>
+                </li>
                 <li class="nav-item">
                 </li>
               </ul>
@@ -255,8 +255,12 @@ $result = $stmt->get_result();
               echo "<p>Épaisseur: " . $row['thickness_dimension'] . " cm</p>";
               echo "<p>Quantité: " . $row['quantity_product'] . "</p>";
               echo "<div class='product-actions'>";
-              echo "<a href='modification.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Modification</a>";
-              echo "<a href='index.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Suppression</a>";
+              if ($has_permission): 
+                echo "<a href='modification.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Modification</a>";
+                echo "<a href='delete_product.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Suppression</a>";
+                ?>
+                <?php endif;?>
+                <?php
               echo "</div>";
               echo "</div>";
             }
@@ -343,13 +347,13 @@ $connection->close();
                 <h5>Lien utile</h5>
                 <ul>
                   <li class="active">
-                    <a class="" href="/index.html">Acceuil <span class="sr-only"></span></a>
+                    <a class="" href="/index.php">Acceuil <span class="sr-only"></span></a>
                   </li>
                   <li class="">
-                    <a class="" href="service.html">Services </a>
+                    <a class="" href="service.php">Services </a>
                   </li>
                   <li class="">
-                    <a class="" href="contact.html"> Contact </a>
+                    <a class="" href="contact.php"> Contact </a>
                   </li>
                   <li class="">
                     <a class="" href="connexion.php">Connexion </a>

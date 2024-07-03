@@ -97,10 +97,10 @@ if (mysqli_connect_error()) {
                   <!-- <li class="nav-item">
                   <a class="nav-link" href="portfolio.html">Portfolio</a>
                 </li>-->
-                  <!-- <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contactez-nous
-                </a>
-                </li>-->
+                <li class="nav-item">
+                  <a class="nav-link" href="contact.php">Contactez-nous
+                  </a>
+                </li>
                 </ul>
               </div>
             </nav>
@@ -282,13 +282,13 @@ if (mysqli_connect_error()) {
                 <h5>Lien utile</h5>
                 <ul>
                   <li class="active">
-                    <a class="" href="index.php">Acceuil <span class="sr-only">(current)</span></a>
+                    <a class="" href="/index.php">Acceuil <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="">
                     <a class="" href="service.php">Services </a>
                   </li>
                   <li class="">
-                    <a class="" href="contact.html"> Contact </a>
+                    <a class="" href="contact.php"> Contact </a>
                   </li>
                   <li class="">
                     <a class="" href="connexion.php">Connexion </a>
@@ -306,7 +306,7 @@ if (mysqli_connect_error()) {
             </div>
             -->
             <div class="col-md-3 mx-auto">
-              <h5>Réseau sociaux</h5>
+              <h5>social media</h5>
               <div class="social_box">
                 <a href="https://www.facebook.com/profile.php?id=100089498872438">
                   <i class="fa fa-facebook" aria-hidden="true"></i>

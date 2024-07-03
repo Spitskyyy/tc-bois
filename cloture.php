@@ -126,10 +126,10 @@ if ($row) {
                 <!-- <li class="nav-item">
                   <a class="nav-link" href="portfolio.html">Portfolio</a>
                 </li>-->
-                <!-- <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contactez-nous
-                </a>
-                </li>-->
+                <li class="nav-item">
+                  <a class="nav-link" href="contact.php">Contactez-nous
+                  </a>
+                </li>
                 <li class="nav-item">
                 </li>
               </ul>
@@ -218,7 +218,7 @@ if ($result->num_rows > 0) {
 // Connexion à la base de données
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-$type_of_product = 'Cloture';
+$type_of_product = 'cloture';
 
 $query = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension 
           FROM tbl_product 
@@ -255,8 +255,12 @@ $result = $stmt->get_result();
               echo "<p>Épaisseur: " . $row['thickness_dimension'] . " cm</p>";
               echo "<p>Quantité: " . $row['quantity_product'] . "</p>";
               echo "<div class='product-actions'>";
-              echo "<a href='modification.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Modification</a>";
-              echo "<a href='index.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Suppression</a>";
+              if ($has_permission): 
+                echo "<a href='modification.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Modification</a>";
+                echo "<a href='delete_product.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Suppression</a>";
+                ?>
+                <?php endif;?>
+                <?php
               echo "</div>";
               echo "</div>";
             }
@@ -462,5 +466,6 @@ $connection->close();
   <!-- custom js -->
   <script src="js/custom.js"></script>
 </body>
+
 
   </html>
