@@ -131,7 +131,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <!-- Formulaire de mise à jour du produit -->
     <form method="POST">
-        <input type="hidden" name="previous_url" value="<?php echo htmlspecialchars($_SESSION['previous_url']); ?>">
         <!-- autres champs de formulaire pour les informations du produit -->
         <label for="name_product">Nom du produit:</label>
         <input type="text" id="name_product" name="name_product" value="<?php echo htmlspecialchars($product['name_product']); ?>"><br>
