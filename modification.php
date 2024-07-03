@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require 'vendor/autoload.php';
 
 // Charger les variables d'environnement à partir du fichier .env
@@ -11,6 +12,50 @@ $servername = $_ENV['BD_HOST'];
 $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
+
+// Vérifier si une session est déjà active avant de la démarrer
+// if (session_status() !== PHP_SESSION_ACTIVE) {
+//     session_start();
+// }
+
+// Récupération de l'email depuis la session
+$email = $_SESSION['email'];
+
+// Connexion à la base de données
+$connection = mysqli_connect($servername, $username, $password, $dbname);
+
+// Vérifier la connexion
+if (!$connection) {
+    die("La connexion a échoué : " . mysqli_connect_error());
+}
+
+// Requête SQL pour obtenir le rôle de l'utilisateur
+$query = "SELECT tbl_role.name_r FROM tbl_role
+          JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
+          JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
+          WHERE tbl_user.mail_user = ?";
+$stmt = $connection->prepare($query);
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$has_permission = false;
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        if ($row['name_r'] == 'PRO') {
+            $has_permission = true;
+            break;
+        }
+    }
+}
+
+if (!$has_permission) {
+    header("Location: index.php");
+    exit();
+}
+
+$stmt->close();
 
 // Créer la connexion
 $conn = new mysqli($servername, $username, $password, $dbname);
