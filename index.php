@@ -104,7 +104,7 @@ mysqli_free_result($result);
   <!-- font awesome style -->
   <link href="css/font-awesome.min.css" rel="stylesheet" />
 
-  <!-- Custom styles for this template -->
+  <!-- Custom styles  -->
   <link href="css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
@@ -204,10 +204,10 @@ mysqli_free_result($result);
               <h2>Bienvenue sur <span>TC Bois</span></h2>
             </div>
             <p>
-              Simply dummy text of the printing and typesetting industry.
-              Lorem Ipsum has been the industry's standard dummy text ever
-              since the 1500s, when an unknown printer took a galley of type
-              and scrambled it to make a type specimen book. It has s
+            <h5>Qui sommes-nous ?</h5><br>
+                Jeune entreprise spécialisée dans la vente d’essence de bois pour terrasse, charpente, clôture, bardage 
+                pour particuliers comme pour professionnels.
+
             </p>
             <a href=""> En savoir plus </a>
           </div>
@@ -383,9 +383,9 @@ mysqli_free_result($result);
                     <div class="form-group col-lg-6">
                         <select name="service" id="" class="form-control wide" required>
                             <option value="">Quelle prestation ?</option>
-                            <option value="Service 1">Service 1</option>
-                            <option value="Service 2">Service 2</option>
-                            <option value="Service 3">Service 3</option>
+                            <option value="Devis">Devis</option>
+                            <option value="Renseignement">Renseignement</option>
+                            <option value="Autre">Autre</option>
                         </select>
                     </div>
                 </div>

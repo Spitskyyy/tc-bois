@@ -67,7 +67,7 @@ if (mysqli_connect_error()) {
     <!-- font awesome style -->
     <link href="/css/font-awesome.min.css" rel="stylesheet" />
 
-    <!-- Custom styles for this template -->
+    <!-- Custom styles  -->
     <link href="/css/style.css" rel="stylesheet" />
     <!-- responsive style -->
     <link href="/css/responsive.css" rel="stylesheet" />
@@ -236,9 +236,9 @@ if (mysqli_connect_error()) {
                     <div class="form-group col-lg-6">
                         <select name="service" id="" class="form-control wide" required>
                             <option value="">Quelle prestation ?</option>
-                            <option value="Service 1">Service 1</option>
-                            <option value="Service 2">Service 2</option>
-                            <option value="Service 3">Service 3</option>
+                            <option value="Devis">Devis</option>
+                            <option value="Renseignement">Renseignement</option>
+                            <option value="Autre">Autre</option>
                         </select>
                     </div>
                 </div>

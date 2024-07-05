@@ -174,7 +174,7 @@ $connection->close();
     <!-- font awesome style -->
     <link href="/css/font-awesome.min.css" rel="stylesheet" />
 
-    <!-- Custom styles for this template -->
+    <!-- Custom styles  -->
     <link href="/css/style.css" rel="stylesheet" />
     <!-- responsive style -->
     <link href="/css/responsive.css" rel="stylesheet" />
