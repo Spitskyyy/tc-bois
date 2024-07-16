@@ -81,7 +81,7 @@ if ($row) {
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>Bardage</title>
+  <title>Qui somme nous ?</title>
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
@@ -138,6 +138,86 @@ if ($row) {
       </div>
     </header>
     <!-- end header section -->
+
+
+    <section class="about_us_section">
+    <div class="container">
+      <h1>Qui sommes-nous ?</h1>
+      <p>Bienvenue chez <strong>TcBois</strong> !</p>
+      <p>
+        Nous sommes une jeune entreprise dynamique spécialisée dans la vente d'essences de bois pour <a href="terrasse.php">les terrasses</a>,<a href="charpente.php">les charpentes</a>,<a href="cloture.php">les clôtures</a>,<a href="bardage.php">les bardages</a>,<a href="osb.php">l'osb</a> et la <a href="quincaillerie.php">quincaillerie</a> destinée aussi bien aux particuliers qu'aux professionnels. <br>Notre objectif est de vous offrir des produits de qualité supérieure, certifiés et respectueux de l'environnement.
+      </p>
+      <p>
+        Chez <strong>TcBois</strong>, nous comprenons que chaque projet est unique. C'est pourquoi nous proposons une gamme complète de services pour répondre à vos besoins spécifiques :
+      </p>
+      <ul>
+        <li><strong>Vente de bois certifiés :</strong> Choisissez parmi une variété d'essences de bois durables et esthétiques pour vos projets.</li>
+        <li><strong>Livraison et installation :</strong> Nous assurons la livraison de vos matériaux et offrons des services de prise de mesures et de pose sous certaines conditions.</li>
+        <li><strong>Conseils personnalisés :</strong> Discutez avec nous de vos idées et plans pour créer une terrasse qui reflète parfaitement vos goûts et votre style.</li>
+      </ul>
+      <p>
+        Notre engagement ne s'arrête pas à la vente de bois. Nous vous accompagnons de A à Z, vous fournissant tout le nécessaire pour votre terrasse, y compris la visserie, les bandes d'étanchéité, et bien plus encore.
+      </p>
+      <p>
+        Faites confiance à <strong>TcBois</strong> pour transformer vos espaces extérieurs en véritables havres de paix, alliant beauté naturelle et fonctionnalité.
+      </p>
+      <p>
+        N'hésitez pas à nous contacter pour discuter de votre projet. Ensemble, réalisons vos rêves d'aménagement extérieur !
+      </p>
+    </div>
+  </section>
+
+
+
+   <!-- contact section -->
+ <section class="contact-form-section">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h2>Prenons<span> Contact</span></h2>
+        </div>
+        <div class="form-container">
+            <form action="send_email.php" method="post">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <input type="text" name="name" class="form-control" placeholder="Votre nom" required />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-lg-6">
+                        <input type="text" name="phone" class="form-control" placeholder="Numéro de telephone" required />
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <select name="service" id="" class="form-control wide" required>
+                            <option value="">Quelle prestation ?</option>
+                            <option value="Devis">Devis</option>
+                            <option value="Renseignement">Renseignement</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <input type="email" name="email" class="form-control" placeholder="Email" required />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <input type="text" name="message" class="message-box form-control" placeholder="Message" required />
+                    </div>
+                </div>
+                <div class="btn_box">
+                    <button type="submit">Envoyer</button>
+                </div>
+                <?php
+                if (isset($_SESSION['mail_status'])) {
+                    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
+                    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
+                }
+                ?>
+            </form>
+        </div>
+    </div>
+</section>
 
   <!-- info section -->
 
@@ -439,7 +519,7 @@ h2 {
 }
 
 .contact-form-section .heading_container h2 span {
-    color: #4CAF50;
+    color: #6B8E23;
 }
 
 .contact-form-section .form-container {
@@ -473,7 +553,7 @@ h2 {
 }
 
 .contact-form-section .btn_box button {
-    background-color: #4CAF50;
+    background-color: #6B8E23;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -495,6 +575,52 @@ h2 {
     text-align: center;
 }
 
+.about_us_section {
+    padding: 60px 20px;
+    background-color: #f9f9f9;
+}
+
+.about_us_section .container {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.about_us_section h1 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+}
+
+.about_us_section p {
+    color: #666;
+    line-height: 1.8;
+    font-size: 1.1em;
+    margin-bottom: 30px;
+}
+
+.about_us_section ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+}
+
+.about_us_section ul li {
+    background: url('path/to/icon.png') no-repeat left center;
+    padding-left: 35px;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    color: #555;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.about_us_section ul li:hover {
+    background-color: #f1f1f1;
+    color: #333;
+}
 
   </style>
 

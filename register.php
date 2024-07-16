@@ -210,7 +210,7 @@ body {
 }
 
 .success {
-    background-color: #4CAF50;
+    background-color: #6B8E23;
 }
 
 </style>

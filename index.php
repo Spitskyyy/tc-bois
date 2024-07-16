@@ -199,7 +199,7 @@ mysqli_free_result($result);
                 pour particuliers comme pour professionnels.
 
             </p>
-            <a href=""> En savoir plus </a>
+            <a href="qui_somme_nous.php"> En savoir plus </a>
           </div>
         </div>
         <div class="col-md-6">
@@ -488,18 +488,6 @@ mysqli_free_result($result);
                     </div>
                   </div>
                 </div>
-
-                <div class="col-md-3">
-                  <div class="info_form">
-                    <form action="">
-                      <input type="email" placeholder="Enter Your Email" />
-                      <button>
-                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                      </button>
-                    </form>
-                  </div>
-                </div>
-                <p3>All Rights Reserved ByFree Html Templates</p3>
               </div>
             </div>
           </div>
@@ -631,7 +619,7 @@ mysqli_free_result($result);
 }
 
 .contact-form-section .heading_container h2 span {
-    color: #4CAF50;
+    color: #6B8E23;
 }
 
 .contact-form-section .form-container {
@@ -665,7 +653,7 @@ mysqli_free_result($result);
 }
 
 .contact-form-section .btn_box button {
-    background-color: #4CAF50;
+    background-color: #6B8E23;
     color: #fff;
     padding: 10px 20px;
     border: none;

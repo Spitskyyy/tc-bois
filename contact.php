@@ -493,7 +493,7 @@ h2 {
 }
 
 .contact-form-section .heading_container h2 span {
-    color: #4CAF50;
+    color: #6B8E23;
 }
 
 .contact-form-section .form-container {
@@ -527,7 +527,7 @@ h2 {
 }
 
 .contact-form-section .btn_box button {
-    background-color: #4CAF50;
+    background-color: #6B8E23;
     color: #fff;
     padding: 10px 20px;
     border: none;

@@ -126,10 +126,10 @@ if ($row) {
                 <!-- <li class="nav-item">
                   <a class="nav-link" href="portfolio.html">Portfolio</a>
                 </li>-->
-                <!-- <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contactez-nous
-                </a>
-                </li>-->
+                <li class="nav-item">
+                  <a class="nav-link" href="contact.php">Contactez-nous
+                  </a>
+                </li>
                 <li class="nav-item">
                 </li>
               </ul>
