@@ -186,26 +186,30 @@ if (mysqli_connect_error()) {
           </div>
 
           <div class="col-sm-6 col-md-4">
+            <a href="osb.php">
             <div class="box">
               <div class="img-box">
               </div>
               <div class="detail-box">
-                <h5>Vente Particuliers</h5>
-                <p>Vente Particuliers</p>
+                <h5>OSB</h5>
+                <p>OSB</p>
               </div>
             </div>
+            </a>
           </div>
 
           <div class="col-sm-6 col-md-4">
             <div class="box">
+              <a href="quincaillerie.php">
               <div class="img-box">
               </div>
               <div class="detail-box">
-                <h5>Ventes Professionels</h5>
-                <p>Ventes Professionels</p>
+                <h5>Quincaillerie</h5>
+                <p>Quincaillerie</p>
               </div>
             </div>
           </div>
+          </a>
         </div>
 
         <div class="btn-box">
