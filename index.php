@@ -171,7 +171,6 @@ mysqli_free_result($result);
                   Derivé.<br>
                 </h5>
                 <div class="btn-box">
-                  <a href="qui_somme_nous.php" class="btn1"> En savoir plus </a>
                   <a href="" class="btn2"> Contactez-nous </a>
                 </div>
               </div>

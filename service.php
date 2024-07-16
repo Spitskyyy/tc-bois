@@ -212,9 +212,6 @@ if (mysqli_connect_error()) {
           </a>
         </div>
 
-        <div class="btn-box">
-          <a href=""> En savoir plus </a>
-        </div>
       </div>
     </section>
 
