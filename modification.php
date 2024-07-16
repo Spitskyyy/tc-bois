@@ -71,8 +71,8 @@ if (!isset($_GET['id_product']) || empty($_GET['id_product'])) {
 $id_product = $_GET['id_product'];
 
 // Récupérer les données actuelles du produit
-$query = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension 
-          FROM tbl_product 
+$query = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension
+          FROM tbl_product
           JOIN tbl_product_dimension ON tbl_product.id_product = tbl_product_dimension.id_product_product
           JOIN tbl_dimension ON tbl_dimension.id_dimension = tbl_product_dimension.id_dimension_dimension
           WHERE tbl_product.id_product = ?";
@@ -86,7 +86,6 @@ if ($result->num_rows === 0) {
 }
 
 $product = $result->fetch_assoc();
-
 
 // Mettre à jour les données du produit si le formulaire est soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -103,9 +102,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $update_product_query = "UPDATE tbl_product SET name_product = ?, essence_product = ?, quantity_product = ?, description_product = ?, image_path_product = ? WHERE id_product = ?";
     $stmt = $conn->prepare($update_product_query);
     $stmt->bind_param("ssissi", $name_product, $essence_product, $quantity_product, $description_product, $image_path_product, $id_product);
-    
+
     // Mettre à jour les dimensions
-    $update_dimension_query = "UPDATE tbl_dimension 
+    $update_dimension_query = "UPDATE tbl_dimension
                                JOIN tbl_product_dimension ON tbl_dimension.id_dimension = tbl_product_dimension.id_dimension_dimension
                                SET length_dimension = ?, width_dimension = ?, thickness_dimension = ?
                                WHERE tbl_product_dimension.id_product_product = ?";

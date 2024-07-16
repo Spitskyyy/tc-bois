@@ -220,9 +220,9 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 $type_of_product = 'quincaillerie';
 
-$query = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension 
-          FROM tbl_product 
-          JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product 
+$query = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension
+          FROM tbl_product
+          JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product
           JOIN tbl_type_of_product ON tbl_product_type_of_product.id_type_of_product_type_of_product = tbl_type_of_product.id_type_of_product
           JOIN tbl_product_dimension ON tbl_product.id_product = tbl_product_dimension.id_product_product
           JOIN tbl_dimension ON tbl_product_dimension.id_dimension_dimension = tbl_dimension.id_dimension
@@ -243,31 +243,31 @@ $result = $stmt->get_result();
 <body>
     <div class="product-list">
         <?php
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-              echo "<div class='product'>";
-              echo "<img src='" . $row['image_path_product'] . "' alt='" . $row['name_product'] . "'>";
-              echo "<h2>" . $row['name_product'] . "</h2>";
-              echo "<p>Essence: " . $row['essence_product'] . "</p>";
-              echo "<p>Description: " . $row['description_product'] . "</p>";
-              echo "<p>Longueur: " . $row['length_dimension'] . " m</p>";
-              echo "<p>Largeur: " . $row['width_dimension'] . " cm</p>";
-              echo "<p>Épaisseur: " . $row['thickness_dimension'] . " cm</p>";
-              echo "<p>Quantité: " . $row['quantity_product'] . "</p>";
-              echo "<div class='product-actions'>";
-              if ($has_permission): 
-                echo "<a href='modification.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Modification</a>";
-                echo "<a href='delete_product.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Suppression</a>";
-                ?>
-                <?php endif;?>
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo "<div class='product'>";
+        echo "<img src='" . $row['image_path_product'] . "' alt='" . $row['name_product'] . "'>";
+        echo "<h2>" . $row['name_product'] . "</h2>";
+        echo "<p>Essence: " . $row['essence_product'] . "</p>";
+        echo "<p>Description: " . $row['description_product'] . "</p>";
+        echo "<p>Longueur: " . $row['length_dimension'] . " m</p>";
+        echo "<p>Largeur: " . $row['width_dimension'] . " cm</p>";
+        echo "<p>Épaisseur: " . $row['thickness_dimension'] . " cm</p>";
+        echo "<p>Quantité: " . $row['quantity_product'] . "</p>";
+        echo "<div class='product-actions'>";
+        if ($has_permission):
+            echo "<a href='modification.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Modification</a>";
+            echo "<a href='delete_product.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Suppression</a>";
+            ?>
+	                <?php endif;?>
                 <?php
-              echo "</div>";
-              echo "</div>";
-            }
-        } else {
-            echo "<p>Aucun produit disponible.</p>";
-        }
-        ?>
+echo "</div>";
+        echo "</div>";
+    }
+} else {
+    echo "<p>Aucun produit disponible.</p>";
+}
+?>
     </div>
 </body>
 </html>
@@ -321,11 +321,11 @@ $connection->close();
                     <button type="submit">Envoyer</button>
                 </div>
                 <?php
-                if (isset($_SESSION['mail_status'])) {
-                    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
-                    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
-                }
-                ?>
+if (isset($_SESSION['mail_status'])) {
+    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
+    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
+}
+?>
             </form>
         </div>
     </div>
@@ -439,7 +439,7 @@ $connection->close();
 
   <!-- footer section -->
   <footer class="footer_section">
-   
+
   </footer>
   <!-- footer section -->
 

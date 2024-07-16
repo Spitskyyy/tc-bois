@@ -209,11 +209,11 @@ if ($row) {
                     <button type="submit">Envoyer</button>
                 </div>
                 <?php
-                if (isset($_SESSION['mail_status'])) {
-                    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
-                    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
-                }
-                ?>
+if (isset($_SESSION['mail_status'])) {
+    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
+    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
+}
+?>
             </form>
         </div>
     </div>
@@ -326,7 +326,7 @@ if ($row) {
 
   <!-- footer section -->
   <footer class="footer_section">
-   
+
   </footer>
   <!-- footer section -->
 

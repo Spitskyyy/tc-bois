@@ -26,7 +26,7 @@ $connection = mysqli_connect($servername, $username, $password, $dbname);
 
 // Vérifier la connexion
 if (!$connection) {
-  die("La connexion a échoué : " . mysqli_connect_error());
+    die("La connexion a échoué : " . mysqli_connect_error());
 }
 
 // Requête SQL pour obtenir les infos sur l'utilisateur
@@ -35,15 +35,15 @@ $result = mysqli_query($connection, $query);
 
 // Vérifier si la requête a abouti
 if (!$result) {
-  die("Erreur dans la requête : " . mysqli_error($connection));
+    die("Erreur dans la requête : " . mysqli_error($connection));
 }
 
 // Stockage des données
 $row = mysqli_fetch_assoc($result);
 if ($row) {
-  $user_firstname = $row['prenom_user'];
+    $user_firstname = $row['prenom_user'];
 } else {
-  $user_firstname = "Aucun prénom trouvé.";
+    $user_firstname = "Aucun prénom trouvé.";
 }
 
 // Requête SQL pour obtenir les infos sur le rôle
@@ -54,20 +54,20 @@ WHERE tbl_user.mail_user = '$email';";
 
 $result = mysqli_query($connection, $query);
 if (!$result) {
-  die('Erreur : ' . mysqli_error($conn));
+    die('Erreur : ' . mysqli_error($conn));
 }
 
 // Vérifier si la requête a abouti
 if (!$result) {
-  die("Erreur dans la requête : " . mysqli_error($connection));
+    die("Erreur dans la requête : " . mysqli_error($connection));
 }
 
 // Stockage des données
 $row = mysqli_fetch_assoc($result);
 if ($row) {
-  $user_role = $row['name_r'];
+    $user_role = $row['name_r'];
 } else {
-  $user_role = "Aucun rôle.";
+    $user_role = "Aucun rôle.";
 }
 
 // Libérer la mémoire des résultats
@@ -195,7 +195,7 @@ mysqli_free_result($result);
             </div>
             <p>
             <h5>Qui sommes-nous ?</h5><br>
-                Jeune entreprise spécialisée dans la vente d’essence de bois pour terrasse, charpente, clôture, bardage 
+                Jeune entreprise spécialisée dans la vente d’essence de bois pour terrasse, charpente, clôture, bardage
                 pour particuliers comme pour professionnels.
 
             </p>
@@ -228,24 +228,24 @@ mysqli_free_result($result);
     </div>
     <div class="product-grid">
       <?php
-      $sql = "SELECT * FROM tbl_activity ORDER BY id_activity DESC";
-      $result = $connection->query($sql);
+$sql = "SELECT * FROM tbl_activity ORDER BY id_activity DESC";
+$result = $connection->query($sql);
 
-      if ($result->num_rows > 0) {
-        echo "<div class='product-grid'>";
-        while ($row = $result->fetch_assoc()) {
-          echo "<div class='product-card'>";
-          echo "<a href='detail_activite.php?id=" . $row['id_activity'] . "'>";
-          echo "<img src='" . htmlspecialchars($row['image_path_product']) . "' alt='Activity Image'>";
-          echo "<h3>" . htmlspecialchars($row['name_activity']) . "</h3>";
-          echo "</a>";
-          echo "</div>";
-        }
+if ($result->num_rows > 0) {
+    echo "<div class='product-grid'>";
+    while ($row = $result->fetch_assoc()) {
+        echo "<div class='product-card'>";
+        echo "<a href='detail_activite.php?id=" . $row['id_activity'] . "'>";
+        echo "<img src='" . htmlspecialchars($row['image_path_product']) . "' alt='Activity Image'>";
+        echo "<h3>" . htmlspecialchars($row['name_activity']) . "</h3>";
+        echo "</a>";
         echo "</div>";
-      } else {
-        echo "Aucune activité trouvée.";
-      }
-      ?>
+    }
+    echo "</div>";
+} else {
+    echo "Aucune activité trouvée.";
+}
+?>
     </div>
     </div>
     </div>
@@ -392,11 +392,11 @@ mysqli_free_result($result);
                     <button type="submit">Envoyer</button>
                 </div>
                 <?php
-                if (isset($_SESSION['mail_status'])) {
-                    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
-                    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
-                }
-                ?>
+if (isset($_SESSION['mail_status'])) {
+    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
+    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
+}
+?>
             </form>
         </div>
     </div>

@@ -64,12 +64,20 @@ if (isset($_GET['id_product'])) {
         $connection->rollback();
         echo "Erreur lors de la suppression du produit: " . $exception->getMessage();
     } finally {
-        if (isset($stmt1)) $stmt1->close();
-        if (isset($stmt2)) $stmt2->close();
-        if (isset($stmt3)) $stmt3->close();
+        if (isset($stmt1)) {
+            $stmt1->close();
+        }
+
+        if (isset($stmt2)) {
+            $stmt2->close();
+        }
+
+        if (isset($stmt3)) {
+            $stmt3->close();
+        }
+
         $connection->close();
     }
 } else {
     echo "Aucun produit sélectionné pour la suppression.";
 }
-?>
