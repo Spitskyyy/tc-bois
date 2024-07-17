@@ -202,6 +202,24 @@ if ($result->num_rows > 0) {
 
   <body>
 
+  <section class="about_us_section">
+    <div class="container">
+      <h3>Infos j'effectue aussi :</h3>
+      <ul>
+        <li><strong>La Livraison,</strong></li>
+        <li><strong>la Quincaillerie</strong> </li>
+        <li><strong>et le Mettrage (gratuit) </strong></li>
+      </ul>
+      <p>
+        N'hésitez pas à nous contacter !
+      </p>
+    </div>
+  </section>
+<br>
+
+</p>
+
+
     <section class="service_section layout_padding">
       <div class="container">
         <div class="heading_container heading_center">

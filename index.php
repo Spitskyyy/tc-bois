@@ -70,6 +70,37 @@ if ($row) {
     $user_role = "Aucun rôle.";
 }
 
+// Récupération de l'email depuis la session
+$email = $_SESSION['email'];
+$connection = new mysqli($servername, $username, $password, $dbname);
+
+if ($connection->connect_error) {
+    die("Échec de la connexion : " . $connection->connect_error);
+}
+
+// Vérifier le rôle de l'utilisateur
+$email = $_SESSION['email'];
+
+$query = "SELECT tbl_role.name_r FROM tbl_role
+JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
+JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
+WHERE tbl_user.mail_user = '$email';";
+
+$result = mysqli_query($connection, $query);
+if (!$result) {
+    die('Erreur : ' . mysqli_error($connection));
+}
+
+$has_permission = false;
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        if ($row['name_r'] == 'PRO') {
+            $has_permission = true;
+            break;
+        }
+    }
+}
+
 // Libérer la mémoire des résultats
 mysqli_free_result($result);
 
@@ -171,7 +202,7 @@ mysqli_free_result($result);
                   Derivé.<br>
                 </h5>
                 <div class="btn-box">
-                  <a href="" class="btn2"> Contactez-nous </a>
+                  <a href="contact.php" class="btn2"> Contactez-nous </a>
                 </div>
               </div>
             </div>
@@ -218,7 +249,11 @@ mysqli_free_result($result);
     <div class="container">
       <div class="heading_container heading_center">
         <h2>Nos travaux réaliser</h2>
-        <a href="ajout_activite.php">Ajouter des activités</a>
+        <?php if ($has_permission): ?>
+              <div class="">
+              <a href="ajout_activite.php">Ajouter des activités</a>
+              </div>
+            <?php endif;?>
       </div>
       <div class="carousel-wrap">
         <div class="filter_box">
@@ -340,10 +375,6 @@ if ($result->num_rows > 0) {
             </div>
           </div>
           </a>
-        </div>
-
-        <div class="btn-box">
-          <a href=""> En savoir plus </a>
         </div>
       </div>
     </section>
