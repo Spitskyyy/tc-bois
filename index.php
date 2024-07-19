@@ -101,9 +101,16 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Libérer la mémoire des résultats
-mysqli_free_result($result);
+// Requête pour sélectionner les 4 plus récentes activités
+$sql = "SELECT * FROM tbl_activity ORDER BY id_activity DESC LIMIT 4";
+$result = $connection->query($sql);
+$recent_activities = [];
 
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $recent_activities[] = $row;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -152,12 +159,10 @@ mysqli_free_result($result);
             <a class="navbar-brand navbar_brand_mobile" href="index.html">
               TC<span>Bois</span>
             </a>
-
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class=""> </span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav">
                 <li class="nav-item active">
@@ -166,17 +171,13 @@ mysqli_free_result($result);
                 <li class="nav-item">
                   <a class="nav-link" href="service.php">Services</a>
                 </li>
-                <!-- <li class="nav-item">
-                  <a class="nav-link" href="about.html">About</a>
-                </li>-->
-                <!-- <li class="nav-item">
-                  <a class="nav-link" href="portfolio.html">Portfolio</a>
-                </li>-->
+                <li class="nav-item">
+                  <a class="nav-link" href="activite.php">Travaux réalisés</a>
+                </li>
                 <li class="nav-item">
                   <a class="nav-link" href="contact.php">Contactez-nous
                   </a>
                 </li>
-
               </ul>
             </div>
           </nav>
@@ -229,7 +230,7 @@ mysqli_free_result($result);
                 pour particuliers comme pour professionnels.
 
             </p>
-            <a href="qui_somme_nous.php"> En savoir plus </a>
+            <a href="qui_somme_nous.php"> En savoir plus sur nous </a>
           </div>
         </div>
         <div class="col-md-6">
@@ -242,36 +243,32 @@ mysqli_free_result($result);
   </section>
 
   <!-- end about section -->
-
   <!-- portfolio section -->
 
-  <section class="portfolio_section">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>Nos travaux réaliser</h2>
-        <?php if ($has_permission): ?>
-              <div class="">
-              <a href="ajout_activite.php">Ajouter des activités</a>
-              </div>
-            <?php endif;?>
-      </div>
-      <div class="carousel-wrap">
-        <div class="filter_box">
+  <section class="">
+      <div class="container">
+        <div class="heading_container heading_center">
+<a href="activite.php"><h2>Nos <span>travaux réalisés</span></h2></a>
+          <?php if ($has_permission): ?>
+                <div class="">
+                <a href="ajout_activite.php">Ajouter des activités</a>
+                </div>
+          <?php endif;?>
+        </div>
+        <div class="">
+          <div class="filter_box">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="product-grid">
-      <?php
-$sql = "SELECT * FROM tbl_activity ORDER BY id_activity DESC";
-$result = $connection->query($sql);
-
-if ($result->num_rows > 0) {
+      <div class="product-grid">
+        <?php
+if (count($recent_activities) > 0) {
     echo "<div class='product-grid'>";
-    while ($row = $result->fetch_assoc()) {
+    foreach ($recent_activities as $activity) {
         echo "<div class='product-card'>";
-        echo "<a href='detail_activite.php?id=" . $row['id_activity'] . "'>";
-        echo "<img src='" . htmlspecialchars($row['image_path_product']) . "' alt='Activity Image'>";
-        echo "<h3>" . htmlspecialchars($row['name_activity']) . "</h3>";
+        echo "<a href='detail_activite.php?id=" . $activity['id_activity'] . "'>";
+        echo "<img src='" . htmlspecialchars($activity['image_path_product']) . "' alt='Activity Image'>";
+        echo "<h3>" . htmlspecialchars($activity['name_activity']) . "</h3>";
         echo "</a>";
         echo "</div>";
     }
@@ -280,18 +277,12 @@ if ($result->num_rows > 0) {
     echo "Aucune activité trouvée.";
 }
 ?>
-    </div>
-    </div>
-    </div>
-    <br>
-    <br>
-    <br>
-  </section>
+      </div>
+    </section>
 
   <!-- end portfolio section -->
 
     <!-- service section -->
-
     <section class="service_section layout_padding">
       <div class="container">
         <div class="heading_container heading_center">
@@ -457,8 +448,12 @@ if (isset($_SESSION['mail_status'])) {
                     <a class="" href="contact.php"> Contact </a>
                   </li>
                   <li class="">
+                    <a class="" href="activite.php">Travaux realisés </a>
+                  </li>
+                  <li class="">
                     <a class="" href="connexion.php">Connexion </a>
                   </li>
+
                 </ul>
               </div>
             </div>

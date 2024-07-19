@@ -82,7 +82,7 @@ if ($row) {
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>OSB</title>
+  <title>Bardage</title>
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
@@ -105,7 +105,7 @@ if ($row) {
 </head>
 
 <body>
-<div class="hero_area">
+<div class="">
     <!-- header section strats -->
     <header class="header_section">
       <div class="header_top"></div>
@@ -194,95 +194,48 @@ if ($result->num_rows > 0) {
 }
 
 ?>
-  <!DOCTYPE html>
-  <html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-
-  <body>
-
-    <section class="service_section layout_padding">
-      <div class="container">
-        <div class="heading_container heading_center">
-          <h2>Nos <span>OSB</span></h2>
-        </div>
-        <div class="row">
-          <div class="product-grid">
-            <?php if ($has_permission): ?>
+<br><br><br><br>
+<section class="">
+    <div class="container">
+      <div class="heading_container heading_center">
+      <h2>Nos <span>Travaux réalisés</span></h2>
+        <?php if ($has_permission): ?>
               <div class="">
-                <a href="ajout_produit.php" class="add-product-button">Ajouter des produits</a>
+              <a href="ajout_activite.php" class="add-product-button">Ajouter des activités</a><br><br>
               </div>
             <?php endif;?>
-            <?php
-// Connexion à la base de données
-$conn = new mysqli($servername, $username, $password, $dbname);
+      </div>
+      <div class="carousel-wrap">
+        <div class="filter_box">
+        </div>
+      </div>
+    </div>
+    <div class="product-grid">
+      <?php
+$sql = "SELECT * FROM tbl_activity ORDER BY id_activity DESC";
+$result = $connection->query($sql);
 
-$type_of_product = 'osb';
-
-$query = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension
-          FROM tbl_product
-          JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product
-          JOIN tbl_type_of_product ON tbl_product_type_of_product.id_type_of_product_type_of_product = tbl_type_of_product.id_type_of_product
-          JOIN tbl_product_dimension ON tbl_product.id_product = tbl_product_dimension.id_product_product
-          JOIN tbl_dimension ON tbl_product_dimension.id_dimension_dimension = tbl_dimension.id_dimension
-          WHERE tbl_type_of_product.libelle_type_of_product = ?";
-
-$stmt = $connection->prepare($query);
-$stmt->bind_param("s", $type_of_product);
-$stmt->execute();
-$result = $stmt->get_result();
-
-?>
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
-    <div class="product-list">
-        <?php
 if ($result->num_rows > 0) {
+    echo "<div class='product-grid'>";
     while ($row = $result->fetch_assoc()) {
-        echo "<div class='product'>";
-        echo "<img src='" . $row['image_path_product'] . "' alt='" . $row['name_product'] . "'>";
-        echo "<h2>" . $row['name_product'] . "</h2>";
-        echo "<p>Essence: " . $row['essence_product'] . "</p>";
-        echo "<p>Description: " . $row['description_product'] . "</p>";
-        echo "<p>Longueur: " . $row['length_dimension'] . " m</p>";
-        echo "<p>Largeur: " . $row['width_dimension'] . " cm</p>";
-        echo "<p>Épaisseur: " . $row['thickness_dimension'] . " cm</p>";
-        echo "<p>Quantité: " . $row['quantity_product'] . "</p>";
-        echo "<div class='product-actions'>";
-        if ($has_permission):
-            echo "<a href='modification.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Modification</a>";
-            echo "<a href='delete_product.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Suppression</a>";
-            ?>
-	                <?php endif;?>
-                <?php
-echo "</div>";
+        echo "<div class='product-card'>";
+        echo "<a href='detail_activite.php?id=" . $row['id_activity'] . "'>";
+        echo "<img src='" . htmlspecialchars($row['image_path_product']) . "' alt='Activity Image'>";
+        echo "<h3>" . htmlspecialchars($row['name_activity']) . "</h3>";
+        echo "</a>";
         echo "</div>";
     }
+    echo "</div>";
 } else {
-    echo "<p>Aucun produit disponible.</p>";
+    echo "Aucune activité trouvée.";
 }
 ?>
-    </div>
-</body>
-</html>
-
 <?php
 $connection->close();
 ?>
           </div>
         </div>
-    </section>
-
-
-
+    </section><br><br><br>
  <!-- contact section -->
  <section class="contact-form-section">
     <div class="container">
@@ -323,11 +276,11 @@ $connection->close();
                     <button type="submit">Envoyer</button>
                 </div>
                 <?php
-if (isset($_SESSION['mail_status'])) {
-    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
-    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
-}
-?>
+                if (isset($_SESSION['mail_status'])) {
+                    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
+                    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
+                }
+                ?>
             </form>
         </div>
     </div>
@@ -356,9 +309,6 @@ if (isset($_SESSION['mail_status'])) {
                   </li>
                   <li class="">
                     <a class="" href="contact.php"> Contact </a>
-                  </li>
-                  <li class="">
-                    <a class="" href="activite.php">Travaux realisés </a>
                   </li>
                   <li class="">
                     <a class="" href="connexion.php">Connexion </a>
@@ -444,7 +394,7 @@ if (isset($_SESSION['mail_status'])) {
 
   <!-- footer section -->
   <footer class="footer_section">
-
+   
   </footer>
   <!-- footer section -->
 

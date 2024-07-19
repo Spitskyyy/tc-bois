@@ -74,40 +74,42 @@ if (mysqli_connect_error()) {
   </head>
 
   <body>
-    <div>
-      <!-- header section strats -->
-      <header class="header_section">
-        <div class="header_top"></div>
-        <div class="header_bottom">
-          <div class="container-fluid">
-            <nav class="navbar navbar-expand-lg custom_nav-container">
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav">
-                  <li class="nav-item active">
-                    <a class="nav-link" href="/index.php"
-                      >Acceuil<span class="sr-only"></span
-                    ></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="service.html">Services</a>
-                  </li>
-                  <!-- <li class="nav-item">
-                  <a class="nav-link" href="about.html">About</a>
-                </li>-->
-                  <!-- <li class="nav-item">
-                  <a class="nav-link" href="portfolio.html">Portfolio</a>
-                </li>-->
+  <div class="">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="header_top"></div>
+      <div class="header_bottom">
+        <div class="container-fluid">
+          <nav class="navbar navbar-expand-lg custom_nav-container">
+            <a class="navbar-brand navbar_brand_mobile" href="index.html">
+              TC<span>Bois</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class=""> </span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.php">Acceuil<span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="service.php">Services</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="activite.php">Travaux réalisés</a>
+                </li>
                 <li class="nav-item">
                   <a class="nav-link" href="contact.php">Contactez-nous
                   </a>
                 </li>
-                </ul>
-              </div>
-            </nav>
-          </div>
+              </ul>
+            </div>
+          </nav>
         </div>
-      </header>
-      <!-- end header section -->
+      </div>
+    </header>
+    <!-- end header section -->
       <!-- slider section -->
       <section class="slider_section">
         <div id="customCarousel1" class="carousel slide" data-ride="carousel">
@@ -290,6 +292,9 @@ if (mysqli_connect_error()) {
                   </li>
                   <li class="">
                     <a class="" href="contact.php"> Contact </a>
+                  </li>
+                  <li class="">
+                    <a class="" href="activite.php">Travaux realisés </a>
                   </li>
                   <li class="">
                     <a class="" href="connexion.php">Connexion </a>
