@@ -359,17 +359,6 @@ if (mysqli_connect_error()) {
                   </div>
                 </div>
 
-                <div class="col-md-3">
-                  <div class="info_form">
-                    <form action="">
-                      <input type="email" placeholder="Enter Your Email" />
-                      <button>
-                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                      </button>
-                    </form>
-                  </div>
-                </div>
-
               </div>
             </div>
           </div>

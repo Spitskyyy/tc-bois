@@ -105,7 +105,7 @@ if ($row) {
 </head>
 
 <body>
-<div class="hero_area">
+<div class="">
     <!-- header section strats -->
     <header class="header_section">
       <div class="header_top"></div>
@@ -201,6 +201,20 @@ if ($result->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
+
+  <section class="about_us_section">
+    <div class="container">
+      <h3>Infos j'effectue aussi :</h3>
+      <ul>
+        <li><strong>La Livraison,</strong></li>
+        <li><strong>la Quincaillerie</strong> </li>
+        <li><strong>et le Mettrage (gratuit) </strong></li>
+      </ul>
+      <p>
+        N'hésitez pas à nous contacter !
+      </p>
+    </div>
+  </section>
 
   <body>
 

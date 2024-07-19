@@ -202,6 +202,20 @@ if ($result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
 
+  <section class="about_us_section">
+    <div class="container">
+      <h3>Infos j'effectue aussi :</h3>
+      <ul>
+        <li><strong>La Livraison,</strong></li>
+        <li><strong>la Quincaillerie</strong> </li>
+        <li><strong>et le Mettrage (gratuit) </strong></li>
+      </ul>
+      <p>
+        N'hésitez pas à nous contacter !
+      </p>
+    </div>
+  </section>
+
   <body>
 
     <section class="service_section layout_padding">

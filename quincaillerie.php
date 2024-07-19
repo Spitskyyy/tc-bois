@@ -197,6 +197,20 @@ if ($result->num_rows > 0) {
   <!DOCTYPE html>
   <html lang="en">
 
+  <section class="about_us_section">
+    <div class="container">
+      <h3>Infos j'effectue aussi :</h3>
+      <ul>
+        <li><strong>La Livraison,</strong></li>
+        <li><strong>la Quincaillerie</strong> </li>
+        <li><strong>et le Mettrage (gratuit) </strong></li>
+      </ul>
+      <p>
+        N'hésitez pas à nous contacter !
+      </p>
+    </div>
+  </section>
+
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

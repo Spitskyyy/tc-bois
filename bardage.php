@@ -217,7 +217,7 @@ if ($result->num_rows > 0) {
       </p>
     </div>
   </section>
-<br>
+
 
 </p>
 

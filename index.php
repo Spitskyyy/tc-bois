@@ -1,11 +1,14 @@
 <?php
 session_start(); // Démarrer une session
 
+
 require 'vendor/autoload.php';
+
 
 // Charger les variables d'environnement à partir du fichier .env
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
+
 
 // Récupérer les variables d'environnement
 $servername = $_ENV['BD_HOST'];
@@ -13,30 +16,37 @@ $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
 
+
 // // Vérifier si une session est déjà active avant de la démar²rer
 // if (session_status() !== PHP_SESSION_ACTIVE) {
 //     session_start();
 // }
 
+
 // Récupération de l'email depuis la session
 $email = $_SESSION['email'];
 
+
 // Connexion à la base de données
 $connection = mysqli_connect($servername, $username, $password, $dbname);
+
 
 // Vérifier la connexion
 if (!$connection) {
     die("La connexion a échoué : " . mysqli_connect_error());
 }
 
+
 // Requête SQL pour obtenir les infos sur l'utilisateur
 $query = "SELECT prenom_user FROM tbl_user WHERE mail_user='$email'";
 $result = mysqli_query($connection, $query);
+
 
 // Vérifier si la requête a abouti
 if (!$result) {
     die("Erreur dans la requête : " . mysqli_error($connection));
 }
+
 
 // Stockage des données
 $row = mysqli_fetch_assoc($result);
@@ -46,21 +56,25 @@ if ($row) {
     $user_firstname = "Aucun prénom trouvé.";
 }
 
+
 // Requête SQL pour obtenir les infos sur le rôle
 $query = "SELECT tbl_role.name_r FROM tbl_role
 JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
 JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
 WHERE tbl_user.mail_user = '$email';";
 
+
 $result = mysqli_query($connection, $query);
 if (!$result) {
     die('Erreur : ' . mysqli_error($conn));
 }
 
+
 // Vérifier si la requête a abouti
 if (!$result) {
     die("Erreur dans la requête : " . mysqli_error($connection));
 }
+
 
 // Stockage des données
 $row = mysqli_fetch_assoc($result);
@@ -70,26 +84,32 @@ if ($row) {
     $user_role = "Aucun rôle.";
 }
 
+
 // Récupération de l'email depuis la session
 $email = $_SESSION['email'];
 $connection = new mysqli($servername, $username, $password, $dbname);
+
 
 if ($connection->connect_error) {
     die("Échec de la connexion : " . $connection->connect_error);
 }
 
+
 // Vérifier le rôle de l'utilisateur
 $email = $_SESSION['email'];
+
 
 $query = "SELECT tbl_role.name_r FROM tbl_role
 JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
 JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
 WHERE tbl_user.mail_user = '$email';";
 
+
 $result = mysqli_query($connection, $query);
 if (!$result) {
     die('Erreur : ' . mysqli_error($connection));
 }
+
 
 $has_permission = false;
 if ($result->num_rows > 0) {
@@ -101,10 +121,12 @@ if ($result->num_rows > 0) {
     }
 }
 
+
 // Requête pour sélectionner les 4 plus récentes activités
 $sql = "SELECT * FROM tbl_activity ORDER BY id_activity DESC LIMIT 4";
 $result = $connection->query($sql);
 $recent_activities = [];
+
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
@@ -114,6 +136,7 @@ if ($result->num_rows > 0) {
 ?>
 <!DOCTYPE html>
 <html>
+
 
 <head>
   <!-- Basic -->
@@ -126,10 +149,13 @@ if ($result->num_rows > 0) {
   <meta name="description" content="" />
   <meta name="author" content="" />
 
+
   <title>TC Bois</title>
+
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
 
   <!-- fonts style -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -142,11 +168,13 @@ if ($result->num_rows > 0) {
   <!-- font awesome style -->
   <link href="css/font-awesome.min.css" rel="stylesheet" />
 
+
   <!-- Custom styles  -->
   <link href="css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
 </head>
+
 
 <body>
   <div class="hero_area">
@@ -214,7 +242,9 @@ if ($result->num_rows > 0) {
     <!-- end slider section -->
   </div>
 
+
   <!-- about section -->
+
 
   <section class="about_section layout_padding">
     <div class="container">
@@ -229,6 +259,7 @@ if ($result->num_rows > 0) {
                 Jeune entreprise spécialisée dans la vente d’essence de bois pour terrasse, charpente, clôture, bardage
                 pour particuliers comme pour professionnels.
 
+
             </p>
             <a href="qui_somme_nous.php"> En savoir plus sur nous </a>
           </div>
@@ -242,13 +273,15 @@ if ($result->num_rows > 0) {
     </div>
   </section>
 
+
   <!-- end about section -->
   <!-- portfolio section -->
+
 
   <section class="">
       <div class="container">
         <div class="heading_container heading_center">
-<a href="activite.php"><h2>Nos <span>travaux réalisés</span></h2></a>
+<a href="activite.php"><h2>Nos <span><u>travaux réalisés</span></h2></a></u>
           <?php if ($has_permission): ?>
                 <div class="">
                 <a href="ajout_activite.php">Ajouter des activités</a>
@@ -280,7 +313,9 @@ if (count($recent_activities) > 0) {
       </div>
     </section>
 
+
   <!-- end portfolio section -->
+
 
     <!-- service section -->
     <section class="service_section layout_padding">
@@ -302,6 +337,7 @@ if (count($recent_activities) > 0) {
             </a>
           </div>
 
+
           <div class="col-sm-6 col-md-4">
             <a href="bardage.php">
               <div class="box">
@@ -314,6 +350,7 @@ if (count($recent_activities) > 0) {
               </div>
             </a>
           </div>
+
 
           <div class="col-sm-6 col-md-4">
             <a href="cloture.php">
@@ -328,6 +365,7 @@ if (count($recent_activities) > 0) {
             </a>
           </div>
 
+
           <div class="col-sm-6 col-md-4">
             <a href="charpente.php">
               <div class="box">
@@ -341,6 +379,7 @@ if (count($recent_activities) > 0) {
             </a>
           </div>
 
+
           <div class="col-sm-6 col-md-4">
             <a href="osb.php">
             <div class="box">
@@ -353,6 +392,7 @@ if (count($recent_activities) > 0) {
             </div>
             </a>
           </div>
+
 
           <div class="col-sm-6 col-md-4">
             <div class="box">
@@ -370,7 +410,10 @@ if (count($recent_activities) > 0) {
       </div>
     </section>
 
+
     <!-- end service section -->
+
+
 
 
   <!-- contact section -->
@@ -424,7 +467,10 @@ if (isset($_SESSION['mail_status'])) {
 </section>
 
 
+
+
   <!-- info section -->
+
 
   <section class="info_section">
     <div class="info_container layout_padding2">
@@ -453,6 +499,7 @@ if (isset($_SESSION['mail_status'])) {
                   <li class="">
                     <a class="" href="connexion.php">Connexion </a>
                   </li>
+
 
                 </ul>
               </div>
@@ -519,7 +566,9 @@ if (isset($_SESSION['mail_status'])) {
         </div>
   </section>
 
+
   <!-- end info section -->
+
 
   <!-- jQery -->
   <script src="js/jquery-3.4.1.min.js"></script>
@@ -541,6 +590,8 @@ if (isset($_SESSION['mail_status'])) {
 </body>
 
 
+
+
 <style>
   p3 {
     color: #252525;
@@ -552,18 +603,22 @@ if (isset($_SESSION['mail_status'])) {
     padding: 0;
   }
 
+
   .service_section {
     padding: 60px 0;
   }
+
 
   .heading_center {
     text-align: center;
     margin-bottom: 40px;
   }
 
+
   .heading_center h2 {
     color: #333;
   }
+
 
   .product-grid {
     display: flex;
@@ -571,6 +626,7 @@ if (isset($_SESSION['mail_status'])) {
     justify-content: center;
     gap: 20px;
   }
+
 
   .product-card {
     background: white;
@@ -581,6 +637,7 @@ if (isset($_SESSION['mail_status'])) {
     text-align: center;
   }
 
+
   .product-card img {
     max-width: 100%;
     height: auto;
@@ -588,20 +645,24 @@ if (isset($_SESSION['mail_status'])) {
     margin-bottom: 15px;
   }
 
+
   .product-card h3 {
     color: #333;
     margin-bottom: 10px;
   }
+
 
   .product-card p {
     color: #666;
     line-height: 1.6;
   }
 
+
   .add-product {
     text-align: center;
     margin-bottom: 40px;
   }
+
 
   .add-product a {
     text-decoration: none;
@@ -611,9 +672,11 @@ if (isset($_SESSION['mail_status'])) {
     border-radius: 5px;
   }
 
+
   .add-product a:hover {
     background-color: #218838;
   }
+
 
   .contact-form-section {
     display: flex;
@@ -624,6 +687,7 @@ if (isset($_SESSION['mail_status'])) {
     padding: 20px;
 }
 
+
 .contact-form-section .container {
     background: #fff;
     padding: 30px;
@@ -633,23 +697,28 @@ if (isset($_SESSION['mail_status'])) {
     width: 100%;
 }
 
+
 .contact-form-section .heading_container {
     text-align: center;
     margin-bottom: 20px;
 }
+
 
 .contact-form-section .heading_container h2 {
     font-size: 2em;
     color: #333;
 }
 
+
 .contact-form-section .heading_container h2 span {
     color: #6B8E23;
 }
 
+
 .contact-form-section .form-container {
     width: 100%;
 }
+
 
 .contact-form-section .form-row {
     display: flex;
@@ -657,10 +726,12 @@ if (isset($_SESSION['mail_status'])) {
     margin-bottom: 15px;
 }
 
+
 .contact-form-section .form-group {
     width: 100%;
     margin-bottom: 15px;
 }
+
 
 .contact-form-section .form-control {
     width: 100%;
@@ -669,13 +740,16 @@ if (isset($_SESSION['mail_status'])) {
     border-radius: 5px;
 }
 
+
 .contact-form-section .message-box {
     height: 100px;
 }
 
+
 .contact-form-section .btn_box {
     text-align: center;
 }
+
 
 .contact-form-section .btn_box button {
     background-color: #6B8E23;
@@ -686,9 +760,11 @@ if (isset($_SESSION['mail_status'])) {
     cursor: pointer;
 }
 
+
 .contact-form-section .btn_box button:hover {
     background-color: #45a049;
 }
+
 
 .contact-form-section .center-message {
     margin-top: 20px;
@@ -700,6 +776,9 @@ if (isset($_SESSION['mail_status'])) {
     text-align: center;
 }
 
+
 </style>
 
+
 </html>
+
