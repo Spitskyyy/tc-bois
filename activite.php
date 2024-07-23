@@ -289,6 +289,7 @@ $connection->close();
 
   <!-- info section -->
 
+
   <section class="info_section">
     <div class="info_container layout_padding2">
       <div class="container">
@@ -302,7 +303,7 @@ $connection->close();
                 <h5>Lien utile</h5>
                 <ul>
                   <li class="active">
-                    <a class="" href="/index.php">Acceuil <span class="sr-only"></span></a>
+                    <a class="" href="/index.php">Acceuil <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="">
                     <a class="" href="service.php">Services </a>
@@ -311,8 +312,13 @@ $connection->close();
                     <a class="" href="contact.php"> Contact </a>
                   </li>
                   <li class="">
+                    <a class="" href="activite.php">Travaux realisés </a>
+                  </li>
+                  <li class="">
                     <a class="" href="connexion.php">Connexion </a>
                   </li>
+
+
                 </ul>
               </div>
             </div>
@@ -372,50 +378,233 @@ $connection->close();
                     </div>
                   </div>
                 </div>
-
-                <div class="col-md-3">
-                  <div class="info_form">
-                    <form action="">
-                      <input type="email" placeholder="Enter Your Email" />
-                      <button>
-                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                      </button>
-                    </form>
-                  </div>
-                </div>
-
               </div>
             </div>
           </div>
         </div>
   </section>
 
+
   <!-- end info section -->
 
-  <!-- footer section -->
-  <footer class="footer_section">
-   
-  </footer>
-  <!-- footer section -->
+    <!-- jQery -->
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <!-- popper js -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <!-- bootstrap js -->
+    <script src="/js/bootstrap.js"></script>
+    <!-- owl slider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!--  OwlCarousel 2 - Filter -->
+    <script src="https://huynhhuynh.github.io/owlcarousel2-filter/dist/owlcarousel2-filter.min.js"></script>
+    <!-- nice select -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+      integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo="
+      crossorigin="anonymous"
+    ></script>
+    <!-- custom js -->
+    <script src="/js/custom.js"></script>
+  </body>
 
-  <!-- jQery -->
-  <script src="js/jquery-3.4.1.min.js"></script>
-  <!-- popper js -->
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <!-- bootstrap js -->
-  <script src="js/bootstrap.js"></script>
-  <!-- owl slider -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-  <!--  OwlCarousel 2 - Filter -->
-  <script src="https://huynhhuynh.github.io/owlcarousel2-filter/dist/owlcarousel2-filter.min.js"></script>
-  <!-- nice select -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
-    integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
-  <!-- custom js -->
-  <script src="js/custom.js"></script>
-</body>
+
+<style>
+.container h1 {
+    margin-bottom: 20px;
+}
 
 
-  </html>
+<style>
+  p3 {
+    color: #252525;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+
+
+  .service_section {
+    padding: 60px 0;
+  }
+
+
+  .heading_center {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+
+  .heading_center h2 {
+    color: #333;
+  }
+
+
+  .product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+
+  .product-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 20px;
+    text-align: center;
+  }
+
+
+  .product-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+
+
+  .product-card h3 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+
+  .product-card p {
+    color: #666;
+    line-height: 1.6;
+  }
+
+
+  .add-product {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+
+  .add-product a {
+    text-decoration: none;
+    color: white;
+    background-color: #28a745;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+
+
+  .add-product a:hover {
+    background-color: #218838;
+  }
+
+
+  .contact-form-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: vh; /* Ajustez la hauteur selon vos besoins */
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+
+.contact-form-section .container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    width: 100%;
+}
+
+
+.contact-form-section .heading_container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.contact-form-section .heading_container h2 {
+    font-size: 2em;
+    color: #333;
+}
+
+
+.contact-form-section .heading_container h2 span {
+    color: #6B8E23;
+}
+
+
+.contact-form-section .form-container {
+    width: 100%;
+}
+
+
+.contact-form-section .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+
+.contact-form-section .form-group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+
+.contact-form-section .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+.contact-form-section .message-box {
+    height: 100px;
+}
+
+
+.contact-form-section .btn_box {
+    text-align: center;
+}
+
+
+.contact-form-section .btn_box button {
+    background-color: #6B8E23;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.contact-form-section .btn_box button:hover {
+    background-color: #45a049;
+}
+
+
+.contact-form-section .center-message {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+
+</style>
+
+
+</style>
+</html>

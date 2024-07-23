@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="style.css">
 <?php
 session_start();
 
@@ -141,163 +140,38 @@ if ($row) {
       </div>
     </header>
     <!-- end header section -->
-    <!-- slider section -->
-    <section class="slider_section">
-      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
-        <div>
-          <div>
-            <div class="container">
-              <div class="detail-box">
-                <h1 align="center">TC-BOIS</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- end slider section -->
-  </div>
 
-  <!--Produit start-->
 
-  <?php
-
-// Récupération de l'email depuis la session
-$email = $_SESSION['email'];
-$connection = new mysqli($servername, $username, $password, $dbname);
-
-if ($connection->connect_error) {
-    die("Échec de la connexion : " . $connection->connect_error);
-}
-
-// Vérifier le rôle de l'utilisateur
-$email = $_SESSION['email'];
-
-$query = "SELECT tbl_role.name_r FROM tbl_role
-JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
-JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
-WHERE tbl_user.mail_user = '$email';";
-
-$result = mysqli_query($connection, $query);
-if (!$result) {
-    die('Erreur : ' . mysqli_error($connection));
-}
-
-$has_permission = false;
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        if ($row['name_r'] == 'PRO') {
-            $has_permission = true;
-            break;
-        }
-    }
-}
-
-?>
-  <!DOCTYPE html>
-  <html lang="en">
-
-  <section class="about_us_section">
+    <section class="about_us_section">
     <div class="container">
-      <h3>Infos j'effectue aussi :</h3>
+      <h1>Notre quincaillerie</h1>
+      <p>
+        Chez <strong>TcBois</strong>, nous ne vendons pas seulement du bois, mais aussi une vaste gamme de quincaillerie pour charpentiers. Nous proposons :
+      </p>
       <ul>
-        <li><strong>La Livraison,</strong></li>
-        <li><strong>la Quincaillerie</strong> </li>
-        <li><strong>et le Mettrage (gratuit) </strong></li>
+        <li>- Vis</li>
+        <li>.Clous</li>
+        <li align="center">Équerres</li>
+        <li>Charnières</li>
+        <li>Boulons</li>
+        <li>Connecteurs</li>
       </ul>
       <p>
-        N'hésitez pas à nous contacter !
+        Notre engagement ne s'arrête pas à la vente de bois. Nous vous accompagnons de A à Z, vous fournissant tout le nécessaire pour votre terrasse, y compris la visserie, les bandes d'étanchéité, et bien plus encore.
+      </p>
+      <p>
+        Faites confiance à <strong>TcBois</strong> pour transformer vos espaces extérieurs en véritables havres de paix, alliant beauté naturelle et fonctionnalité.
+      </p>
+      <p>
+        N'hésitez pas à nous contacter pour discuter de votre projet. Ensemble, réalisons vos rêves d'aménagement extérieur !
       </p>
     </div>
-  </section>
-
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-
-  <body>
-
-    <section class="service_section layout_padding">
-      <div class="container">
-        <div class="heading_container heading_center">
-          <h2>Notre <span>Quincaillerie</span></h2>
-        </div>
-        <div class="row">
-          <div class="product-grid">
-            <?php if ($has_permission): ?>
-              <div class="">
-                <a href="ajout_produit.php" class="add-product-button">Ajouter des produits</a>
-              </div>
-            <?php endif;?>
-            <?php
-// Connexion à la base de données
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-$type_of_product = 'quincaillerie';
-
-$query = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension
-          FROM tbl_product
-          JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product
-          JOIN tbl_type_of_product ON tbl_product_type_of_product.id_type_of_product_type_of_product = tbl_type_of_product.id_type_of_product
-          JOIN tbl_product_dimension ON tbl_product.id_product = tbl_product_dimension.id_product_product
-          JOIN tbl_dimension ON tbl_product_dimension.id_dimension_dimension = tbl_dimension.id_dimension
-          WHERE tbl_type_of_product.libelle_type_of_product = ?";
-
-$stmt = $connection->prepare($query);
-$stmt->bind_param("s", $type_of_product);
-$stmt->execute();
-$result = $stmt->get_result();
-
-?>
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
-    <div class="product-list">
-        <?php
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        echo "<div class='product'>";
-        echo "<img src='" . $row['image_path_product'] . "' alt='" . $row['name_product'] . "'>";
-        echo "<h2>" . $row['name_product'] . "</h2>";
-        echo "<p>Essence: " . $row['essence_product'] . "</p>";
-        echo "<p>Description: " . $row['description_product'] . "</p>";
-        echo "<p>Longueur: " . $row['length_dimension'] . " m</p>";
-        echo "<p>Largeur: " . $row['width_dimension'] . " cm</p>";
-        echo "<p>Épaisseur: " . $row['thickness_dimension'] . " cm</p>";
-        echo "<p>Quantité: " . $row['quantity_product'] . "</p>";
-        echo "<div class='product-actions'>";
-        if ($has_permission):
-            echo "<a href='modification.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Modification</a>";
-            echo "<a href='delete_product.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Suppression</a>";
-            ?>
-	                <?php endif;?>
-                <?php
-echo "</div>";
-        echo "</div>";
-    }
-} else {
-    echo "<p>Aucun produit disponible.</p>";
-}
-?>
-    </div>
-</body>
-</html>
-
-<?php
-$connection->close();
-?>
-          </div>
-        </div>
-    </section>
+</section>
 
 
 
- <!-- contact section -->
+
+   <!-- contact section -->
  <section class="contact-form-section">
     <div class="container">
         <div class="heading_container heading_center">
@@ -347,10 +221,10 @@ if (isset($_SESSION['mail_status'])) {
     </div>
 </section>
 
+<!-- info section -->
 
-  <!-- info section -->
 
-  <section class="info_section">
+<section class="info_section">
     <div class="info_container layout_padding2">
       <div class="container">
         <div class="info_logo">
@@ -363,7 +237,7 @@ if (isset($_SESSION['mail_status'])) {
                 <h5>Lien utile</h5>
                 <ul>
                   <li class="active">
-                    <a class="" href="/index.php">Acceuil <span class="sr-only"></span></a>
+                    <a class="" href="/index.php">Acceuil <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="">
                     <a class="" href="service.php">Services </a>
@@ -377,6 +251,8 @@ if (isset($_SESSION['mail_status'])) {
                   <li class="">
                     <a class="" href="connexion.php">Connexion </a>
                   </li>
+
+
                 </ul>
               </div>
             </div>
@@ -436,18 +312,6 @@ if (isset($_SESSION['mail_status'])) {
                     </div>
                   </div>
                 </div>
-
-                <div class="col-md-3">
-                  <div class="info_form">
-                    <form action="">
-                      <input type="email" placeholder="Enter Your Email" />
-                      <button>
-                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                      </button>
-                    </form>
-                  </div>
-                </div>
-
               </div>
             </div>
           </div>
@@ -480,6 +344,283 @@ if (isset($_SESSION['mail_status'])) {
   <!-- custom js -->
   <script src="js/custom.js"></script>
 </body>
+
+  <style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    text-align: center;
+    margin-top: 20px;
+}
+
+h1,
+h2 {
+    color: #333;
+}
+
+.product-form {
+    background: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.product-form input,
+.product-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.product-form input[type="submit"] {
+    background: #5cb85c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.product-form input[type="submit"]:hover {
+    background: #4cae4c;
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.product {
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    flex: 1 1 calc(33.333% - 40px);
+    box-sizing: border-box;
+    text-align: center;
+    max-width: 300px; /* Pour limiter la largeur maximale de chaque produit */
+}
+
+.product img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px; /* Centrer l'image horizontalement */
+}
+
+.product h2 {
+    margin: 0 0 10px;
+    color: #333;
+}
+
+.product p {
+    margin: 0 0 10px;
+    color: #666;
+}
+
+.product-actions {
+    margin-top: 10px;
+}
+
+.action-link {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    color: white;
+    background-color:#6B8E23;
+    border: none;
+    border-radius: 3px;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.action-link:hover {
+    background-color: #ccc;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.add-product-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #6B8E23;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-product-button:hover {
+  background-color: #ccc;
+}
+
+.container h1 {
+    margin-bottom: 20px;
+}
+
+.contact-form-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: vh; /* Ajustez la hauteur selon vos besoins */
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+.contact-form-section .container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    width: 100%;
+}
+
+.contact-form-section .heading_container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.contact-form-section .heading_container h2 {
+    font-size: 2em;
+    color: #333;
+}
+
+.contact-form-section .heading_container h2 span {
+    color: #6B8E23;
+}
+
+.contact-form-section .form-container {
+    width: 100%;
+}
+
+.contact-form-section .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.contact-form-section .form-group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.contact-form-section .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contact-form-section .message-box {
+    height: 100px;
+}
+
+.contact-form-section .btn_box {
+    text-align: center;
+}
+
+.contact-form-section .btn_box button {
+    background-color: #6B8E23;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contact-form-section .btn_box button:hover {
+    background-color: #45a049;
+}
+
+.contact-form-section .center-message {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.about_us_section {
+    padding: 60px 20px;
+    background-color: #f9f9f9;
+}
+
+.about_us_section .container {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.about_us_section h1 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+}
+
+.about_us_section p {
+    color: #666;
+    line-height: 1.8;
+    font-size: 1.1em;
+    margin-bottom: 30px;
+}
+
+.about_us_section ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+}
+
+.about_us_section ul li {
+    background: url('path/to/icon.png') no-repeat left center;
+    padding-left: 35px;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    color: #555;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.about_us_section ul li:hover {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+  </style>
+
+
 
 
   </html>

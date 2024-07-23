@@ -221,9 +221,10 @@ if (isset($_SESSION['mail_status'])) {
     </div>
 </section>
 
-  <!-- info section -->
+<!-- info section -->
 
-  <section class="info_section">
+
+<section class="info_section">
     <div class="info_container layout_padding2">
       <div class="container">
         <div class="info_logo">
@@ -236,7 +237,7 @@ if (isset($_SESSION['mail_status'])) {
                 <h5>Lien utile</h5>
                 <ul>
                   <li class="active">
-                    <a class="" href="/index.php">Acceuil <span class="sr-only"></span></a>
+                    <a class="" href="/index.php">Acceuil <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="">
                     <a class="" href="service.php">Services </a>
@@ -250,6 +251,8 @@ if (isset($_SESSION['mail_status'])) {
                   <li class="">
                     <a class="" href="connexion.php">Connexion </a>
                   </li>
+
+
                 </ul>
               </div>
             </div>
@@ -309,18 +312,6 @@ if (isset($_SESSION['mail_status'])) {
                     </div>
                   </div>
                 </div>
-
-                <div class="col-md-3">
-                  <div class="info_form">
-                    <form action="">
-                      <input type="email" placeholder="Enter Your Email" />
-                      <button>
-                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                      </button>
-                    </form>
-                  </div>
-                </div>
-
               </div>
             </div>
           </div>

@@ -219,8 +219,8 @@ if (mysqli_connect_error()) {
 
     <!-- end service section -->
 
-<!-- contact section -->
-<section class="contact-form-section">
+  <!-- contact section -->
+  <section class="contact-form-section">
     <div class="container">
         <div class="heading_container heading_center">
             <h2>Prenons<span> Contact</span></h2>
@@ -259,18 +259,21 @@ if (mysqli_connect_error()) {
                     <button type="submit">Envoyer</button>
                 </div>
                 <?php
-                if (isset($_SESSION['mail_status'])) {
-                    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
-                    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
-                }
-                ?>
+if (isset($_SESSION['mail_status'])) {
+    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
+    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
+}
+?>
             </form>
         </div>
     </div>
 </section>
 
 
+
+
   <!-- info section -->
+
 
   <section class="info_section">
     <div class="info_container layout_padding2">
@@ -299,6 +302,8 @@ if (mysqli_connect_error()) {
                   <li class="">
                     <a class="" href="connexion.php">Connexion </a>
                   </li>
+
+
                 </ul>
               </div>
             </div>
@@ -312,7 +317,7 @@ if (mysqli_connect_error()) {
             </div>
             -->
             <div class="col-md-3 mx-auto">
-              <h5>social media</h5>
+              <h5>Réseau sociaux</h5>
               <div class="social_box">
                 <a href="https://www.facebook.com/profile.php?id=100089498872438">
                   <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -358,13 +363,14 @@ if (mysqli_connect_error()) {
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
         </div>
   </section>
-    <!-- end info section -->
+
+
+  <!-- end info section -->
 
     <!-- jQery -->
     <script src="/js/jquery-3.4.1.min.js"></script>
@@ -480,6 +486,194 @@ if (mysqli_connect_error()) {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
+
+
+<style>
+  p3 {
+    color: #252525;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+
+
+  .service_section {
+    padding: 60px 0;
+  }
+
+
+  .heading_center {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+
+  .heading_center h2 {
+    color: #333;
+  }
+
+
+  .product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+
+  .product-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 20px;
+    text-align: center;
+  }
+
+
+  .product-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+
+
+  .product-card h3 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+
+  .product-card p {
+    color: #666;
+    line-height: 1.6;
+  }
+
+
+  .add-product {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+
+  .add-product a {
+    text-decoration: none;
+    color: white;
+    background-color: #28a745;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+
+
+  .add-product a:hover {
+    background-color: #218838;
+  }
+
+
+  .contact-form-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: vh; /* Ajustez la hauteur selon vos besoins */
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+
+.contact-form-section .container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    width: 100%;
+}
+
+
+.contact-form-section .heading_container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.contact-form-section .heading_container h2 {
+    font-size: 2em;
+    color: #333;
+}
+
+
+.contact-form-section .heading_container h2 span {
+    color: #6B8E23;
+}
+
+
+.contact-form-section .form-container {
+    width: 100%;
+}
+
+
+.contact-form-section .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+
+.contact-form-section .form-group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+
+.contact-form-section .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+.contact-form-section .message-box {
+    height: 100px;
+}
+
+
+.contact-form-section .btn_box {
+    text-align: center;
+}
+
+
+.contact-form-section .btn_box button {
+    background-color: #6B8E23;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.contact-form-section .btn_box button:hover {
+    background-color: #45a049;
+}
+
+
+.contact-form-section .center-message {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+
+</style>
 
 
 </style>
