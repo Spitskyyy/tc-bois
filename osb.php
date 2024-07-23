@@ -230,6 +230,14 @@ if ($result->num_rows > 0) {
                 <a href="ajout_produit.php" class="add-product-button">Ajouter des produits</a>
               </div>
             <?php endif;?>
+
+            <script>
+    function confirmDeletion(id) {
+        if (confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
+            window.location.href = 'delete_product.php?id_product=' + id;
+        }
+    }
+  </script>
             <?php
 // Connexion à la base de données
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -272,9 +280,8 @@ if ($result->num_rows > 0) {
         echo "<p>Quantité: " . $row['quantity_product'] . "</p>";
         echo "<div class='product-actions'>";
         if ($has_permission):
-            echo "<a href='modification.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Modification</a>";
-            echo "<a href='delete_product.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Suppression</a>";
-            ?>
+            echo "<a href='modification_product.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>modification</a>";
+            echo "<a href='javascript:void(0)' onclick='confirmDeletion(" . htmlspecialchars($row['id_product']) . ")' class='action-link'>Suppression</a>";?>
 	                <?php endif;?>
                 <?php
 echo "</div>";

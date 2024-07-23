@@ -218,9 +218,15 @@ if ($result->num_rows > 0) {
     </div>
   </section>
 
+  <script>
+    function confirmDeletion(id) {
+        if (confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
+            window.location.href = 'delete_product.php?id_product=' + id;
+        }
+    }
+  </script>
 
 </p>
-
 
     <section class="service_section layout_padding">
       <div class="container">
@@ -276,9 +282,8 @@ $result = $stmt->get_result();
               echo "<p>Quantité: " . $row['quantity_product'] . "</p>";
               echo "<div class='product-actions'>";
               if ($has_permission): 
-                echo "<a href='modification.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Modification</a>";
-                echo "<a href='delete_product.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Suppression</a>";
-                ?>
+                echo "<a href='modification_product.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>modification</a>";
+                echo "<a href='javascript:void(0)' onclick='confirmDeletion(" . htmlspecialchars($row['id_product']) . ")' class='action-link'>Suppression</a>";?>
                 <?php endif;?>
                 <?php
               echo "</div>";

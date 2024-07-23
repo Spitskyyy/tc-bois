@@ -194,6 +194,13 @@ if ($result->num_rows > 0) {
 }
 
 ?>
+<script>
+    function confirmDeletion(id) {
+        if (confirm("Êtes-vous sûr de vouloir supprimer cette activité ?")) {
+            window.location.href = 'delete_activite.php?id_activity=' + id;
+        }
+    }
+  </script>
 <br><br><br><br>
 <section class="">
     <div class="container">
@@ -223,13 +230,19 @@ if ($result->num_rows > 0) {
         echo "<img src='" . htmlspecialchars($row['image_path_product']) . "' alt='Activity Image'>";
         echo "<h3>" . htmlspecialchars($row['name_activity']) . "</h3>";
         echo "</a>";
+        echo "<div class='product-actions'>";
+        if ($has_permission): 
+          echo "<a href='modification_activite.php?id_activity=" . htmlspecialchars($row['id_activity']) . "' class='action-link'>modification</a>";
+          echo "<a href='javascript:void(0)' onclick='confirmDeletion(" . htmlspecialchars($row['id_activity']) . ")' class='action-link'>Suppression</a>";?>
+          <?php endif;?>
+          <?php
         echo "</div>";
-    }
-    echo "</div>";
-} else {
-    echo "Aucune activité trouvée.";
-}
-?>
+        echo "</div>";
+      }
+  } else {
+      echo "<p>Aucun Travaux disponible.</p>";
+  }
+  ?>
 <?php
 $connection->close();
 ?>
@@ -276,11 +289,11 @@ $connection->close();
                     <button type="submit">Envoyer</button>
                 </div>
                 <?php
-                if (isset($_SESSION['mail_status'])) {
-                    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
-                    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
-                }
-                ?>
+if (isset($_SESSION['mail_status'])) {
+    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
+    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
+}
+?>
             </form>
         </div>
     </div>
