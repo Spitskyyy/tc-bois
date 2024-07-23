@@ -236,7 +236,6 @@ $connection->close();
                         <option value="charpente">Bois de charpente</option>
                         <option value="cloture">Clôture</option>
                         <option value="osb">OSB</option>
-                        <option value="quincaillerie">Quincaillerie</option>
                     </select><br><br>
 
                     <label for="height">Longueur (m) :</label>
