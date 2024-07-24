@@ -82,7 +82,7 @@ if ($row) {
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>Bardage</title>
+  <title>Travaux réalisés</title>
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />

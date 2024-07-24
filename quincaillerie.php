@@ -145,22 +145,19 @@ if ($row) {
     <section class="about_us_section">
     <div class="container">
       <h1>Notre quincaillerie</h1>
+      <br>
       <p>
         Chez <strong>TcBois</strong>, nous ne vendons pas seulement du bois, mais aussi une vaste gamme de quincaillerie pour charpentiers. Nous proposons :
       </p>
       <ul>
-        <li>- Vis</li>
-        <li>.Clous</li>
-        <li align="center">Équerres</li>
-        <li>Charnières</li>
-        <li>Boulons</li>
-        <li>Connecteurs</li>
+        <li align="center">Boulonnerie diverse</li>
+
       </ul>
       <p>
         Notre engagement ne s'arrête pas à la vente de bois. Nous vous accompagnons de A à Z, vous fournissant tout le nécessaire pour votre terrasse, y compris la visserie, les bandes d'étanchéité, et bien plus encore.
       </p>
       <p>
-        Faites confiance à <strong>TcBois</strong> pour transformer vos espaces extérieurs en véritables havres de paix, alliant beauté naturelle et fonctionnalité.
+        Faites confiance à <strong>TcBois</strong> pour transformer vos espaces extérieurs en véritables havre de paix, alliant beauté naturelle et fonctionnalité.
       </p>
       <p>
         N'hésitez pas à nous contacter pour discuter de votre projet. Ensemble, réalisons vos rêves d'aménagement extérieur !
