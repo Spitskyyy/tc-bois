@@ -104,11 +104,11 @@ if (isset($_POST['submit'])) {
                 if ($connection->query($sql_dimension) === TRUE) {
                     $last_dimension_id = $connection->insert_id;
 
-                    $sql_product_dimension = "INSERT INTO tbl_product_dimension (id_product_product, id_dimension_dimension)
+                    $sql_product_dimension = "INSERT INTO tbl_product_dimension (id_product_product, id_dimension)
                                               VALUES ('$last_product_id', '$last_dimension_id')";
                     if ($connection->query($sql_product_dimension) === TRUE) {
 
-                        $sql_product_type_of_product = "INSERT INTO tbl_product_type_of_product (id_type_of_product_type_of_product, id_product_product)
+                        $sql_product_type_of_product = "INSERT INTO tbl_product_type_of_product (id_type_of_product, id_product_product)
                                                         VALUES ((SELECT id_type_of_product FROM tbl_type_of_product WHERE libelle_type_of_product = '$type_of_product'), '$last_product_id')";
 
                         if ($connection->query($sql_product_type_of_product) === TRUE) {

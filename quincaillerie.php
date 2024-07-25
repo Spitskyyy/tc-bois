@@ -29,42 +29,17 @@ if (!$connection) {
     die("La connexion a échoué : " . mysqli_connect_error());
 }
 
-// Requête SQL pour obtenir les infos sur l'utilisateur
-$query = "SELECT prenom_user FROM tbl_user WHERE mail_user='$email'";
-$result = mysqli_query($connection, $query);
 
-// Vérifier si la requête a abouti
-if (!$result) {
-    die("Erreur dans la requête : " . mysqli_error($connection));
-}
 
-// Stockage des données
-$row = mysqli_fetch_assoc($result);
-if ($row) {
-    $user_firstname = $row['prenom_user'];
-} else {
-    $user_firstname = "Aucun prénom trouvé.";
-}
 
-// Requête SQL pour obtenir les infos sur le rôle
-$query = "SELECT tbl_role.name_r FROM tbl_role
-          JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
-          JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
-          WHERE tbl_user.mail_user = '$email'"; // Faire une commande préparer
-$result = mysqli_query($connection, $query);
 
-// Vérifier si la requête a abouti
-if (!$result) {
-    die("Erreur dans la requête : " . mysqli_error($connection));
-}
 
-// Stockage des données
-$row = mysqli_fetch_assoc($result);
-if ($row) {
-    $user_role = $row['name_r'];
-} else {
-    $user_role = "Aucun rôle.";
-}
+
+
+
+
+
+
 
 ?>
 <!DOCTYPE html>
@@ -121,7 +96,7 @@ if ($row) {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link" href="index.php">Acceuil<span class="sr-only"></span></a>
+                  <a class="nav-link" href="index.php">Accueil<span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="service.php">Services</a>
@@ -234,7 +209,7 @@ if (isset($_SESSION['mail_status'])) {
                 <h5>Lien utile</h5>
                 <ul>
                   <li class="active">
-                    <a class="" href="/index.php">Acceuil <span class="sr-only">(current)</span></a>
+                    <a class="" href="/index.php">Accueil <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="">
                     <a class="" href="service.php">Services </a>

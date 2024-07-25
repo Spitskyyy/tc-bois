@@ -13,6 +13,7 @@ $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
 
+// Connexion MySQLi pour vérifier le rôle de l'utilisateur
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
@@ -32,7 +33,7 @@ $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Connexion à la base de données
+// Connexion PDO pour les opérations de base de données sécurisées
 try {
     $dbh = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -56,11 +57,14 @@ try {
             if ($password != $password2) {
                 $errorMessage = "Les mots de passe ne correspondent pas.";
             } else {
+                // Hachage du mot de passe
+                $hashed_password = password_hash("*-6" . $password, PASSWORD_DEFAULT);
+
                 // Préparation de la requête d'insertion
-                $stmt = $dbh->prepare("INSERT INTO tbl_user (password_user, nom_user, prenom_user, mail_user, phone_user) VALUES (PASSWORD(CONCAT('*-6',:password)), :nom, :prenom, :email, :phone)");
+                $stmt = $dbh->prepare("INSERT INTO tbl_user (password_user, nom_user, prenom_user, mail_user, phone_user) VALUES (:hashed_password, :nom, :prenom, :email, :phone)");
 
                 // Liaison des paramètres
-                $stmt->bindParam(':password', $password);
+                $stmt->bindParam(':hashed_password', $hashed_password);
                 $stmt->bindParam(':nom', $nom);
                 $stmt->bindParam(':prenom', $prenom);
                 $stmt->bindParam(':email', $email);
@@ -69,7 +73,8 @@ try {
                 // Exécution de la requête
                 $stmt->execute();
 
-                header('location: /connexion.php');
+                header('Location: /connexion.php');
+                exit();
             }
         }
     }
@@ -118,11 +123,11 @@ try {
             <div>
                 <input type="password" name="RepeatPassword" placeholder="Confirmation MDP" required>
             </div>
-            <?php if (!empty($errorMessage)) {?>
+            <?php if (!empty($errorMessage)) { ?>
                 <div class="alert">
                     <?php echo $errorMessage; ?>
                 </div>
-            <?php }?>
+            <?php } ?>
             <input type="submit" value="Valider le compte">
         </form>
         <a href="connexion.php">Déjà un compte? Connectez-vous!</a>
@@ -130,8 +135,6 @@ try {
 </body>
 
 </html>
-
-
 
 <style>
 body {
@@ -212,5 +215,4 @@ body {
 .success {
     background-color: #6B8E23;
 }
-
 </style>

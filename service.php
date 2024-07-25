@@ -91,7 +91,7 @@ if (mysqli_connect_error()) {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link" href="index.php">Acceuil<span class="sr-only"></span></a>
+                  <a class="nav-link" href="index.php">Accueil<span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="service.php">Services</a>
@@ -288,7 +288,7 @@ if (isset($_SESSION['mail_status'])) {
                 <h5>Lien utile</h5>
                 <ul>
                   <li class="active">
-                    <a class="" href="/index.php">Acceuil <span class="sr-only">(current)</span></a>
+                    <a class="" href="/index.php">Accueil <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="">
                     <a class="" href="service.php">Services </a>

@@ -26,15 +26,16 @@ try {
         $password = $_POST['password'];
 
         // Vérifier si le compte existe
-        $stmt = $dbh->prepare("SELECT * FROM tbl_user WHERE mail_user = :email AND password_user = PASSWORD(CONCAT('*-6', :password))");
+        $stmt = $dbh->prepare("SELECT * FROM tbl_user WHERE mail_user = :email");
         $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
         $stmt->execute();
 
-        if ($stmt->rowCount() > 0) {
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify("*-6" . $password, $user['password_user'])) {
             $_SESSION['email'] = $email;
             $message = "Connexion réussie.";
-            header('location: /index.php');
+            header('Location: /index.php');
             exit();
         } else {
             $message = "Nom d'utilisateur ou mot de passe incorrect.";
@@ -52,7 +53,6 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page de Connexion</title>
-
 </head>
 
 <body>
@@ -63,7 +63,7 @@ try {
             <div class="alert <?php echo ($message == "Connexion réussie.") ? 'success' : ''; ?>">
                 <?php echo $message; ?>
             </div>
-        <?php endif;?>
+        <?php endif; ?>
         <form method="POST" action="connexion.php">
             <input type="text" name="email" placeholder="Nom d'utilisateur" required>
             <input type="password" name="password" placeholder="Mot de passe" required>
