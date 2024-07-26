@@ -18,16 +18,7 @@ $dbname = $_ENV['BD_NAME'];
 //     session_start();
 // }
 
-// Récupération de l'email depuis la session
-$email = $_SESSION['email'];
 
-// Connexion à la base de données
-$connection = mysqli_connect($servername, $username, $password, $dbname);
-
-// Vérifier la connexion
-if (!$connection) {
-    die("La connexion a échoué : " . mysqli_connect_error());
-}
 
 
 

@@ -1,261 +1,214 @@
-<link rel="stylesheet" href="style.css">
-<?php
-session_start();
+<!DOCTYPE html>
 
-require 'vendor/autoload.php';
+<html>
 
-// Charger les variables d'environnement à partir du fichier .env
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-// Récupérer les variables d'environnement
-$servername = $_ENV['BD_HOST'];
-$username = $_ENV['BD_USER'];
-$password = $_ENV['BD_PASS'];
-$dbname = $_ENV['BD_NAME'];
+    <title>Bardage</title>
 
-// // Vérifier si une session est déjà active avant de la démar²rer
-// if (session_status() !== PHP_SESSION_ACTIVE) {
-//     session_start();
-// }
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+    <!-- Fonts style -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <!-- Owl slider stylesheet -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <!-- Nice select -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+    <!-- Font awesome style -->
+    <link href="/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Custom styles -->
+    <link href="/css/style.css" rel="stylesheet" />
+    <!-- Responsive style -->
+    <link href="/css/responsive.css" rel="stylesheet" />
+</head>
 
-// Récupération de l'email depuis la session
-$email = $_SESSION['email'];
+<html>
+    <?php
+    session_start();
+    require 'vendor/autoload.php';
 
-// Connexion à la base de données
-$connection = mysqli_connect($servername, $username, $password, $dbname);
+    // Charger les variables d'environnement à partir du fichier .env
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
 
-// Vérifier la connexion
-if (!$connection) {
-    die("La connexion a échoué : " . mysqli_connect_error());
-}
+    // Récupérer les variables d'environnement
+    $servername = $_ENV['BD_HOST'];
+    $username = $_ENV['BD_USER'];
+    $password = $_ENV['BD_PASS'];
+    $dbname = $_ENV['BD_NAME'];
 
+    // Connexion à la base de données
+    $connection = new mysqli($servername, $username, $password, $dbname);
 
+    if ($connection->connect_error) {
+        die("Échec de la connexion : " . $connection->connect_error);
+    }
 
+    // Récupération de l'email depuis la session
+    $email = $_SESSION['email'];
 
+    // Vérifier le rôle de l'utilisateur
+    $query = "SELECT tbl_role.name_r FROM tbl_role
+              JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
+              JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
+              WHERE tbl_user.mail_user = ?";
+    $stmt = $connection->prepare($query);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-
-
-
-
-// Récupération de l'email depuis la session
-$email = $_SESSION['email'];
-$connection = new mysqli($servername, $username, $password, $dbname);
-
-if ($connection->connect_error) {
-    die("Échec de la connexion : " . $connection->connect_error);
-}
-
-// Vérifier le rôle de l'utilisateur
-$email = $_SESSION['email'];
-
-$query = "SELECT tbl_role.name_r FROM tbl_role
-JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
-JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
-WHERE tbl_user.mail_user = '$email';";
-
-$result = mysqli_query($connection, $query);
-if (!$result) {
-    die('Erreur : ' . mysqli_error($connection));
-}
-
-$has_permission = false;
-if ($result->num_rows > 0) {
+    $has_permission = false;
     while ($row = $result->fetch_assoc()) {
         if ($row['name_r'] == 'PRO') {
             $has_permission = true;
             break;
         }
     }
-}
-
-
-?>
-<!DOCTYPE html>
-<html>
-
-<head>
-  <!-- Basic -->
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-
-  <title>Bardage</title>
-
-  <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
-
-  <!-- fonts style -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-  <!--owl slider stylesheet -->
-  <link rel="stylesheet" type="text/css"
-    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-  <!-- nice select -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
-    integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
-  <!-- font awesome style -->
-  <link href="/css/font-awesome.min.css" rel="stylesheet" />
-
-  <!-- Custom styles  -->
-  <link href="/css/style.css" rel="stylesheet" />
-  <!-- responsive style -->
-  <link href="/css/responsive.css" rel="stylesheet" />
-</head>
-
-<body>
-<div class="">
-
-    <!-- header section strats -->
+    ?>
+    <!-- Header section starts -->
     <header class="header_section">
-      <div class="header_top"></div>
-      <div class="header_bottom">
-        <div class="container-fluid">
-          <nav class="navbar navbar-expand-lg custom_nav-container">
-            <a class="navbar-brand navbar_brand_mobile" href="index.html">
-              TC<span>Bois</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class=""> </span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav">
-                <li class="nav-item active">
-                  <a class="nav-link" href="index.php">Accueil<span class="sr-only"></span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="service.php">Services</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="activite.php">Travaux réalisés</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="contact.php">Contactez-nous
-                  </a>
-                </li>
-              </ul>
+        <div class="header_top"></div>
+        <div class="header_bottom">
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg custom_nav-container">
+                    <a class="navbar-brand navbar_brand_mobile" href="index.html">
+                        TC<span>Bois</span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class=""> </span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="index.php">Accueil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="service.php">Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="activite.php">Travaux réalisés</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="contact.php">Contactez-nous</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
-          </nav>
         </div>
-      </div>
     </header>
-    <!-- end header section -->
-    <!-- slider section -->
+    <!-- End header section -->
+
+    <!-- Slider section -->
     <section class="slider_section">
-      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
-        <div>
-          <div>
-            <div class="container">
-              <div class="detail-box">
-                <h1 align="center">TC-BOIS</h1>
-              </div>
+        <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+            <div>
+                <div>
+                    <div class="container">
+                        <div class="detail-box">
+                            <h1 align="center">TC-BOIS</h1>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </section>
-    <!-- end slider section -->
-  </div>
+    <!-- End slider section -->
 
-  <!--Produit start-->
-  <section class="about_us_section">
-    <div class="container">
-      <h3>Infos j'effectue aussi :</h3>
-      <ul>
-        <li><strong>La livraison,</strong></li>
-        <li><strong>La quincaillerie</strong> </li>
-        <li><strong>et le mettrage (gratuit) </strong></li>
-      </ul>
-      <p>
-        N'hésitez pas à nous contacter !
-      </p>
-    </div>
-  </section>
-
-  <script>
-    function confirmDeletion(id) {
-        if (confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
-            window.location.href = 'delete_product.php?id_product=' + id;
-        }
-    }
-  </script>
-
-</p>
-
-    <section class="service_section layout_padding">
-      <div class="container">
-        <div class="heading_container heading_center">
-          <h2>Nos <span>Bardage</span></h2>
+    <!-- Produit section start -->
+    <section class="about_us_section">
+        <div class="container">
+            <h3>Infos j'effectue aussi :</h3>
+            <ul>
+                <li><strong>La livraison,</strong></li>
+                <li><strong>La quincaillerie</strong></li>
+                <li><strong>et le mettrage (gratuit)</strong></li>
+            </ul>
+            <p>N'hésitez pas à nous contacter !</p>
         </div>
-        <div class="row">
-          <div class="product-grid">
-            <?php if ($has_permission): ?>
-              <div class="">
-                <a href="ajout_produit.php" class="add-product-button">Ajouter des produits</a>
-              </div>
-            <?php endif;?>
-            <?php
-// Connexion à la base de données
-$conn = new mysqli($servername, $username, $password, $dbname);
+    </section>
 
-$type_of_product = 'bardage';
-
-$query = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension 
-          FROM tbl_product 
-          JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product 
-          JOIN tbl_type_of_product ON tbl_product_type_of_product.id_type_of_product_type_of_product = tbl_type_of_product.id_type_of_product
-          JOIN tbl_product_dimension ON tbl_product.id_product = tbl_product_dimension.id_product_product
-          JOIN tbl_dimension ON tbl_product_dimension.id_dimension_dimension = tbl_dimension.id_dimension
-          WHERE tbl_type_of_product.libelle_type_of_product = ?";
-
-$stmt = $connection->prepare($query);
-$stmt->bind_param("s", $type_of_product);
-$stmt->execute();
-$result = $stmt->get_result();
-
-?>
-
-    <div class="product-list">
-        <?php
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-              echo "<div class='product'>";
-              echo "<img src='" . $row['image_path_product'] . "' alt='" . $row['name_product'] . "'>";
-              echo "<h2>" . $row['name_product'] . "</h2>";
-              echo "<p>Essence: " . $row['essence_product'] . "</p>";
-              echo "<p>Description: " . $row['description_product'] . "</p>";
-              echo "<p>Longueur: " . $row['length_dimension'] . " m</p>";
-              echo "<p>Largeur: " . $row['width_dimension'] . " cm</p>";
-              echo "<p>Épaisseur: " . $row['thickness_dimension'] . " cm</p>";
-              echo "<p>Quantité: " . $row['quantity_product'] . "</p>";
-              echo "<div class='product-actions'>";
-              if ($has_permission): 
-                echo "<a href='modification_product.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>modification</a>";
-                echo "<a href='javascript:void(0)' onclick='confirmDeletion(" . htmlspecialchars($row['id_product']) . ")' class='action-link'>Suppression</a>";?>
-                <?php endif;?>
-                <?php
-              echo "</div>";
-              echo "</div>";
+    <!-- Script for deletion confirmation -->
+    <script>
+        function confirmDeletion(id) {
+            if (confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
+                window.location.href = 'delete_product.php?id_product=' + id;
             }
-        } else {
-            echo "<p>Aucun produit disponible.</p>";
         }
-        ?>
-    </div>
-<?php
-$connection->close();
-?>
-          </div>
+    </script>
+
+    <!-- Service section -->
+    <section>
+        <div class="container">
+            <div class="heading_container heading_center">
+                <h2>Nos <span>Bardage</span></h2>
+                <?php if ($has_permission): ?>
+            <div class="add-product">
+              <a href="ajout_produit.php" class="add-product-button">Ajouter des produits</a><br><br>
+            </div>
+          <?php endif;?>
+            </div>
+            <div class="row">
+                <div class="product-grid">
+                    <?php
+                    // Récupérer les produits de type 'bardage'
+                    $type_of_product = 'bardage';
+
+                    $query = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension 
+                              FROM tbl_product 
+                              JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product 
+                              JOIN tbl_type_of_product ON tbl_product_type_of_product.id_type_of_product_type_of_product = tbl_type_of_product.id_type_of_product
+                              JOIN tbl_product_dimension ON tbl_product.id_product = tbl_product_dimension.id_product_product
+                              JOIN tbl_dimension ON tbl_product_dimension.id_dimension_dimension = tbl_dimension.id_dimension
+                              WHERE tbl_type_of_product.libelle_type_of_product = ?";
+                    $stmt = $connection->prepare($query);
+                    $stmt->bind_param("s", $type_of_product);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<div class='product-card'>";
+                            echo "<img src='" . htmlspecialchars($row['image_path_product']) . "' alt='" . htmlspecialchars($row['name_product']) . "'>";
+                            echo "<h2>" . htmlspecialchars($row['name_product']) . "</h2>";
+                            echo "<p>Essence: " . htmlspecialchars($row['essence_product']) . "</p>";
+                            echo "<p>Description: " . htmlspecialchars($row['description_product']) . "</p>";
+                            echo "<p>Longueur: " . htmlspecialchars($row['length_dimension']) . " m</p>";
+                            echo "<p>Largeur: " . htmlspecialchars($row['width_dimension']) . " cm</p>";
+                            echo "<p>Épaisseur: " . htmlspecialchars($row['thickness_dimension']) . " cm</p>";
+                            echo "<p>Quantité: " . htmlspecialchars($row['quantity_product']) . "</p>";
+                            echo "<div class='product-actions'>";
+                            if ($has_permission) {
+                                echo "<a href='modification_product.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>Modification</a>";
+                                echo "<a href='javascript:void(0)' onclick='confirmDeletion(" . htmlspecialchars($row['id_product']) . ")' class='action-link'>Suppression</a>";
+                            }
+                            echo "</div>";
+                            echo "</div>";
+                        }
+                    } else {
+                        echo "<p>Aucun produit disponible.</p>";
+                    }
+                    $connection->close();
+                    ?>
+                </div>
+            </div>
         </div>
     </section>
+</html>
 
-    </section><br><br><br>
- <!-- contact section -->
+<!DOCTYPE html>
+<body>
+
+   <!-- contact section -->
  <section class="contact-form-section">
     <div class="container">
         <div class="heading_container heading_center">
@@ -295,21 +248,21 @@ $connection->close();
                     <button type="submit">Envoyer</button>
                 </div>
                 <?php
-if (isset($_SESSION['mail_status'])) {
-    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
-    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
-}
-?>
+                if (isset($_SESSION['mail_status'])) {
+                    echo '<div class="center-message"><p>' . $_SESSION['mail_status'] . '</p></div>';
+                    unset($_SESSION['mail_status']); // Effacer le message après l'affichage
+                }
+                ?>
             </form>
         </div>
     </div>
 </section>
 
 
-  <!-- info section -->
+ <!-- info section -->
 
 
-  <section class="info_section">
+ <section class="info_section">
     <div class="info_container layout_padding2">
       <div class="container">
         <div class="info_logo">
@@ -402,6 +355,27 @@ if (isset($_SESSION['mail_status'])) {
           </div>
         </div>
   </section>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PfiDPoylDdURzAfw1reBiXr74aM70HES4tz7XNiJ6s2kVNj5dWBOZWeN" crossorigin="anonymous"></script>
+    <!-- Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-O2BvHLk7t1mWzMwP0bG4dq+reOTji17AIBzZcB8UFf5I+V9+kD3X5uK3pRb2F5q4" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgsHp+U5uFjowrIyMxM5D8Aoz+Op3F5OQ+RxF6Sktfq8t9zT2Fz" crossorigin="anonymous"></script>
+    <!-- Owl carousel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!-- Nice select -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+    <!-- Custom script -->
+    <script src="/js/custom.js"></script>
+
+    <script>
+        document.getElementById('displayYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+
+</html>
+
 
   <!-- end info section -->
 

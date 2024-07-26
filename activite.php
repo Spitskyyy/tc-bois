@@ -14,42 +14,26 @@ $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
 
-// // Vérifier si une session est déjà active avant de la démar²rer
-// if (session_status() !== PHP_SESSION_ACTIVE) {
-//     session_start();
-// }
-
 // Connexion à la base de données
-$connection = mysqli_connect($servername, $username, $password, $dbname);
-
-// Vérifier la connexion
-if (!$connection) {
-    die("La connexion a échoué : " . mysqli_connect_error());
-}
-
-// Récupération de l'email depuis la session
-$email = $_SESSION['email'];
 $connection = new mysqli($servername, $username, $password, $dbname);
 
+// Vérifier la connexion
 if ($connection->connect_error) {
     die("Échec de la connexion : " . $connection->connect_error);
 }
 
-// Vérifier le rôle de l'utilisateur
+// Récupération de l'email depuis la session
 $email = $_SESSION['email'];
 
+// Vérifier le rôle de l'utilisateur
 $query = "SELECT tbl_role.name_r FROM tbl_role
 JOIN tbl_user_role ON tbl_user_role.id_r_role = tbl_role.id_r
 JOIN tbl_user ON tbl_user_role.id_user_user = tbl_user.id_user
 WHERE tbl_user.mail_user = '$email';";
 
-$result = mysqli_query($connection, $query);
-if (!$result) {
-    die('Erreur : ' . mysqli_error($connection));
-}
-
+$result = $connection->query($query);
 $has_permission = false;
-if ($result->num_rows > 0) {
+if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         if ($row['name_r'] == 'PRO') {
             $has_permission = true;
@@ -63,51 +47,30 @@ if ($result->num_rows > 0) {
 <html>
 
 <head>
-  <!-- Basic -->
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-
   <title>Travaux réalisés</title>
 
-  <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
-
-  <!-- fonts style -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-  <!--owl slider stylesheet -->
-  <link rel="stylesheet" type="text/css"
-    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-  <!-- nice select -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
-    integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
-  <!-- font awesome style -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
   <link href="/css/font-awesome.min.css" rel="stylesheet" />
-
-  <!-- Custom styles  -->
   <link href="/css/style.css" rel="stylesheet" />
-  <!-- responsive style -->
   <link href="/css/responsive.css" rel="stylesheet" />
 </head>
 
 <body>
-<div class="">
-    <!-- header section strats -->
+  <div class="">
+    <!-- header section starts -->
     <header class="header_section">
       <div class="header_top"></div>
       <div class="header_bottom">
         <div class="container-fluid">
           <nav class="navbar navbar-expand-lg custom_nav-container">
-            <a class="navbar-brand navbar_brand_mobile" href="index.html">
-              TC<span>Bois</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand navbar_brand_mobile" href="index.html">TC<span>Bois</span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class=""> </span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -122,8 +85,7 @@ if ($result->num_rows > 0) {
                   <a class="nav-link" href="activite.php">Travaux réalisés</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="contact.php">Contactez-nous
-                  </a>
+                  <a class="nav-link" href="contact.php">Contactez-nous</a>
                 </li>
               </ul>
             </div>
@@ -132,81 +94,60 @@ if ($result->num_rows > 0) {
       </div>
     </header>
     <!-- end header section -->
+    
     <!-- slider section -->
     <section class="slider_section">
       <div id="customCarousel1" class="carousel slide" data-ride="carousel">
-        <div>
-          <div>
-            <div class="container">
-              <div class="detail-box">
-                <h1 align="center">TC-BOIS</h1>
-              </div>
-            </div>
+        <div class="container">
+          <div class="detail-box">
+            <h1 align="center">TC-BOIS</h1>
           </div>
         </div>
       </div>
     </section>
     <!-- end slider section -->
-  </div>
 
-  <!--Produit start-->
-
-  
-<script>
-    function confirmDeletion(id) {
-        if (confirm("Êtes-vous sûr de vouloir supprimer cette activité ?")) {
-            window.location.href = 'delete_activite.php?id_activity=' + id;
-        }
-    }
-  </script>
-<br><br><br><br>
-<section class="">
-    <div class="container">
-      <div class="heading_container heading_center">
-      <h2>Nos <span>Travaux réalisés</span></h2>
-        <?php if ($has_permission): ?>
-              <div class="">
+    <!-- Produit start -->
+    <section>
+      <div class="container">
+        <div class="heading_container heading_center">
+          <h2>Nos <span>Travaux réalisés</span></h2>
+          <?php if ($has_permission): ?>
+            <div class="add-product">
               <a href="ajout_activite.php" class="add-product-button">Ajouter des activités</a><br><br>
-              </div>
-            <?php endif;?>
-      </div>
-      <div class="carousel-wrap">
-        <div class="filter_box">
+            </div>
+          <?php endif;?>
+        </div>
+        <div class="product-grid">
+          <?php
+          $sql = "SELECT * FROM tbl_activity ORDER BY id_activity DESC";
+          $result = $connection->query($sql);
+
+          if ($result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
+                  echo "<div class='product-card'>";
+                  echo "<a href='detail_activite.php?id=" . $row['id_activity'] . "'>";
+                  echo "<img src='" . htmlspecialchars($row['image_path_product']) . "' alt='Activity Image'>";
+                  echo "<h3>" . htmlspecialchars($row['name_activity']) . "</h3>";
+                  echo "</a>";
+                  echo "<div class='product-actions'>";
+                  if ($has_permission) { 
+                      echo "<a href='modification_activite.php?id_activity=" . htmlspecialchars($row['id_activity']) . "' class='action-link'>Modification</a>";
+                      echo "<a href='javascript:void(0)' onclick='confirmDeletion(" . htmlspecialchars($row['id_activity']) . ")' class='action-link'>Suppression</a>";
+                  }
+                  echo "</div>";
+                  echo "</div>";
+              }
+          } else {
+              echo "<p>Aucun Travaux disponible.</p>";
+          }
+          $connection->close();
+          ?>
         </div>
       </div>
-    </div>
-    <div class="product-grid">
-      <?php
-$sql = "SELECT * FROM tbl_activity ORDER BY id_activity DESC";
-$result = $connection->query($sql);
-
-if ($result->num_rows > 0) {
-    echo "<div class='product-grid'>";
-    while ($row = $result->fetch_assoc()) {
-        echo "<div class='product-card'>";
-        echo "<a href='detail_activite.php?id=" . $row['id_activity'] . "'>";
-        echo "<img src='" . htmlspecialchars($row['image_path_product']) . "' alt='Activity Image'>";
-        echo "<h3>" . htmlspecialchars($row['name_activity']) . "</h3>";
-        echo "</a>";
-        echo "<div class='product-actions'>";
-        if ($has_permission): 
-          echo "<a href='modification_activite.php?id_activity=" . htmlspecialchars($row['id_activity']) . "' class='action-link'>modification</a>";
-          echo "<a href='javascript:void(0)' onclick='confirmDeletion(" . htmlspecialchars($row['id_activity']) . ")' class='action-link'>Suppression</a>";?>
-          <?php endif;?>
-          <?php
-        echo "</div>";
-        echo "</div>";
-      }
-  } else {
-      echo "<p>Aucun Travaux disponible.</p>";
-  }
-  ?>
-<?php
-$connection->close();
-?>
-    </section><br><br><br>
- <!-- contact section -->
- <section class="contact-form-section">
+    </section>
+<!-- contact section -->
+<section class="contact-form-section">
     <div class="container">
         <div class="heading_container heading_center">
             <h2>Prenons<span> Contact</span></h2>
@@ -356,41 +297,49 @@ if (isset($_SESSION['mail_status'])) {
 
   <!-- end info section -->
 
-    <!-- jQery -->
-    <script src="/js/jquery-3.4.1.min.js"></script>
-    <!-- popper js -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"
-    ></script>
-    <!-- bootstrap js -->
-    <script src="/js/bootstrap.js"></script>
-    <!-- owl slider -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <!--  OwlCarousel 2 - Filter -->
-    <script src="https://huynhhuynh.github.io/owlcarousel2-filter/dist/owlcarousel2-filter.min.js"></script>
-    <!-- nice select -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
-      integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo="
-      crossorigin="anonymous"
-    ></script>
-    <!-- custom js -->
-    <script src="/js/custom.js"></script>
-  </body>
+    <script>
+      function confirmDeletion(id) {
+        if (confirm("Voulez-vous vraiment supprimer ce produit ?")) {
+          window.location.href = "suppression_activite.php?id_activity=" + id;
+        }
+      }
+    </script>
+  </div>
+</body>
+</html>
+
+
+  <!-- end info section -->
+
+  <!-- jQery -->
+  <script src="/js/jquery-3.4.1.min.js"></script>
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <!-- bootstrap js -->
+  <script src="/js/bootstrap.js"></script>
+  <!-- owl slider -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <!--  OwlCarousel 2 - Filter -->
+  <script src="https://huynhhuynh.github.io/owlcarousel2-filter/dist/owlcarousel2-filter.min.js"></script>
+  <!-- nice select -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+    integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+  <!-- custom js -->
+  <script src="/js/custom.js"></script>
+</body>
 
 
 <style>
-.container h1 {
+  .container h1 {
     margin-bottom: 20px;
-}
+  }
 
-
-<style>
-  p3 {
+  <style>p3 {
     color: #252525;
   }
+
   body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -477,91 +426,92 @@ if (isset($_SESSION['mail_status'])) {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: vh; /* Ajustez la hauteur selon vos besoins */
+    height: vh;
+    /* Ajustez la hauteur selon vos besoins */
     background-color: #f5f5f5;
     padding: 20px;
-}
+  }
 
 
-.contact-form-section .container {
+  .contact-form-section .container {
     background: #fff;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 1000px;
     width: 100%;
-}
+  }
 
 
-.contact-form-section .heading_container {
+  .contact-form-section .heading_container {
     text-align: center;
     margin-bottom: 20px;
-}
+  }
 
 
-.contact-form-section .heading_container h2 {
+  .contact-form-section .heading_container h2 {
     font-size: 2em;
     color: #333;
-}
+  }
 
 
-.contact-form-section .heading_container h2 span {
+  .contact-form-section .heading_container h2 span {
     color: #6B8E23;
-}
+  }
 
 
-.contact-form-section .form-container {
+  .contact-form-section .form-container {
     width: 100%;
-}
+  }
 
 
-.contact-form-section .form-row {
+  .contact-form-section .form-row {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 15px;
-}
+  }
 
 
-.contact-form-section .form-group {
+  .contact-form-section .form-group {
     width: 100%;
     margin-bottom: 15px;
-}
+  }
 
 
-.contact-form-section .form-control {
+  .contact-form-section .form-control {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-}
+  }
 
 
-.contact-form-section .message-box {
+  .contact-form-section .message-box {
     height: 100px;
-}
+  }
 
 
-.contact-form-section .btn_box {
+  .contact-form-section .btn_box {
     text-align: center;
-}
+  }
 
 
-.contact-form-section .btn_box button {
+  .contact-form-section .btn_box button {
     background-color: #6B8E23;
     color: #fff;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
+  }
 
 
-.contact-form-section .btn_box button:hover {
+  .contact-form-section .btn_box button:hover {
     background-color: #45a049;
-}
+  }
 
 
-.contact-form-section .center-message {
+  .contact-form-section .center-message {
     margin-top: 20px;
     padding: 15px;
     background-color: #f9f9f9;
@@ -569,11 +519,10 @@ if (isset($_SESSION['mail_status'])) {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-}
-
-
+  }
 </style>
 
 
 </style>
+
 </html>
