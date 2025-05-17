@@ -13,11 +13,18 @@ $username = $_ENV['BD_USER'];
 $password = $_ENV['BD_PASS'];
 $dbname = $_ENV['BD_NAME'];
 
-// Vérifier si une session est déjà active avant de la démarrer
-// if (session_status() !== PHP_SESSION_ACTIVE) {
-//     session_start();
-// }
+// Connexion à la base de données
+$connection = new mysqli($servername, $username, $password, $dbname);
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
+}
 
+// Vérifier que l'utilisateur est connecté et récupérer son email
+if (!isset($_SESSION['email'])) {
+    header("Location: index.php");
+    exit();
+}
+$email = $_SESSION['email'];
 
 
 // Requête SQL pour obtenir le rôle de l'utilisateur
