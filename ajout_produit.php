@@ -55,6 +55,16 @@ if (!$has_permission) {
 
 $stmt->close();
 
+// Récupérer tous les styles disponibles
+$sql_styles = "SELECT * FROM tbl_style";
+$result_styles = $connection->query($sql_styles);
+$styles = [];
+if ($result_styles->num_rows > 0) {
+    while($row = $result_styles->fetch_assoc()) {
+        $styles[] = $row;
+    }
+}
+
 if (isset($_POST['submit'])) {
     // Récupérer les données du formulaire
     $description = $connection->real_escape_string($_POST['description']);
@@ -102,26 +112,50 @@ if (isset($_POST['submit'])) {
 
             // Insérer les informations dans la base de données
             $image_path = $connection->real_escape_string($target_file);
-            $sql = "INSERT INTO tbl_product (description_product, image_path_product, quantity_product) VALUES ('$description', '$image_path', '$quantity')";
+            $sql = "INSERT INTO tbl_product (name_product, essence_product, description_product, quantity_product, image_path_product) 
+                    VALUES (?, ?, ?, ?, ?)";
+            $stmt = $connection->prepare($sql);
+            $stmt->bind_param("sssis", $_POST['name'], $_POST['essence'], $description, $quantity, $image_path);
 
-            if ($connection->query($sql) === true) {
+            if ($stmt->execute()) {
                 $last_id = $connection->insert_id;
 
-                // Insérer les dimensions
-                $sql_dimension = "INSERT INTO tbl_dimension (width_dimension, width_dimension_1, thickness_dimension) VALUES ('$height', '$width', '$depth')";
-                if ($connection->query($sql_dimension) === true) {
+                // Ajouter le style
+                if(isset($_POST['style'])) {
+                    $sql_style = "INSERT INTO tbl_style_product (id_product_product, id_style_style) VALUES (?, ?)";
+                    $stmt_style = $connection->prepare($sql_style);
+                    $stmt_style->bind_param("ii", $last_id, $_POST['style']);
+                    $stmt_style->execute();
+                }
+
+                // Ajouter les dimensions
+                $sql_dimension = "INSERT INTO tbl_dimension (length_dimension, width_dimension, thickness_dimension) 
+                                 VALUES (?, ?, ?)";
+                $stmt_dimension = $connection->prepare($sql_dimension);
+                $stmt_dimension->bind_param("ddd", $_POST['height'], $_POST['width'], $_POST['depth']);
+                
+                if ($stmt_dimension->execute()) {
                     $last_dimension_id = $connection->insert_id;
 
-                    // Associer le produit   à la dimension
-                    $sql_product_dimension = "INSERT INTO tbl_product_dimension (id_product_product, id_dimension_dimension) VALUES ('$last_id', '$last_dimension_id')";
-                    if ($connection->query($sql_product_dimension) === true) {
-                        header("Location: bardage.php?id=$last_id");
+                    // Lier le produit à la dimension
+                    $sql_product_dimension = "INSERT INTO tbl_product_dimension (id_product_product, id_dimension_dimension) 
+                                            VALUES (?, ?)";
+                    $stmt_product_dimension = $connection->prepare($sql_product_dimension);
+                    $stmt_product_dimension->bind_param("ii", $last_id, $last_dimension_id);
+                    
+                    if ($stmt_product_dimension->execute()) {
+                        // Ajouter le type de produit
+                        $sql_type = "INSERT INTO tbl_product_type_of_product (id_product_product, id_type_of_product) 
+                                    SELECT ?, id_type_of_product 
+                                    FROM tbl_type_of_product 
+                                    WHERE libelle_type_of_product = ?";
+                        $stmt_type = $connection->prepare($sql_type);
+                        $stmt_type->bind_param("is", $last_id, $_POST['type_of_product']);
+                        $stmt_type->execute();
+
+                        header("Location: index.php");
                         exit();
-                    } else {
-                        echo "Erreur : " . $sql_product_dimension . "<br>" . $connection->error;
                     }
-                } else {
-                    echo "Erreur : " . $sql_dimension . "<br>" . $connection->error;
                 }
             } else {
                 echo "Erreur : " . $sql . "<br>" . $connection->error;
@@ -236,6 +270,13 @@ $connection->close();
                         <option value="osb">OSB</option>
                     </select><br><br>
 
+                    <label for="style">Style du produit :</label>
+                    <select name="style" id="style" required>
+                        <?php foreach($styles as $style): ?>
+                            <option value="<?php echo $style['id']; ?>"><?php echo htmlspecialchars($style['name_style']); ?></option>
+                        <?php endforeach; ?>
+                    </select><br><br> 
+                    
                     <label for="height">Longueur (m) :</label>
                     <input type="number" step="0.01" name="height" id="height" required><br><br>
 
@@ -253,6 +294,8 @@ $connection->close();
 
                     <label for="image">Choisir une image :</label>
                     <input type="file" name="image" id="image" accept="image/*" required><br><br>
+
+                    
 
                     <input type="submit" name="submit" value="Ajouter le produit">
                 </form>

@@ -210,12 +210,18 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 $type_of_product = 'osb';
 
-$query = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension
+$query = "SELECT tbl_product.*, 
+          tbl_dimension.length_dimension, 
+          tbl_dimension.width_dimension, 
+          tbl_dimension.thickness_dimension,
+          tbl_style.name_style
           FROM tbl_product
           JOIN tbl_product_type_of_product ON tbl_product.id_product = tbl_product_type_of_product.id_product_product
           JOIN tbl_type_of_product ON tbl_product_type_of_product.id_type_of_product_type_of_product = tbl_type_of_product.id_type_of_product
           JOIN tbl_product_dimension ON tbl_product.id_product = tbl_product_dimension.id_product_product
           JOIN tbl_dimension ON tbl_product_dimension.id_dimension_dimension = tbl_dimension.id_dimension
+          LEFT JOIN tbl_style_product ON tbl_product.id_product = tbl_style_product.id_product_product
+          LEFT JOIN tbl_style ON tbl_style_product.id_style_style = tbl_style.id
           WHERE tbl_type_of_product.libelle_type_of_product = ?";
 
 $stmt = $connection->prepare($query);
@@ -236,14 +242,15 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<div class='product'>";
-        echo "<img src='" . $row['image_path_product'] . "' alt='" . $row['name_product'] . "'>";
-        echo "<h2>" . $row['name_product'] . "</h2>";
-        echo "<p>Essence: " . $row['essence_product'] . "</p>";
-        echo "<p>Description: " . $row['description_product'] . "</p>";
-        echo "<p>Longueur: " . $row['length_dimension'] . " m</p>";
-        echo "<p>Largeur: " . $row['width_dimension'] . " cm</p>";
-        echo "<p>Épaisseur: " . $row['thickness_dimension'] . " cm</p>";
-        echo "<p>Quantité: " . $row['quantity_product'] . "</p>";
+        echo "<img src='" . htmlspecialchars($row['image_path_product']) . "' alt='" . htmlspecialchars($row['name_product']) . "'>";
+        echo "<h2>" . htmlspecialchars($row['name_product']) . "</h2>";
+        echo "<p>Essence: " . htmlspecialchars($row['essence_product']) . "</p>";
+        echo "<p>Style: " . ($row['name_style'] ? htmlspecialchars($row['name_style']) : 'Non spécifié') . "</p>";
+        echo "<p>Description: " . htmlspecialchars($row['description_product']) . "</p>";
+        echo "<p>Longueur: " . htmlspecialchars($row['length_dimension']) . " m</p>";
+        echo "<p>Largeur: " . htmlspecialchars($row['width_dimension']) . " cm</p>";
+        echo "<p>Épaisseur: " . htmlspecialchars($row['thickness_dimension']) . " cm</p>";
+        echo "<p>Quantité: " . htmlspecialchars($row['quantity_product']) . "</p>";
         echo "<div class='product-actions'>";
         if ($has_permission):
             echo "<a href='modification_product.php?id_product=" . htmlspecialchars($row['id_product']) . "' class='action-link'>modification</a>";
@@ -451,9 +458,7 @@ if (isset($_SESSION['mail_status'])) {
     margin-bottom: 20px;
 }
 
-
-<style>
-  p3 {
+  .p3 {
     color: #252525;
   }
   body {

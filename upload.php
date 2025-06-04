@@ -98,6 +98,17 @@ if (isset($_POST['submit'])) {
             if ($connection->query($sql) === TRUE) {
                 $last_product_id = $connection->insert_id;
 
+                // Ajout du style
+                if(isset($_POST['style']) && !empty($_POST['style'])) { // verifie si existe
+                    $sql_style = "INSERT INTO tbl_style_product (id_product_product, id_style_style) VALUES (?, ?)"; //préparation de la requête
+                    $stmt_style = $connection->prepare($sql_style); //requeête préparée
+                    $style_id = $_POST['style']; // Récupération de l'ID du style sélectionné
+                    $stmt_style->bind_param("ii", $last_product_id, $style_id); // liaison des paramètres
+                    if (!$stmt_style->execute()) { // exécution de la requête
+                        echo "Erreur lors de l'ajout du style : " . $stmt_style->error; // gestion de l'erreur
+                    }
+                }
+
                 $sql_dimension = "INSERT INTO tbl_dimension (length_dimension, width_dimension, thickness_dimension)
                                   VALUES ('$length', '$width', '$depth')";
 

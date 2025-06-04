@@ -62,7 +62,7 @@ if (!isset($_GET['id_product']) || empty($_GET['id_product'])) {
 $id_product = $_GET['id_product'];
 
 // Récupérer les données actuelles du produit
-$query = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension
+$query = "SELECT tbl_product.*, tbl_dimension.length_dimension, tbl_dimension.width_dimension, tbl_dimension.thickness_dimension, tbl_style_name
           FROM tbl_product
           JOIN tbl_product_dimension ON tbl_product.id_product = tbl_product_dimension.id_product_product
           JOIN tbl_dimension ON tbl_dimension.id_dimension = tbl_product_dimension.id_dimension_dimension
@@ -88,6 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $quantity_product = $_POST['quantity_product'];
     $description_product = $_POST['description_product'];
     $image_path_product = $_POST['image_path_product'];
+    $style_name = $_POST['style_name'];
 
     // Mettre à jour les informations du produit
     $update_product_query = "UPDATE tbl_product SET name_product = ?, essence_product = ?, quantity_product = ?, description_product = ?, image_path_product = ? WHERE id_product = ?";
@@ -145,6 +146,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <label for="image_path_product">Chemin de l'image:</label>
         <input type="text" id="image_path_product" name="image_path_product" value="<?php echo htmlspecialchars($product['image_path_product']); ?>"><br>
+
+        <label for="style_name">Description:</label>
+        <textarea id="style_name" name="style_name"><?php echo htmlspecialchars($product['style_name']); ?></textarea><br>
 
         <input type="submit" value="Mettre à jour">
     </form>

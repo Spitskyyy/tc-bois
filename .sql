@@ -91,6 +91,22 @@ INSERT INTO tbl_role (name_r) VALUES
 ('USER'),
 ('PRO'); 
 
+-- Table des styles
+CREATE TABLE IF NOT EXISTS tbl_style (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name_style VARCHAR(100) NOT NULL
+);
+
+-- Table de liaison produit-style
+CREATE TABLE IF NOT EXISTS tbl_style_product (
+    id_style_product INT AUTO_INCREMENT PRIMARY KEY,
+    id_product_product INT NOT NULL,
+    id_style_style INT NOT NULL,
+    FOREIGN KEY (id_product_product) REFERENCES tbl_product(id_product),
+    FOREIGN KEY (id_style_style) REFERENCES tbl_style(id)
+);
+
+
 -- Index pour optimiser les recherches
 CREATE INDEX idx_product_name ON tbl_product(name_product);
 CREATE INDEX idx_product_type ON tbl_type_of_product(libelle_type_of_product);
